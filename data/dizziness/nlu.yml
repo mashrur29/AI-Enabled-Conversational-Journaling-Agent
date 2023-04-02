@@ -1,0 +1,20 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_dizziness
+  examples: |
+    - i am feeling dizzy
+    - i feel lightheaded
+    - my head is spinning
+    - i feel like i'm going to faint
+    - i'm feeling unsteady
+    - i have vertigo
+    - i'm experiencing dizziness
+    - i feel dizzy when i stand up
+    - i have a headache and feel dizzy
+    - i feel nauseous and dizzy
+    - felt dizzy
+    - felt lightheaded
+    - felt woozy
+    - dizziness
+    - dizzy

@@ -1,0 +1,42 @@
+version: "3.1"
+
+nlu:
+
+- intent: dizziness_severity
+  examples: |
+    - my dizziness was severe
+    - i didn't feel very dizzy
+    - my head was spinning badly
+    - my dizziness was mild
+    - i felt slightly dizzy
+    - i was extremely dizzy
+    - i barely had any dizziness
+    - my dizziness was manageable
+    - i had a slight bout of dizziness
+    - i experienced moderate dizziness
+
+- intent: falling_severity
+  examples: |
+    - i hurt myself severely from falling
+    - my fall wasn't that bad
+    - tripped and fell hard
+    - my fall was very painful
+    - i fell and got a few bruises
+    - my fall was not serious
+    - i had a terrible fall
+    - had a minor fall
+    - i stumbled and fell but i'm okay
+    - i had a bad fall and hit my head
+
+- intent: insomnia_severity
+  examples: |
+    - i couldn't sleep much
+    - slept for like an hour
+    - i didn't sleep well last night
+    - barely slept at all
+    - my insomnia was severe
+    - i slept for a few hours only
+    - had trouble sleeping
+    - i slept for a short time
+    - i didn't sleep properly
+    - i slept for a long time but not deeply

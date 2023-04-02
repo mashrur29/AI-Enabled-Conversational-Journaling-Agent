@@ -1,0 +1,119 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+
+- rule: trigger tremor
+  steps:
+  - or:
+      - intent: trigger_tremor_mild
+      - intent: trigger_tremor_severe
+      - intent: trigger_tremor_frequency
+      - intent: trigger_tremor_location
+      - intent: trigger_current_tremors
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+
+
+- rule: trigger bradykinesia
+  steps:
+  - or:
+      - intent: trigger_bradykinesia_1
+      - intent: trigger_bradykinesia_2
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+
+- rule: trigger dizziness
+  steps:
+  - or:
+      - intent: trigger_dizziness
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: dizzinessjournaling
+  - active_loop: dizzinessjournaling
+
+- rule: trigger falling
+  steps:
+  - or:
+      - intent: trigger_falling_1
+      - intent: trigger_falling_2
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: fallingjournaling
+  - active_loop: fallingjournaling
+
+- rule: trigger mood
+  steps:
+  - or:
+      - intent: trigger_mood_1
+      - intent: trigger_mood_2
+      - intent: trigger_mood_3
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: moodjournaling
+  - active_loop: moodjournaling
+
+- rule: trigger insomnia
+  steps:
+  - or:
+      - intent: trigger_insomnia
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - action: utter_start_journal
+  - action: insomniajournaling
+  - active_loop: insomniajournaling
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+- rule: Repeat bot message on user request
+  steps:
+  - intent: repeat_question
+  - action: action_repeat_question
+
+- rule: Simplify previous bot message
+  steps:
+  - or:
+      - intent: user_confused
+      - intent: clarify_question
+  - action: action_set_simplify
+  - action: action_repeat_question
+  - action: action_reset_simplify
+
+- rule: User asks for help
+  steps:
+  - intent: ask_for_help
+  - action: utter_propose_help
+  - action: action_revert_user_utterance
+
+- rule: User interrupts the chatbot
+  steps:
+  - intent: interrupt_question
+  - action: utter_interrupt_response
+  - action: action_revert_user_utterance
+
+- rule: Early quit
+  steps:
+  - intent: early_quit
+  - action: utter_goodbye

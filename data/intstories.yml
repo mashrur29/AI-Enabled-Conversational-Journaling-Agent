@@ -1,0 +1,440 @@
+
+version: "3.1"
+stories:
+- story: tremor_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_current_tremors
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: tremor
+  - action: utter_start_journal
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+  - slot_was_set:
+    - requested_slot: medicinetype
+  - or:
+    - intent: medication_intake
+    - intent: affirm_medicine
+    - intent: deny_medicine
+    - intent: unsure_medicine
+    - intent: specify_medicine_type
+    - intent: inform_medicine_type
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: medicinetime
+  - or:
+    - intent: medication_time
+    - intent: specify_medicine_time
+    - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: duration
+  - or:
+    - intent: duration_1
+    - intent: duration_2
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: cooccurrence
+  - or:
+    - intent: cooccurrence_yes
+    - intent: cooccurrence_no
+    - intent: inform_cooccurrence
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: dailyactivity
+  - or:
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: history
+  - or:
+    - intent: history_compare_tremor
+    - intent: history_compare_dizziness
+    - intent: history_compare_deny
+    - intent: history_compare_uncertain
+    - intent: history_confused_tremor
+    - intent: inform_history
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye
+
+
+- story: bradykinesia_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_bradykinesia_1
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: tremor
+  - action: utter_start_journal
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+  - slot_was_set:
+    - requested_slot: medicinetype
+  - or:
+    - intent: medication_intake
+    - intent: affirm_medicine
+    - intent: deny_medicine
+    - intent: unsure_medicine
+    - intent: specify_medicine_type
+    - intent: inform_medicine_type
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+    - requested_slot: medicinetime
+  - or:
+    - intent: medication_time
+    - intent: specify_medicine_time
+    - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+    - requested_slot: dailyactivity
+  - or:
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+    - requested_slot: cooccurrence
+  - or:
+    - intent: cooccurrence_yes
+    - intent: cooccurrence_no
+    - intent: inform_cooccurrence
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: dizziness_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_dizziness
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: dizziness
+  - action: utter_start_journal
+  - action: dizzinessjournaling
+  - active_loop: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: medicinetype
+  - or:
+    - intent: medication_intake
+    - intent: affirm_medicine
+    - intent: deny_medicine
+    - intent: unsure_medicine
+    - intent: specify_medicine_type
+    - intent: inform_medicine_type
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: medicinetime
+  - or:
+    - intent: medication_time
+    - intent: specify_medicine_time
+    - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: duration
+  - or:
+    - intent: duration_1
+    - intent: duration_2
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: time
+  - or:
+    - intent: inform_time_dizziness
+    - intent: inform_time_falling
+    - intent: inform_time_symptoms
+    - intent: inform_dizziness_severity
+    - intent: inform_falling_severity
+    - intent: inform_specific_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: location
+  - or:
+    - intent: inform_location_dizziness
+    - intent: inform_location_falling
+    - intent: inform_location_symptoms
+    - intent: inform_location_context
+    - intent: inform_location_environment
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: activity
+  - or:
+    - intent: activity_dizziness
+    - intent: activity_falling
+    - intent: activity_both
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: cooccurrence
+  - or:
+    - intent: cooccurrence_yes
+    - intent: cooccurrence_no
+    - intent: inform_cooccurrence
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: dailyactivity
+  - or:
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: severity
+  - or:
+    - intent: dizziness_severity
+    - intent: falling_severity
+    - intent: insomnia_severity
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: history
+  - or:
+    - intent: history_compare_tremor
+    - intent: history_compare_dizziness
+    - intent: history_compare_deny
+    - intent: history_compare_uncertain
+    - intent: history_confused_tremor
+    - intent: inform_history
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: falling_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_falling_1
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: falling
+  - action: utter_start_journal
+  - action: fallingjournaling
+  - active_loop: fallingjournaling
+  - slot_was_set:
+    - requested_slot: time
+  - or:
+    - intent: inform_time_dizziness
+    - intent: inform_time_falling
+    - intent: inform_time_symptoms
+    - intent: inform_dizziness_severity
+    - intent: inform_falling_severity
+    - intent: inform_specific_time
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+    - requested_slot: location
+  - or:
+    - intent: inform_location_dizziness
+    - intent: inform_location_falling
+    - intent: inform_location_symptoms
+    - intent: inform_location_context
+    - intent: inform_location_environment
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+    - requested_slot: activity
+  - or:
+    - intent: activity_dizziness
+    - intent: activity_falling
+    - intent: activity_both
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+    - requested_slot: severity
+  - or:
+    - intent: dizziness_severity
+    - intent: falling_severity
+    - intent: insomnia_severity
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: mood_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_mood_1
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: mood
+  - action: utter_start_journal
+  - action: moodjournaling
+  - active_loop: moodjournaling
+  - slot_was_set:
+    - requested_slot: dailyactivity
+  - or:
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: moodjournaling
+  - slot_was_set:
+    - requested_slot: reason
+  - or:
+    - intent: mood_cause
+    - intent: insomnia_cause
+  - action: action_set_slot
+  - action: moodjournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye
+
+- story: insomnia_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_insomnia
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: insomnia
+  - action: utter_start_journal
+  - action: insomniajournaling
+  - active_loop: insomniajournaling
+  - slot_was_set:
+    - requested_slot: medicinetype
+  - or:
+    - intent: medication_intake
+    - intent: affirm_medicine
+    - intent: deny_medicine
+    - intent: unsure_medicine
+    - intent: specify_medicine_type
+    - intent: inform_medicine_type
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+    - requested_slot: medicinetime
+  - or:
+    - intent: medication_time
+    - intent: specify_medicine_time
+    - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+    - requested_slot: dailyactivity
+  - or:
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: affirm
+    - intent: deny
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+    - requested_slot: severity
+  - or:
+    - intent: dizziness_severity
+    - intent: falling_severity
+    - intent: insomnia_severity
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+    - requested_slot: reason
+  - or:
+    - intent: mood_cause
+    - intent: insomnia_cause
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_goodbye

@@ -1,0 +1,48 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_tremor_mild
+  examples: |
+    - I felt a slight tremor in my left hand this morning
+    - My hand had a mild tremor for a few minutes
+    - I experienced a slight tremor in my leg while standing
+    - I noticed a small tremor in my arm while writing
+
+- intent: trigger_tremor_severe
+  examples: |
+    - I experienced a very strong tremor in my right arm for 20 minutes today
+    - My leg had a severe tremor that lasted for over an hour
+    - I had a very bad tremor in my hand while holding a cup
+    - My arm was shaking violently during my workout
+
+- intent: trigger_tremor_frequency
+  examples: |
+    - I had multiple tremors throughout the day, including one that lasted for over an hour
+    - My hand trembled many times today, more than usual
+    - I experienced a tremor almost every hour today
+    - My leg had tremors on and off throughout the day
+
+- intent: trigger_tremor_location
+  examples: |
+    - I had a tremor in my legs while walking this morning
+    - My hand had a tremor while I was typing
+    - I experienced a tremor in my jaw during breakfast
+    - My arm had a tremor while I was putting on my coat
+
+- intent: trigger_current_tremors
+  examples: |
+    - I just experienced a tremor
+    - tremor
+    - i have tremors
+    - My hands are shaking right now
+    - I'm feeling tremors in my legs
+    - I'm currently experiencing a lot of tremors in my body
+    - My hand is shaking uncontrollably right now
+    - I just had a tremor in my left foot
+    - I'm feeling a lot of tremors in my arms and legs today
+    - I can't stop my head from shaking
+    - My tremors are really bad right now
+    - I just experienced a tremor while writing
+    - My hand is trembling as I type this
+    - I'm feeling a lot of shaking in my torso
+    - I'm currently experiencing a lot of tremors in my right leg

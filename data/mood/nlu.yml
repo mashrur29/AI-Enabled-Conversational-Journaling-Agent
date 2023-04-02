@@ -1,0 +1,45 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_mood_1
+  examples: |
+    - I am feeling anxious today
+    - My mood is really low
+    - I feel sad all the time
+    - experiencing mood swings
+    - I am feeling depressed
+    - irritable lately
+    - I am not feeling like myself
+    - have been feeling hopeless
+    - My mood has been up and down
+    - I am struggling with my emotions
+
+- intent: trigger_mood_2
+  examples: |
+    - am feeling anxious today
+    - My anxiety is really high
+    - I am having panic attacks
+    - feeling on edge
+    - I am experiencing racing thoughts
+    - I am feeling overwhelmed
+    - feel like I can't control my worries
+    - I am having trouble relaxing
+    - feeling restless
+    - I have been feeling nervous all day
+    - anxious
+    - restless
+
+- intent: trigger_mood_3
+  examples: |
+    - I feel hopeless
+    - have no motivation
+    - I feel like everything is meaningless
+    - am experiencing sadness
+    - I am having trouble sleeping
+    - feel like I am in a dark place
+    - I have been feeling down for a while
+    - don't enjoy things anymore
+    - I feel like a burden
+    - I am not interested in anything
+    - depressed
+    - hopeless

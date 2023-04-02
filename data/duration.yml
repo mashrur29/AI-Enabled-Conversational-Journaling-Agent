@@ -1,0 +1,39 @@
+version: "3.1"
+
+nlu:
+
+- intent: duration_1
+  examples: |
+    - It lasted 30 minutes
+    - An hour and a half
+    - For about 5 hours
+    - I experienced it for a few minutes
+    - The symptom lasted all day
+    - 10 minutes or so
+    - It was brief
+    - The symptom lasted a long time
+    - Half an hour
+    - It lasted for an hour
+    - A couple of hours
+    - 2-3 minutes
+    - Seconds
+    - A few moments
+    - Intermittently
+    - It came and went for an hour
+    - Occasionally throughout the day
+    - All morning
+    - Until lunchtime
+
+- intent: duration_2
+  examples: |
+    - around 5 hours
+    - i think 2 mins
+    - 10 mimnutes
+    - a couple of minutes
+    - few minutes
+    - Around 1 minutes
+    - less than a minute
+    - a few hours
+    - a few secs
+    - half a minute
+    - half an hour

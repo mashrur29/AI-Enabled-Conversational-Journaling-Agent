@@ -1,0 +1,20 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_bradykinesia_1
+  examples: |
+    - i have bradykinesia
+    - bradykinesia
+    - I think i have bradykinesia
+    - have bradykinesia
+    - i want to journal bradykinesia
+    - want to talk about bradykinesia
+    - Lets talk about bradykinesia
+
+- intent: trigger_bradykinesia_2
+  examples: |
+    - I feel slow
+    - Slow
+    - i felt slow
+    - slowness in movement
+    - slow to move

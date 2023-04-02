@@ -1,0 +1,562 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - early_quit
+  - user_confused
+  - repeat_question
+  - clarify_question
+  - ask_for_help
+  - interrupt_question
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - trigger_tremor_mild
+  - trigger_tremor_severe
+  - trigger_tremor_frequency
+  - trigger_tremor_location
+  - trigger_current_tremors
+  - medication_intake
+  - medication_time
+  - affirm_medicine
+  - deny_medicine
+  - unsure_medicine
+  - specify_medicine_type
+  - inform_medicine_type
+  - specify_medicine_time
+  - inform_medicine_time
+  - duration_1
+  - duration_2
+  - cooccurrence_yes
+  - cooccurrence_no
+  - inform_cooccurrence
+  - daily_activity_yes
+  - daily_activity_no
+  - daily_activity_unsure
+  - inform_dailyactivity
+  - history_compare_tremor
+  - history_confused_tremor
+  - history_compare_dizziness
+  - history_compare_deny
+  - history_compare_uncertain
+  - inform_history
+  - trigger_bradykinesia_1
+  - trigger_bradykinesia_2
+  - inform_time_dizziness
+  - inform_time_falling
+  - inform_time_symptoms
+  - inform_dizziness_severity
+  - inform_falling_severity
+  - inform_specific_time
+  - inform_location_dizziness
+  - inform_location_falling
+  - inform_location_symptoms
+  - inform_location_context
+  - inform_location_environment
+  - dizziness_severity
+  - falling_severity
+  - insomnia_severity
+  - mood_cause
+  - insomnia_cause
+  - trigger_dizziness
+  - trigger_falling_1
+  - trigger_falling_2
+  - trigger_insomnia
+  - trigger_mood_1
+  - trigger_mood_2
+  - trigger_mood_3
+
+actions:
+  - action_set_symptom
+  - action_set_slot
+  - action_default_fallback
+  - action_repeat_question
+  - action_set_simplify
+  - action_reset_simplify
+  - action_revert_user_utterance
+  - action_reset_slots
+  - activity_dizziness
+  - activity_falling
+  - activity_both
+
+entities:
+  - symptom
+
+slots:
+  is_previousData:
+    type: bool
+    initial_value: False
+    mappings:
+      - type: custom
+
+  is_simplify:
+    type: bool
+    initial_value: False
+    mappings:
+      - type: custom
+
+  symptom:
+    type: text
+    initial_value: "None"
+    mappings:
+      - type: custom
+        entity: action_set_symptom
+
+  medicinetype:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  medicinetime:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+  duration:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  cooccurrence:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  dailyactivity:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  history:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  time:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  location:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  activity:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  severity:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  reason:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+forms:
+  tremorjournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - duration
+      - cooccurrence
+      - dailyactivity
+      - history
+
+  bradykinesiajournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - dailyactivity
+      - cooccurrence
+
+  dizzinessjournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - duration
+      - time
+      - location
+      - activity
+      - cooccurrence
+      - dailyactivity
+      - severity
+      - history
+
+  fallingjournaling:
+    required_slots:
+      - time
+      - location
+      - activity
+      - severity
+
+  moodjournaling:
+    required_slots:
+      - dailyactivity
+      - reason
+
+  insomniajournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - dailyactivity
+      - severity
+      - reason
+
+responses:
+  utter_propose_help:
+    - text: "Sure, I'm here to help you. Can you please clarify what kind of help you need?"
+    - text: "Of course, I'm here for you. Can you please tell me more about what you're struggling with so I can better assist you?"
+
+  utter_interrupt_response:
+    - text: "I'm sorry, please let me know how I can assist you."
+    - text: "I'm sorry, what can I help you with?"
+
+  utter_greet:
+    - text: "Hi there! I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice. Ready to get started?"
+    - text: "Greetings! I'm your personal Parkinson's journaling chatbot. My role is to help you keep track of your Parkinson's symptoms through easy and convenient data logging. Please note that I won't provide any advice or analysis related to your symptoms. Are you ready to start logging your symptoms?"
+    - text: "Hello! I'm here to assist you in keeping track of your Parkinson's symptoms. You can use me to log your symptoms related to Parkinsons. Please note that I'm not equipped to provide any insights or advice. Shall we begin logging your symptoms together?"
+    - text: "Greetings! As your Parkinson's journaling chatbot, I'm here to help you keep track of your symptoms related to Parkinson's disease. My sole responsibility is to collect data and I won't provide any insights or advice. Are you ready to start logging your symptoms with me?"
+
+  utter_collected_slots:
+    - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
+
+  utter_ask_to_conclude:
+    - text: "Is there anything else you'd like to share with me? I'm here to listen!"
+    - text: "I'm here for you. Is there anything else you want to talk about?"
+
+  utter_start_journal:
+    - condition:
+        - type: slot
+          name: symptom
+          value: "tremor"
+      text: "It must be challenging to deal with tremors, and I'm sorry you're going through this. I'll ask you a few questions to help you journal your symptom."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "bradykinesia"
+      text: "I am sorry that you have to experience bradykinesia and it can be very challenging to deal with. I will ask a few questions to help journal your symptom."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "falling"
+      text: "I'm sorry to hear that you fell down. I will ask a few questions to help journal your experience."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "insomnia"
+      text: "I'm sorry to hear that you have trouble sleeping. It can be difficult to deal with. I will ask a few questions to help journal your sleep problems."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "mood"
+      text: "I'm sorry to hear that. I will ask a few questions to help you journal your mood problems."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "dizziness"
+      text: "I'm sorry to hear that Parkinson's has caused challenging symptoms for you. It can be difficult to deal with. I'll ask you a few questions to help you journal your symptom."
+
+  utter_end_journal:
+    - text: "Thank you for journaling your symptom with me."
+    - text: "I appreciate you sharing information about your symptoms with me."
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_please_rephrase:
+    - text: "I'm sorry, I didn't quite understand that. Could you rephrase?"
+    - text: "Sorry, I am still learning and didn't understand that."
+    - text: "Thanks! But could you say a little more?"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "If you need to talk, feel free to reach out again. Take care!"
+    - text: "If you need to chat in the future, don't hesitate to reach out. Take care!"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  utter_ask_symptom:
+    - text: "Which symptom would you like to journal at this time? Please provide me with a name or description of the symptom so I can understand it better."
+    - text: "What symptom do you want to track in your journal right now? Please provide me with a name or sufficient detail so I can log it for you."
+
+  utter_repeat_question:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Of course. Let me simplify the question for you, so it's easier to understand."
+
+    - text: "Sure, i will repeat the question for you."
+    - text: "Alright, I will ask the question again."
+
+  utter_ask_medicinetype:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you take your medication for Parkinson's disease today?"
+
+    - text: "Have you taken your Parkinson's medication today?"
+    - text: "Did you remember to take your medication for Parkinson's?"
+
+  utter_ask_medicinetime:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "When was the last time you took your Parkinson's medication?"
+
+    - text: "When did you last take your Parkinson's medication?"
+    - text: "At what time did you take your Parkinson's medication?"
+    - text: "When was the last time you took your medication for Parkinson's?"
+
+  utter_ask_tremorjournaling_duration:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "How long did you experience shaking or trembling movements in your body?"
+
+    - text: "How long did your tremor last?"
+    - text: "Can you tell me the duration of your tremor?"
+
+  utter_ask_tremorjournaling_cooccurrence:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you have any other symptoms along with your tremor, like feeling tightness in your muscles or trouble moving?"
+
+    - text: "It can be difficult to experience a tremor. Were there any other symptoms, such as muscle stiffness or difficulty with movement?"
+    - text: "I understand how challenging it can be to deal with tremor. Did you notice any other symptoms, such as muscle stiffness or difficulty with balance?"
+
+  utter_ask_tremorjournaling_dailyactivity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did your hand shaking make it hard to do things you normally do every day?"
+
+    - text: "Tremors can be disruptive. Did your tremor interfere with any of your daily tasks or activities?"
+    - text: "It can be challenging to manage tremors while going about your day. Did your tremor get in the way of doing anything you wanted or needed to do?"
+
+  utter_ask_tremorjournaling_history:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Compared to how your tremor felt before, does it feel better, worse, or about the same to you?"
+
+    - condition:
+        - type: slot
+          name: is_previousData
+          value: true
+      text: "In comparison to your previous tremor, how does your current tremor feel to you?"
+
+    - text: "In comparison to your previous tremor, how does your current tremor feel to you?"
+    - text: "How would you compare your current tremor to the one you experienced previously?"
+
+
+  utter_ask_bradykinesiajournaling_dailyactivity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Dealing with bradykinesia can make it hard to do everyday activities like cooking, cleaning, or tying your shoes. Did you have any difficulties completing these kinds of tasks due to your bradykinesia?"
+
+    - text: "I understand how challenging it can be to manage bradykinesia and how it could have impacted your daily routine. Would you be able to tell me if you encountered any problems finishing your daily tasks because of your bradykinesia?"
+    - text: "Dealing with bradykinesia can be really tough, and I know it can make it hard to do everyday activities. Can you let me know if you faced any difficulties completing daily tasks due to your bradykinesia?"
+
+  utter_ask_bradykinesiajournaling_cooccurrence:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Have you experienced any additional symptoms or challenges, such as a decrease in automatic movements or difficulty initiating movements?"
+
+    - text: "Were there any other challenges or symptoms that you experienced along with it?"
+    - text: "Have you noticed any other symptoms or difficulties that come along with it?"
+
+  utter_ask_duration:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Can you tell me for how long it happened or the duration of your symptom?"
+
+    - text: "Could you please share the time frame or how long it lasted?"
+    - text: "Can you tell me how long your symptom lasted?"
+
+  utter_ask_time:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Can you tell me when you experienced the symptom or for how long it lasted?"
+
+    - text: "Could you please share the time frame or when it occurred?"
+    - text: "Can you tell me when this happened or how long ago it was?"
+
+
+  utter_ask_location:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "I'm curious to know where you experienced the symptom. Maybe you can share with me if it happened at home, work, or while you were out running errands?"
+
+    - text: "Can you please let me know where this symptom occurred or the setting in which it happened?"
+    - text: "I'm trying to get a better understanding of your symptom. Can you share with me the location or setting where you experienced it?"
+
+  utter_ask_activity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Can you tell me what you were doing when you felt the symptom? For instance, were you cooking, exercising, or watching TV?"
+
+    - text: "Can you please share what you were doing at the time when you experienced the symptom?"
+    - text: "I want to get a better picture of the situation. Could you share with me what you were doing when you felt the symptom?"
+
+  utter_ask_dizzinessjournaling_cooccurrence:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you have any other symptoms along with dizziness, like feeling tightness in your muscles or trouble moving?"
+
+    - text: "It can be difficult to experience dizziness. Were there any other symptoms, such as muscle stiffness or difficulty with movement?"
+    - text: "I understand how challenging it can be to deal with Parkinsons. Did you notice any other symptoms, such as muscle stiffness or difficulty with balance?"
+
+  utter_ask_dizzinessjournaling_dailyactivity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you find it difficult to do your daily tasks or activities while feeling dizzy? For example, did you have trouble cooking, cleaning, or getting dressed?"
+
+    - text: "Did you face any difficulty completing your daily activities or chores while feeling dizzy?"
+    - text: "Did you have any trouble completing your daily tasks or activities while feeling dizzy?"
+
+  utter_ask_dizzinessjournaling_severity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "I'm sorry to hear that you felt dizzy. Can you tell me how strong it was? For example, did it feel mild like a slight lightheadedness, or was it intense like you might fall or need to sit down?"
+
+    - text: "I'm sorry to hear that you had to deal with dizziness. Can you describe how intense it was? For example, was it mild or severe?"
+    - text: "I'm sorry to hear that you experienced dizziness. How severe was it? Did it feel mild or intense?"
+
+  utter_ask_dizzinessjournaling_history:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Can you describe how your current dizziness or loss of balance feels compared to the last time you experienced it? For example, is it more or less intense, or does it last longer or shorter?"
+
+    - text: "Can you tell me how your current dizziness or loss of balance feels compared to the previous one?"
+    - text: "Can you share with me how your current dizziness or loss of balance differs from the previous one?"
+
+  utter_ask_fallingjournaling_severity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you get hurt or injured from falling?"
+
+    - text: "How severely did you injure yourself from falling? I hope you're okay and didn't suffer any injuries."
+
+  utter_ask_moodjournaling_dailyactivity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did how you were feeling emotionally affect your daily routine, like getting your tasks or chores done? For instance, did you find it difficult to concentrate on your work or household chores because of your mood?"
+
+    - text: "I hope you're doing okay. I was wondering if your mood had any impact on your ability to complete your daily tasks or chores?"
+    - text: "I'm here to support you. Did your mood have any impact on your daily routine, such as completing tasks or chores?"
+
+  utter_ask_moodjournaling_reason:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "What do you think might be causing you to feel this way? For example, is there something specific that is bothering you or has anything changed in your life recently?"
+
+    - text: "Can you share what you think might be causing you to feel this way?"
+    - text: "I'm here to listen if you want to talk about why you might be feeling this way."
+
+  utter_ask_insomniajournaling_medicinetype:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did you take any medication to help you sleep?"
+
+    - text: "I hope you're feeling alright. Just wanted to ask if you took any medication to help you sleep?"
+    - text: "Can you share if you took any medication to aid your sleep?"
+
+  utter_ask_insomniajournaling_dailyactivity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Did your sleep affect your ability to do daily tasks or chores? For example, did you have trouble cooking, cleaning, or getting dressed?"
+
+    - text: "How did your sleep affect your ability to complete your daily activities or chores?"
+    - text: "Can you share if your sleep had any impact on your ability to complete your daily tasks or chores?"
+
+  utter_ask_insomniajournaling_severity:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "How many hours of sleep were you able to get?"
+
+    - text: "Can you tell me how many hours of sleep you were able to get?"
+    - text: "I'm sorry if you had trouble sleeping. How many hours of sleep did you manage to get?"
+
+  utter_ask_insomniajournaling_reason:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Can you share any thoughts on why you may have had trouble sleeping? For example, is it due to stress or anxiety?"
+
+    - text: "I'm sorry to hear that you had trouble sleeping. Can you share with me if there were any reasons that might have contributed to it?"
+    - text: "I understand it can be frustrating to have trouble sleeping. Would you like to share with me any potential reasons why it might have been difficult for you to fall asleep?"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,20 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_insomnia
+  examples: |
+    - have trouble sleeping
+    - can't sleep at night
+    - i suffer from insomnia
+    - keep waking up in the middle of the night
+    - i feel tired all day because i didn't sleep well
+    - i have trouble falling asleep
+    - i wake up too early and can't go back to sleep
+    - have nightmares that keep me awake
+    - have sleep problems
+    - i am not getting enough sleep
+    - i toss and turn all night
+    - sleeplessness
+    - got insomnia
+    - have sleep problems
+    - sleep problems

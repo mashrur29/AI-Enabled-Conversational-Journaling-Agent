@@ -1,0 +1,32 @@
+version: "3.1"
+
+nlu:
+- intent: trigger_falling_1
+  examples: |
+    - i fell down
+    - i tripped and fell
+    - lost my balance and fell
+    - slipped and fell
+    - i had a bad fall
+    - fell and hurt myself
+    - i stumbled and fell
+    - i had a fall yesterday
+    - fell and bruised myself
+    - i took a tumble and fell
+    - fell down
+    - falling
+    - i fell
+
+- intent: trigger_falling_2
+  examples: |
+    - i fell down
+    - i tripped and fell
+    - lost my balance and fell
+    - i slipped and fell
+    - had a bad fall
+    - fell and hurt myself
+    - i stumbled and fell
+    - had a fall yesterday
+    - i fell and bruised myself
+    - i took a tumble and fell
+    - fell off my chair

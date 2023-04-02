@@ -1,0 +1,16 @@
+version: "3.1"
+stories:
+- story: happy path 1 (./tests/test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy  # predicted: action_default_fallback
+- story: happy path 2 (./tests/test_stories.yml)
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy  # predicted: action_default_fallback
+  - intent: goodbye
+  - action: utter_goodbye

@@ -1,0 +1,29 @@
+digraph  {
+0 [class="start active", fillcolor=green, fontsize=12, label=START, style=filled];
+1 [class=active, fontsize=12, label=action_session_start];
+2 [class=active, fontsize=12, label=utter_greet];
+3 [class=active, fontsize=12, label=utter_ask_symptom];
+4 [class=active, fontsize=12, label=action_set_symptom];
+5 [class=active, fontsize=12, label=utter_start_journal];
+6 [class=active, fontsize=12, label=tremorjournaling];
+7 [class=active, fontsize=12, label=action_set_simplify];
+8 [class=active, fontsize=12, label=action_repeat_question];
+9 [class="intent dashed active", label="  ?  ", shape=rect];
+10 [class="intent active", fillcolor=lightblue, label="/greet", shape=rect, style=filled];
+11 [class="intent active", fillcolor=lightblue, label="/affirm", shape=rect, style=filled];
+12 [class="intent active", fillcolor=lightblue, label="/trigger_current_tremors", shape=rect, style=filled];
+13 [class="intent active", fillcolor=lightblue, label="/user_confused", shape=rect, style=filled];
+0 -> 1  [class=active, key=NONE, label=""];
+1 -> 10  [class=active, key=0];
+2 -> 11  [class=active, key=0];
+3 -> 12  [class=active, key=0];
+4 -> 5  [class=active, key=NONE, label=""];
+5 -> 6  [class=active, key=NONE, label=""];
+6 -> 13  [class=active, key=0];
+7 -> 8  [class=active, key=NONE, label=""];
+8 -> 9  [class=active, key=NONE, label=""];
+10 -> 2  [class=active, key=0];
+11 -> 3  [class=active, key=0];
+12 -> 4  [class=active, key=0];
+13 -> 7  [class=active, key=0];
+}
