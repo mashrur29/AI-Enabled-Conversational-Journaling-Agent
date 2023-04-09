@@ -34,6 +34,8 @@ nlu:
     - I just experienced a tremor
     - tremor
     - i have tremors
+    - i want to journal my shaky hands
+    - shaky hands
     - My hands are shaking right now
     - I'm feeling tremors in my legs
     - I'm currently experiencing a lot of tremors in my body
@@ -46,3 +48,4 @@ nlu:
     - My hand is trembling as I type this
     - I'm feeling a lot of shaking in my torso
     - I'm currently experiencing a lot of tremors in my right leg
+

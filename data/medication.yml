@@ -63,6 +63,8 @@ nlu:
     - I took my medication at 8am this morning
     - I usually take my medicine around noon
     - i took my last dose of medication about 6 hours ago
+    - I forgot, but i think at 8 in the morning today
+    - I think at 8 in the morning
 
 - intent: inform_medicine_time
   examples: |

@@ -13,6 +13,7 @@ nlu:
     - i feel angry because of Parkinson's
     - i feel frustrated because of Parkinson's
     - Parkinson's makes me feel hopeless
+    - i feel upset mostly due to my chronic condition
 
 - intent: insomnia_cause
   examples: |

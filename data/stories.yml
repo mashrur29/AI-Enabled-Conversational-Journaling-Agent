@@ -30,3 +30,33 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: user denies journal
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: user denies journal
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_ask_symptom
+
+- story: out of scope journal
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: out_of_scope
+  - action: utter_greet_large
+  - action: utter_ask_symptom
+  - intent: early_quit
+  - action: utter_goodbye

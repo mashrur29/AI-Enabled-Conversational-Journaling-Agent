@@ -68,6 +68,12 @@ intents:
   - trigger_mood_1
   - trigger_mood_2
   - trigger_mood_3
+  - activity_dizziness
+  - activity_falling
+  - activity_both
+  - greet_alexa
+  - out_of_scope
+  - what_can_you_do
 
 actions:
   - action_set_symptom
@@ -78,9 +84,6 @@ actions:
   - action_reset_simplify
   - action_revert_user_utterance
   - action_reset_slots
-  - activity_dizziness
-  - activity_falling
-  - activity_both
 
 entities:
   - symptom
@@ -229,11 +232,14 @@ responses:
     - text: "I'm sorry, please let me know how I can assist you."
     - text: "I'm sorry, what can I help you with?"
 
+  utter_greet_large:
+    - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
+    - text: "I'm your personal Parkinson's journaling chatbot. My role is to help you keep track of your Parkinson's symptoms through easy and convenient data logging. Please note that I won't provide any advice or analysis related to your symptoms."
+    - text: "I'm here to assist you in keeping track of your Parkinson's symptoms. You can use me to log your symptoms related to Parkinsons. Please note that I'm not equipped to provide any insights or advice. "
+    - text: "As your Parkinson's journaling chatbot, I'm here to help you keep track of your symptoms related to Parkinson's disease. My sole responsibility is to collect data and I won't provide any insights or advice."
+
   utter_greet:
-    - text: "Hi there! I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice. Ready to get started?"
-    - text: "Greetings! I'm your personal Parkinson's journaling chatbot. My role is to help you keep track of your Parkinson's symptoms through easy and convenient data logging. Please note that I won't provide any advice or analysis related to your symptoms. Are you ready to start logging your symptoms?"
-    - text: "Hello! I'm here to assist you in keeping track of your Parkinson's symptoms. You can use me to log your symptoms related to Parkinsons. Please note that I'm not equipped to provide any insights or advice. Shall we begin logging your symptoms together?"
-    - text: "Greetings! As your Parkinson's journaling chatbot, I'm here to help you keep track of your symptoms related to Parkinson's disease. My sole responsibility is to collect data and I won't provide any insights or advice. Are you ready to start logging your symptoms with me?"
+    - text: "Here is your health journal. Are you ready to get started?"
 
   utter_collected_slots:
     - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
@@ -271,7 +277,7 @@ responses:
         - type: slot
           name: symptom
           value: "mood"
-      text: "I'm sorry to hear that. I will ask a few questions to help you journal your mood problems."
+      text: "I hope you're doing okay. I will ask a few questions to help you journal your mood problems."
 
     - condition:
         - type: slot
@@ -314,7 +320,7 @@ responses:
         - type: slot
           name: is_simplify
           value: true
-      text: "Of course. Let me simplify the question for you, so it's easier to understand."
+      text: "Let me simplify the question for you, so it's easier to understand."
 
     - text: "Sure, i will repeat the question for you."
     - text: "Alright, I will ask the question again."
@@ -324,7 +330,7 @@ responses:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did you take your medication for Parkinson's disease today?"
+      text: "Did you take any medication for Parkinson's disease today, such as levodopa or carbidopa?"
 
     - text: "Have you taken your Parkinson's medication today?"
     - text: "Did you remember to take your medication for Parkinson's?"
@@ -404,8 +410,8 @@ responses:
           value: true
       text: "Have you experienced any additional symptoms or challenges, such as a decrease in automatic movements or difficulty initiating movements?"
 
-    - text: "Were there any other challenges or symptoms that you experienced along with it?"
-    - text: "Have you noticed any other symptoms or difficulties that come along with it?"
+    - text: "Were there any other challenges or symptoms that you experienced along with bradykinesia?"
+    - text: "Have you noticed any other symptoms or difficulties that come along with bradykinesia?"
 
   utter_ask_duration:
     - condition:
@@ -504,8 +510,8 @@ responses:
           value: true
       text: "Did how you were feeling emotionally affect your daily routine, like getting your tasks or chores done? For instance, did you find it difficult to concentrate on your work or household chores because of your mood?"
 
-    - text: "I hope you're doing okay. I was wondering if your mood had any impact on your ability to complete your daily tasks or chores?"
-    - text: "I'm here to support you. Did your mood have any impact on your daily routine, such as completing tasks or chores?"
+    - text: "I was wondering if your mood had any impact on your ability to complete your daily tasks or chores?"
+    - text: "Did your mood have any impact on your daily routine, such as completing tasks or chores?"
 
   utter_ask_moodjournaling_reason:
     - condition:

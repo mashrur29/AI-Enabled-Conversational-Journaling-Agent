@@ -15,6 +15,7 @@ nlu:
     - I only experienced tremor
     - Dizziness wasn't present, just tremors
     - It was only tremors, no rigidity or anything else
+    - i don't think so
 
 - intent: inform_cooccurrence
   examples: |

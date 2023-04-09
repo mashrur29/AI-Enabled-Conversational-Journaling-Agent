@@ -113,7 +113,63 @@ rules:
   - action: utter_interrupt_response
   - action: action_revert_user_utterance
 
+- rule: Set slot
+  steps:
+  - or:
+    - intent: activity_dizziness
+    - intent: activity_falling
+    - intent: activity_both
+    - intent: cooccurrence_yes
+    - intent: cooccurrence_no
+    - intent: inform_cooccurrence
+    - intent: daily_activity_yes
+    - intent: daily_activity_no
+    - intent: daily_activity_unsure
+    - intent: inform_dailyactivity
+    - intent: duration_1
+    - intent: duration_2
+    - intent: history_compare_tremor
+    - intent: history_compare_dizziness
+    - intent: history_compare_deny
+    - intent: history_compare_uncertain
+    - intent: history_confused_tremor
+    - intent: inform_history
+    - intent: inform_location_dizziness
+    - intent: inform_location_falling
+    - intent: inform_location_symptoms
+    - intent: inform_location_context
+    - intent: inform_location_environment
+    - intent: medication_intake
+    - intent: affirm_medicine
+    - intent: deny_medicine
+    - intent: unsure_medicine
+    - intent: specify_medicine_type
+    - intent: inform_medicine_type
+    - intent: medication_time
+    - intent: specify_medicine_time
+    - intent: inform_medicine_time
+    - intent: mood_cause
+    - intent: insomnia_cause
+    - intent: dizziness_severity
+    - intent: falling_severity
+    - intent: insomnia_severity
+    - intent: inform_time_dizziness
+    - intent: inform_time_falling
+    - intent: inform_time_symptoms
+    - intent: inform_dizziness_severity
+    - intent: inform_falling_severity
+    - intent: inform_specific_time
+  - action: action_set_slot
+
 - rule: Early quit
   steps:
   - intent: early_quit
   - action: utter_goodbye
+
+- rule: Out of scope
+  steps:
+  - or:
+    - intent: out_of_scope
+    - intent: what_can_you_do
+  - action: utter_greet_large
+  - action: utter_ask_symptom

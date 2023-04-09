@@ -17,6 +17,7 @@ nlu:
     - I haven't noticed any impact on my daily life, so no
     - No, I'm still able to get everything done despite my symptoms
     - nah, no impact
+    - none that i can think of
 
 - intent: daily_activity_unsure
   examples: |
@@ -33,3 +34,4 @@ nlu:
     - i have trouble concentrating
     - can't hold anything properly
     - holding glass
+    - it became hard to cook

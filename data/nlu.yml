@@ -17,6 +17,14 @@ nlu:
     - goodevening
     - good afternoon
 
+- intent: greet_alexa
+  examples: |
+    - alexa open my health journal
+    - Alexa
+    - hi alexa
+    - Alexa open journal
+    - open journal, Alexa
+
 - intent: goodbye
   examples: |
     - cu
@@ -43,6 +51,8 @@ nlu:
     - alright
     - i did
     - absolutely
+    - yeah
+    - yeah, i am
 
 - intent: deny
   examples: |
@@ -96,6 +106,11 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- intent: what_can_you_do
+  examples: |
+    - what can you do?
+    - what are your capabilities
+    - what is your purpose?
 
 - intent: repeat_question
   examples: |
@@ -182,6 +197,12 @@ nlu:
     - i have a question
     - need to interrupt you
     - sorry i have a ques for you
+
+- intent: out_of_scope
+  examples: |
+    - i want to journal my eating disorder
+    - want to journal my addiction to medicine
+    - i want to play a video game
 
 - intent: early_quit
   examples: |

@@ -127,10 +127,14 @@ class ActionSetSlot(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         user_intent = tracker.latest_message['intent'].get('name')
+        next_slot = ''
 
-        next_slot = tracker.get_slot("requested_slot")
-        user_inp = 'None'
-        if next_slot != None:
-            user_inp = tracker.latest_message['text']
+        try:
+            next_slot = tracker.get_slot("requested_slot")
+            user_inp = 'None'
+            if next_slot != None:
+                user_inp = tracker.latest_message['text']
 
-        return [SlotSet(next_slot, user_inp)]
+            return [SlotSet(next_slot, user_inp)]
+        except Exception as e:
+            return []
