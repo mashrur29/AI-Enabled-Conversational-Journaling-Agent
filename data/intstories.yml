@@ -13,6 +13,7 @@ stories:
   - slot_was_set:
     - symptom: tremor
   - action: utter_start_journal
+  - intent: affirm
   - action: tremorjournaling
   - active_loop: tremorjournaling
   - slot_was_set:
@@ -78,6 +79,7 @@ stories:
   - slot_was_set:
     - symptom: tremor
   - action: utter_start_journal
+  - intent: affirm
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
   - slot_was_set:
@@ -129,6 +131,7 @@ stories:
   - slot_was_set:
     - symptom: dizziness
   - action: utter_start_journal
+  - intent: affirm
   - action: dizzinessjournaling
   - active_loop: dizzinessjournaling
   - slot_was_set:
@@ -213,6 +216,7 @@ stories:
   - slot_was_set:
     - symptom: falling
   - action: utter_start_journal
+  - intent: affirm
   - action: fallingjournaling
   - active_loop: fallingjournaling
   - slot_was_set:
@@ -255,6 +259,7 @@ stories:
   - slot_was_set:
     - symptom: mood
   - action: utter_start_journal
+  - intent: affirm
   - action: moodjournaling
   - active_loop: moodjournaling
   - slot_was_set:
@@ -290,6 +295,7 @@ stories:
   - slot_was_set:
     - symptom: insomnia
   - action: utter_start_journal
+  - intent: affirm
   - action: insomniajournaling
   - active_loop: insomniajournaling
   - slot_was_set:
@@ -343,6 +349,7 @@ stories:
   - slot_was_set:
     - symptom: tremor
   - action: utter_start_journal
+  - intent: affirm
   - action: tremorjournaling
   - active_loop: tremorjournaling
   - slot_was_set:
@@ -407,6 +414,7 @@ stories:
   - slot_was_set:
     - symptom: bradykinesia
   - action: utter_start_journal
+  - intent: affirm
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
   - slot_was_set:
@@ -481,6 +489,7 @@ stories:
   - slot_was_set:
     - symptom: tremor
   - action: utter_start_journal
+  - intent: affirm
   - action: tremorjournaling
   - active_loop: tremorjournaling
   - slot_was_set:
@@ -515,6 +524,7 @@ stories:
   - slot_was_set:
     - symptom: insomnia
   - action: utter_start_journal
+  - intent: affirm
   - action: insomniajournaling
   - active_loop: insomniajournaling
   - slot_was_set:
@@ -572,6 +582,7 @@ stories:
   - slot_was_set:
     - symptom: mood
   - action: utter_start_journal
+  - intent: affirm
   - action: moodjournaling
   - active_loop: moodjournaling
   - slot_was_set:

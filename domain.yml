@@ -253,37 +253,37 @@ responses:
         - type: slot
           name: symptom
           value: "tremor"
-      text: "It must be challenging to deal with tremors, and I'm sorry you're going through this. I'll ask you a few questions to help you journal your symptom."
+      text: "I'm sorry to hear that. Can I ask you a few questions about your tremor?"
 
     - condition:
         - type: slot
           name: symptom
           value: "bradykinesia"
-      text: "I am sorry that you have to experience bradykinesia and it can be very challenging to deal with. I will ask a few questions to help journal your symptom."
+      text: "I'm sorry to hear that. Can I ask you a few questions about how you're feeling slow?"
 
     - condition:
         - type: slot
           name: symptom
           value: "falling"
-      text: "I'm sorry to hear that you fell down. I will ask a few questions to help journal your experience."
+      text: "I'm sorry to hear that. Can I ask you a few questions about your fall?"
 
     - condition:
         - type: slot
           name: symptom
           value: "insomnia"
-      text: "I'm sorry to hear that you have trouble sleeping. It can be difficult to deal with. I will ask a few questions to help journal your sleep problems."
+      text: "I'm sorry to hear that. Can I ask you a few questions about your sleep problems?"
 
     - condition:
         - type: slot
           name: symptom
           value: "mood"
-      text: "I hope you're doing okay. I will ask a few questions to help you journal your mood problems."
+      text: "I'm sorry to hear that. Can I ask you a few questions about your sleep problems?"
 
     - condition:
         - type: slot
           name: symptom
           value: "dizziness"
-      text: "I'm sorry to hear that Parkinson's has caused challenging symptoms for you. It can be difficult to deal with. I'll ask you a few questions to help you journal your symptom."
+      text: "I'm sorry to hear that. Can I ask you a few questions about you felt dizzy?"
 
   utter_end_journal:
     - text: "Thank you for journaling your symptom with me."
@@ -311,9 +311,15 @@ responses:
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
 
+
   utter_ask_symptom:
-    - text: "Which symptom would you like to journal at this time? Please provide me with a name or description of the symptom so I can understand it better."
-    - text: "What symptom do you want to track in your journal right now? Please provide me with a name or sufficient detail so I can log it for you."
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "Which symptom would you like to journal at this time? Please provide me with a name or description of the symptom so I can understand it better. For example: tremor or bradykinesia."
+
+    - text: "What would you like to record?"
 
   utter_repeat_question:
     - condition:

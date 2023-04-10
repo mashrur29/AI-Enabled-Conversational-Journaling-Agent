@@ -10,7 +10,6 @@ stories:
   - action: utter_ask_symptom
 
 
-
 - story: sad path 1
   steps:
   - intent: greet
@@ -49,6 +48,7 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
 
+
 - story: out of scope journal
   steps:
   - intent: greet_alexa
@@ -60,3 +60,37 @@ stories:
   - action: utter_ask_symptom
   - intent: early_quit
   - action: utter_goodbye
+
+- story: user doesn't want to start journal 1
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_mood_1
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: mood
+  - action: utter_start_journal
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: user doesn't want to start journal 2
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: trigger_mood_1
+  - action: action_reset_slots
+  - action: action_set_symptom
+  - slot_was_set:
+    - symptom: mood
+  - action: utter_start_journal
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_start_journal
