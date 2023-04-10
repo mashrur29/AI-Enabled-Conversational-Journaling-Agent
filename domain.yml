@@ -360,7 +360,6 @@ responses:
       text: "How long did you experience shaking or trembling movements in your body?"
 
     - text: "How long did your tremor last?"
-    - text: "Can you tell me the duration of your tremor?"
 
   utter_ask_tremorjournaling_cooccurrence:
     - condition:
@@ -369,18 +368,18 @@ responses:
           value: true
       text: "Did you have any other symptoms along with your tremor, like feeling tightness in your muscles or trouble moving?"
 
-    - text: "It can be difficult to experience a tremor. Were there any other symptoms, such as muscle stiffness or difficulty with movement?"
-    - text: "I understand how challenging it can be to deal with tremor. Did you notice any other symptoms, such as muscle stiffness or difficulty with balance?"
+    - text: "Did you experience anything else along with tremors, such as muscle stiffness or difficulty with movement?"
+    - text: "Did you experience anything else alongside tremors, such as muscle stiffness or difficulty with coordination?"
 
   utter_ask_tremorjournaling_dailyactivity:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did your hand shaking make it hard to do things you normally do every day?"
+      text: "Did your hand shaking make it hard to do things you normally do every day, for example: cooking or tying your shoe laces?"
 
-    - text: "Tremors can be disruptive. Did your tremor interfere with any of your daily tasks or activities?"
-    - text: "It can be challenging to manage tremors while going about your day. Did your tremor get in the way of doing anything you wanted or needed to do?"
+    - text: "Did your tremor interfere with any of your daily tasks or activities?"
+    - text: "Did your tremor get in the way of doing your daily tasks or activities?"
 
   utter_ask_tremorjournaling_history:
     - condition:
@@ -404,40 +403,37 @@ responses:
         - type: slot
           name: is_simplify
           value: true
-      text: "Dealing with bradykinesia can make it hard to do everyday activities like cooking, cleaning, or tying your shoes. Did you have any difficulties completing these kinds of tasks due to your bradykinesia?"
+      text: "Did you have any difficulties with daily activities like cooking, cleaning, or tying your shoes?"
 
-    - text: "I understand how challenging it can be to manage bradykinesia and how it could have impacted your daily routine. Would you be able to tell me if you encountered any problems finishing your daily tasks because of your bradykinesia?"
-    - text: "Dealing with bradykinesia can be really tough, and I know it can make it hard to do everyday activities. Can you let me know if you faced any difficulties completing daily tasks due to your bradykinesia?"
+    - text: "Did you have trouble completing your daily tasks or activities?"
+
 
   utter_ask_bradykinesiajournaling_cooccurrence:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Have you experienced any additional symptoms or challenges, such as a decrease in automatic movements or difficulty initiating movements?"
+      text: "Did you experience any additional symptoms or challenges, such as muscle stiffness or difficulty with movement?"
 
-    - text: "Were there any other challenges or symptoms that you experienced along with bradykinesia?"
-    - text: "Have you noticed any other symptoms or difficulties that come along with bradykinesia?"
+    - text: "Did you experience anything else, such as muscle stiffness or difficulty with movement?"
 
   utter_ask_duration:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Can you tell me for how long it happened or the duration of your symptom?"
+      text: "Can you tell me for how long your symptom lasted?"
 
-    - text: "Could you please share the time frame or how long it lasted?"
-    - text: "Can you tell me how long your symptom lasted?"
+    - text: "How long did it last?"
 
   utter_ask_time:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Can you tell me when you experienced the symptom or for how long it lasted?"
+      text: "Can you tell me when you experienced the symptom?"
 
-    - text: "Could you please share the time frame or when it occurred?"
-    - text: "Can you tell me when this happened or how long ago it was?"
+    - text: "When did it occur?"
 
 
   utter_ask_location:
@@ -445,60 +441,55 @@ responses:
         - type: slot
           name: is_simplify
           value: true
-      text: "I'm curious to know where you experienced the symptom. Maybe you can share with me if it happened at home, work, or while you were out running errands?"
+      text: "Where did this happen, like at home, at work, or while you were out doing errands?"
 
-    - text: "Can you please let me know where this symptom occurred or the setting in which it happened?"
-    - text: "I'm trying to get a better understanding of your symptom. Can you share with me the location or setting where you experienced it?"
+    - text: "Where did it happen?"
 
   utter_ask_activity:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Can you tell me what you were doing when you felt the symptom? For instance, were you cooking, exercising, or watching TV?"
+      text: "Can you tell me what you were doing when this happened? For instance, were you cooking, exercising, or watching TV?"
 
-    - text: "Can you please share what you were doing at the time when you experienced the symptom?"
-    - text: "I want to get a better picture of the situation. Could you share with me what you were doing when you felt the symptom?"
+    - text: "What were you doing when it happened?"
 
   utter_ask_dizzinessjournaling_cooccurrence:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did you have any other symptoms along with dizziness, like feeling tightness in your muscles or trouble moving?"
+      text: "Did you experience anything else besides feeling dizzy, like muscle stiffness or difficulty with movement?"
 
-    - text: "It can be difficult to experience dizziness. Were there any other symptoms, such as muscle stiffness or difficulty with movement?"
-    - text: "I understand how challenging it can be to deal with Parkinsons. Did you notice any other symptoms, such as muscle stiffness or difficulty with balance?"
+    - text: "Did you experience anything else, such as muscle stiffness or difficulty with movement?"
+
 
   utter_ask_dizzinessjournaling_dailyactivity:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did you find it difficult to do your daily tasks or activities while feeling dizzy? For example, did you have trouble cooking, cleaning, or getting dressed?"
+      text: "Did you have trouble completing your daily tasks or activities due to dizziness? For example, did you have trouble cooking, cleaning, or getting dressed?"
 
-    - text: "Did you face any difficulty completing your daily activities or chores while feeling dizzy?"
-    - text: "Did you have any trouble completing your daily tasks or activities while feeling dizzy?"
+    - text: "Did you have trouble completing your daily tasks or activities?"
 
   utter_ask_dizzinessjournaling_severity:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "I'm sorry to hear that you felt dizzy. Can you tell me how strong it was? For example, did it feel mild like a slight lightheadedness, or was it intense like you might fall or need to sit down?"
+      text: "How bad did it get? For instance, did you need to sit down or did you fall?"
 
-    - text: "I'm sorry to hear that you had to deal with dizziness. Can you describe how intense it was? For example, was it mild or severe?"
-    - text: "I'm sorry to hear that you experienced dizziness. How severe was it? Did it feel mild or intense?"
+    - text: "How severe was it? For example, was it mild or severe?"
 
   utter_ask_dizzinessjournaling_history:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Can you describe how your current dizziness or loss of balance feels compared to the last time you experienced it? For example, is it more or less intense, or does it last longer or shorter?"
+      text: "Can you describe how your current dizziness feels compared to the last time you experienced it?"
 
-    - text: "Can you tell me how your current dizziness or loss of balance feels compared to the previous one?"
-    - text: "Can you share with me how your current dizziness or loss of balance differs from the previous one?"
+    - text: "How does it compare to the previous one?"
 
   utter_ask_fallingjournaling_severity:
     - condition:
@@ -514,10 +505,9 @@ responses:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did how you were feeling emotionally affect your daily routine, like getting your tasks or chores done? For instance, did you find it difficult to concentrate on your work or household chores because of your mood?"
+      text: "Did your mood impact your daily activities? For instance, did you find it difficult to concentrate on your work or household chores?"
 
-    - text: "I was wondering if your mood had any impact on your ability to complete your daily tasks or chores?"
-    - text: "Did your mood have any impact on your daily routine, such as completing tasks or chores?"
+    - text: "Did your mood impact your ability to complete your daily tasks or chores?"
 
   utter_ask_moodjournaling_reason:
     - condition:
@@ -527,7 +517,6 @@ responses:
       text: "What do you think might be causing you to feel this way? For example, is there something specific that is bothering you or has anything changed in your life recently?"
 
     - text: "Can you share what you think might be causing you to feel this way?"
-    - text: "I'm here to listen if you want to talk about why you might be feeling this way."
 
   utter_ask_insomniajournaling_medicinetype:
     - condition:
@@ -536,18 +525,16 @@ responses:
           value: true
       text: "Did you take any medication to help you sleep?"
 
-    - text: "I hope you're feeling alright. Just wanted to ask if you took any medication to help you sleep?"
-    - text: "Can you share if you took any medication to aid your sleep?"
+    - text: "Did you take any medication to help you sleep?"
 
   utter_ask_insomniajournaling_dailyactivity:
     - condition:
         - type: slot
           name: is_simplify
           value: true
-      text: "Did your sleep affect your ability to do daily tasks or chores? For example, did you have trouble cooking, cleaning, or getting dressed?"
+      text: "Did your lack of sleep affect your ability to do daily tasks or chores? For example, did you have trouble cooking, cleaning, or getting dressed?"
 
-    - text: "How did your sleep affect your ability to complete your daily activities or chores?"
-    - text: "Can you share if your sleep had any impact on your ability to complete your daily tasks or chores?"
+    - text: "How did your lack of sleep affect your daily activities or chores?"
 
   utter_ask_insomniajournaling_severity:
     - condition:
@@ -556,8 +543,7 @@ responses:
           value: true
       text: "How many hours of sleep were you able to get?"
 
-    - text: "Can you tell me how many hours of sleep you were able to get?"
-    - text: "I'm sorry if you had trouble sleeping. How many hours of sleep did you manage to get?"
+    - text: "How long could you sleep?"
 
   utter_ask_insomniajournaling_reason:
     - condition:
@@ -566,8 +552,7 @@ responses:
           value: true
       text: "Can you share any thoughts on why you may have had trouble sleeping? For example, is it due to stress or anxiety?"
 
-    - text: "I'm sorry to hear that you had trouble sleeping. Can you share with me if there were any reasons that might have contributed to it?"
-    - text: "I understand it can be frustrating to have trouble sleeping. Would you like to share with me any potential reasons why it might have been difficult for you to fall asleep?"
+    - text: "Why do you think you had trouble sleeping?"
 
 session_config:
   session_expiration_time: 60

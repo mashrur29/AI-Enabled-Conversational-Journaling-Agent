@@ -24,8 +24,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: tremorjournaling
-  - active_loop: tremorjournaling
 
 
 - rule: trigger bradykinesia
@@ -36,8 +34,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: bradykinesiajournaling
-  - active_loop: bradykinesiajournaling
 
 - rule: trigger dizziness
   steps:
@@ -46,8 +42,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: dizzinessjournaling
-  - active_loop: dizzinessjournaling
 
 - rule: trigger falling
   steps:
@@ -57,8 +51,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: fallingjournaling
-  - active_loop: fallingjournaling
 
 - rule: trigger mood
   steps:
@@ -69,8 +61,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: moodjournaling
-  - active_loop: moodjournaling
 
 - rule: trigger insomnia
   steps:
@@ -79,8 +69,6 @@ rules:
   - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
-  - action: insomniajournaling
-  - active_loop: insomniajournaling
 
 - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
   steps:
