@@ -153,6 +153,7 @@ rules:
   steps:
   - intent: early_quit
   - action: utter_goodbye
+  - action: action_reset_slots
 
 - rule: Out of scope
   steps:

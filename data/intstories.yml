@@ -503,6 +503,7 @@ stories:
     - requested_slot: medicinetime
   - intent: early_quit
   - action: utter_goodbye
+  - action: action_reset_slots
 
 - story: interactive_story_4
   steps:

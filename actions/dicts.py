@@ -1,3 +1,14 @@
+with open('actions/chatgpt_prompt', 'r') as file:
+    data = file.read().replace('\n', '').strip()
+
+chatbot_behavior = str(data)
+
+
+msg = [
+    {"role": "system", "content": "Be empathetic"},
+    {"role": "system", "content": chatbot_behavior}
+]
+
 intent2Symptom = {
     "trigger_tremor_mild": "tremor",
     "trigger_tremor_severe": "tremor",

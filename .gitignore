@@ -1,3 +1,5 @@
 /.rasa/
 /venv/
 /models/
+/actions/API.py
+/actions/convs/

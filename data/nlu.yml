@@ -53,6 +53,7 @@ nlu:
     - absolutely
     - yeah
     - yeah, i am
+    - it did
 
 - intent: deny
   examples: |
@@ -64,6 +65,8 @@ nlu:
     - no way
     - not really
     - nope
+    - it didn't
+    - it did not
 
 - intent: mood_great
   examples: |

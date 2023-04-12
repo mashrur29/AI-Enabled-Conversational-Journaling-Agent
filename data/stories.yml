@@ -38,6 +38,7 @@ stories:
   - action: utter_ask_to_conclude
   - intent: deny
   - action: utter_goodbye
+  - action: action_reset_slots
 
 - story: user denies journal
   steps:
@@ -60,6 +61,7 @@ stories:
   - action: utter_ask_symptom
   - intent: early_quit
   - action: utter_goodbye
+  - action: action_reset_slots
 
 - story: user doesn't want to start journal 1
   steps:
