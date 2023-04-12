@@ -33,10 +33,10 @@ class ActionResetAllSlot(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         all_msg = []
         for event in tracker.events:
-            if (event.get("event") is not None):
+            if (event.get("event") == "bot") or (event.get("event") == "user"):
                 latest_bot_message = event.get("text")
-                all_msg.append('> {}'.format(latest_bot_message))
-        print(all_msg)
+                all_msg.append('{}> {}'.format(event.get("event"), latest_bot_message))
+        #print(all_msg)
         try:
             id_ = random.randint(0, 100000)
             with open('actions/convs/msg_{}.txt'.format(id_), 'w') as f:
