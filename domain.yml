@@ -103,6 +103,7 @@ slots:
 
   symptom:
     type: text
+    influence_conversation: true
     initial_value: "None"
     mappings:
       - type: custom
@@ -284,6 +285,8 @@ responses:
           name: symptom
           value: "dizziness"
       text: "I'm sorry to hear that. Can I ask you a few questions about you felt dizzy?"
+
+    - text: "I'm sorry to hear that. Can I ask you a few questions about your experience?"
 
   utter_end_journal:
     - text: "Thank you for journaling your symptom with me."

@@ -9,6 +9,14 @@ msg = [
     {"role": "system", "content": chatbot_behavior}
 ]
 
+msg_symptom = [
+    {"role": "system", "content": "Answer in a single word and don't say anything else."}
+]
+
+msg_symptom_fallback = [
+    {"role": "system", "content": "Answer in a single sentence and don't say anything else."}
+]
+
 intent2Symptom = {
     "trigger_tremor_mild": "tremor",
     "trigger_tremor_severe": "tremor",

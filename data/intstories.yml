@@ -77,7 +77,7 @@ stories:
   - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
-    - symptom: tremor
+    - symptom: bradykinesia
   - action: utter_start_journal
   - intent: affirm
   - action: bradykinesiajournaling
@@ -607,3 +607,142 @@ stories:
   - action: utter_ask_to_conclude
   - intent: deny
   - action: utter_goodbye
+
+
+- story: tremorjournal_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: tremor
+  - intent: affirm
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+
+- story: bradykinesiajournal_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: bradykinesia
+  - intent: affirm
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+
+
+- story: dizzinessjournaling_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: dizziness
+  - intent: affirm
+  - action: dizzinessjournaling
+  - active_loop: dizzinessjournaling
+
+
+- story: fallingjournaling_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: falling
+  - intent: affirm
+  - action: fallingjournaling
+  - active_loop: fallingjournaling
+
+- story: moodjournaling_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: mood
+  - intent: affirm
+  - action: moodjournaling
+  - active_loop: moodjournaling
+
+- story: insomniajournaling_action
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - slot_was_set:
+    - symptom: insomnia
+  - intent: affirm
+  - action: insomniajournaling
+  - active_loop: insomniajournaling
+
+- story: alljournaling_action_deny_1
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - or:
+      - slot_was_set:
+          - symptom: tremor
+      - slot_was_set:
+          - symptom: bradykinesia
+      - slot_was_set:
+          - symptom: dizziness
+      - slot_was_set:
+          - symptom: falling
+      - slot_was_set:
+          - symptom: insomnia
+      - slot_was_set:
+          - symptom: mood
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: alljournaling_action_deny_2
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - or:
+    - slot_was_set:
+      - symptom: tremor
+    - slot_was_set:
+      - symptom: bradykinesia
+    - slot_was_set:
+      - symptom: dizziness
+    - slot_was_set:
+      - symptom: falling
+    - slot_was_set:
+      - symptom: insomnia
+    - slot_was_set:
+      - symptom: mood
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: affirm
+  - action: utter_ask_symptom

@@ -10,6 +10,17 @@ def create_dict(role, content):
     return dict
 
 
+def get_symptom(prev_message):
+    prompt = "Answer the following question, based on the data shown. " \
+            "Answer in a single word and don't say anything else." \
+            "The answer should be one of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\", \"none\""\
+            f"data: {prev_message}"
+
+    from actions.dicts import msg
+    msg.append(create_dict("user", prompt))
+    return get_response(msg)
+
+
 def get_response(msg, temperature=0.4):
     while True:
         try:

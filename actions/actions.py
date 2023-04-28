@@ -9,7 +9,7 @@ from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
 
-from actions.helpers import create_dict, get_response
+from actions.helpers import create_dict, get_response, get_symptom
 
 
 class ActionRevertUserUtterance(Action):
@@ -63,7 +63,25 @@ class ActionDefaultFallback(Action):
             domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        from actions.dicts import msg
+        previous_user_msg = tracker.latest_message["text"]
+        from actions.dicts import msg, msg_symptom_fallback
+
+        symptom = tracker.get_slot('symptom')
+
+        if symptom == "None":
+            nw_symptom = get_symptom(previous_user_msg)
+            nw_symptom = nw_symptom.replace('.', '').lower().strip()
+            print(f'here: {nw_symptom}')
+
+            if "none" in nw_symptom:
+                prompt_symptom_fallback = f"Acknowledge the user response empathetically and inform that you can't journal {previous_user_msg}. Ask if the user is interested in journaling either of the following in a simple sentence: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
+                msg_symptom_fallback.append(create_dict("user", prompt_symptom_fallback))
+                utterance = get_response(msg_symptom_fallback)
+                dispatcher.utter_message(text=utterance)
+                return [UserUtteranceReverted()]
+            else:
+                dispatcher.utter_message(response="utter_start_journal")
+                return [SlotSet("symptom", nw_symptom)]
 
         for event in tracker.events:
             if (event.get("event") == "bot") and (event.get("event") is not None):
