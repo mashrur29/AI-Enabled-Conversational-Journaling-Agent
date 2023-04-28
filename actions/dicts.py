@@ -5,8 +5,8 @@ chatbot_behavior = str(data)
 
 
 msg = [
-    {"role": "system", "content": "Be empathetic"},
-    {"role": "system", "content": chatbot_behavior}
+    {"role": "system", "content": "Be empathetic."},
+    {"role": "system", "content": "Answer in a single line and don't say anything else."}
 ]
 
 msg_symptom = [

@@ -229,6 +229,10 @@ responses:
     - text: "Sure, I'm here to help you. Can you please clarify what kind of help you need?"
     - text: "Of course, I'm here for you. Can you please tell me more about what you're struggling with so I can better assist you?"
 
+  utter_return_journal:
+    - text: "Now, let's go back to the last question."
+    - text: "Let's get back to the original topic of discussion."
+
   utter_interrupt_response:
     - text: "I'm sorry, please let me know how I can assist you."
     - text: "I'm sorry, what can I help you with?"

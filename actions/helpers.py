@@ -10,16 +10,39 @@ def create_dict(role, content):
     return dict
 
 
+def get_symptom_fallback(previous_user_msg):
+    from actions.dicts import msg_symptom_fallback
+    prompt_symptom_fallback = f"Acknowledge the user response empathetically and inform that you can't journal {previous_user_msg}. Ask if the user is interested in journaling either of the following in a simple sentence: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
+    msg_symptom_fallback.append(create_dict("user", prompt_symptom_fallback))
+    utterance = get_response(msg_symptom_fallback)
+    return utterance.strip()
+
+
 def get_symptom(prev_message):
     prompt = "Answer the following question, based on the data shown. " \
-            "Answer in a single word and don't say anything else." \
-            "The answer should be one of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\", \"none\""\
-            f"data: {prev_message}"
+             "Answer in a single word and don't say anything else." \
+             "The answer should be one of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\", \"none\"" \
+             f"data: {prev_message}"
 
     from actions.dicts import msg
     msg.append(create_dict("user", prompt))
-    return get_response(msg)
+    return get_response(msg).strip()
 
+def get_chitchat_in_form(prev_message, symptom, requested_slot):
+    prompt = f"Determine whether the user message is a chitchat. The user is journaling {symptom} for Parkinsons and was asked about {requested_slot}." \
+            "If yes, acknowledge empathetically."\
+            "Else respond with \"None\"" \
+            f"user message: {prev_message}"
+
+    from actions.dicts import msg
+    msg.append(create_dict("user", prompt))
+    return get_response(msg).strip()
+
+def get_response_in_form(prev_message, symptom):
+    prompt = f"Acknowledge the user response below based on the fact that you are journaling their {symptom} for Parkinsons - {prev_message}"
+    from actions.dicts import msg
+    msg.append(create_dict("user", prompt))
+    return get_response(msg).strip()
 
 def get_response(msg, temperature=0.4):
     while True:

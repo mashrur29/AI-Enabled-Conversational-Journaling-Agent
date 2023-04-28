@@ -9,7 +9,8 @@ from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
 
-from actions.helpers import create_dict, get_response, get_symptom
+from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
+    get_chitchat_in_form
 
 
 class ActionRevertUserUtterance(Action):
@@ -63,20 +64,42 @@ class ActionDefaultFallback(Action):
             domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        previous_user_msg = tracker.latest_message["text"]
+
         from actions.dicts import msg, msg_symptom_fallback
 
+        print('Inside fallback')
+
+        previous_user_msg = tracker.latest_message["text"]
         symptom = tracker.get_slot('symptom')
+
+        try:
+            active_loop = tracker.active_loop.get("name")
+            if active_loop is not None:
+                print(f'Active loop: {active_loop}')
+                next_slot = tracker.get_slot("requested_slot")
+                print(f'Requested slot {next_slot}')
+
+                isChitchat = get_chitchat_in_form(previous_user_msg, symptom, next_slot)
+
+                if "None" in isChitchat:
+                    utterance = get_response_in_form(previous_user_msg, symptom)
+                    dispatcher.utter_message(text=utterance)
+                    return [SlotSet(next_slot, utterance)]
+                else:
+                    dispatcher.utter_message(text=isChitchat)
+                    dispatcher.utter_message(response="utter_return_journal")
+                    return [UserUtteranceReverted()]
+        except Exception as e:
+            print(str(e))
+
 
         if symptom == "None":
             nw_symptom = get_symptom(previous_user_msg)
             nw_symptom = nw_symptom.replace('.', '').lower().strip()
-            print(f'here: {nw_symptom}')
+            print(f'predicted symptom: {nw_symptom}')
 
             if "none" in nw_symptom:
-                prompt_symptom_fallback = f"Acknowledge the user response empathetically and inform that you can't journal {previous_user_msg}. Ask if the user is interested in journaling either of the following in a simple sentence: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
-                msg_symptom_fallback.append(create_dict("user", prompt_symptom_fallback))
-                utterance = get_response(msg_symptom_fallback)
+                utterance = get_symptom_fallback(msg_symptom_fallback)
                 dispatcher.utter_message(text=utterance)
                 return [UserUtteranceReverted()]
             else:
