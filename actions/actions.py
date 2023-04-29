@@ -64,10 +64,21 @@ class ActionDefaultFallback(Action):
             domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
+        print('Inside fallback')
 
         from actions.dicts import msg, msg_symptom_fallback
 
-        print('Inside fallback')
+        for event in tracker.events:
+            if (event.get("event") == "bot") and (event.get("event") is not None):
+                latest_bot_message = event.get("text")
+                msg.append(create_dict("assistant", latest_bot_message))
+                msg_symptom_fallback.append(create_dict("assistant", latest_bot_message))
+            elif (event.get("event") == "user") and (event.get("event") is not None):
+                latest_user_message = event.get("text")
+                msg.append(create_dict("user", latest_user_message))
+                msg_symptom_fallback.append(create_dict("user", latest_user_message))
+
+
 
         previous_user_msg = tracker.latest_message["text"]
         symptom = tracker.get_slot('symptom')
@@ -99,20 +110,15 @@ class ActionDefaultFallback(Action):
             print(f'predicted symptom: {nw_symptom}')
 
             if "none" in nw_symptom:
-                utterance = get_symptom_fallback(msg_symptom_fallback)
+                utterance = get_symptom_fallback(msg_symptom_fallback, previous_user_msg)
                 dispatcher.utter_message(text=utterance)
-                return [UserUtteranceReverted()]
+                dispatcher.utter_message(response="utter_ask_to_add")
+                return []
             else:
                 dispatcher.utter_message(response="utter_start_journal")
                 return [SlotSet("symptom", nw_symptom)]
 
-        for event in tracker.events:
-            if (event.get("event") == "bot") and (event.get("event") is not None):
-                latest_bot_message = event.get("text")
-                msg.append(create_dict("assistant", latest_bot_message))
-            elif (event.get("event") == "user") and (event.get("event") is not None):
-                latest_user_message = event.get("text")
-                msg.append(create_dict("user", latest_user_message))
+
 
         utterance = get_response(msg)
         dispatcher.utter_message(text=utterance)

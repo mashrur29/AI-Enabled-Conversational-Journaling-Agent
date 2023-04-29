@@ -3,6 +3,7 @@ with open('actions/chatgpt_prompt', 'r') as file:
 
 chatbot_behavior = str(data)
 
+# "And ask if the user wants to journal either of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
 
 msg = [
     {"role": "system", "content": "Be empathetic."},
@@ -14,7 +15,7 @@ msg_symptom = [
 ]
 
 msg_symptom_fallback = [
-    {"role": "system", "content": "Answer in a single sentence and don't say anything else."}
+    {"role": "system", "content": "Answer in a short and empathetic manner. Don't say anything else."}
 ]
 
 intent2Symptom = {

@@ -249,6 +249,9 @@ responses:
   utter_collected_slots:
     - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
 
+  utter_ask_to_add:
+    - text: "Are there any other symptoms you'd like to record?"
+
   utter_ask_to_conclude:
     - text: "Is there anything else you'd like to share with me? I'm here to listen!"
     - text: "I'm here for you. Is there anything else you want to talk about?"
