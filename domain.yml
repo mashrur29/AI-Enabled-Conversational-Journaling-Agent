@@ -319,7 +319,7 @@ responses:
     - text: "If you need to chat in the future, don't hesitate to reach out. Take care!"
 
   utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
+    - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
 
 
   utter_ask_symptom:
