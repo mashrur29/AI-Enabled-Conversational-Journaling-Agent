@@ -11,11 +11,12 @@ def create_dict(role, content):
 
 
 def get_symptom_fallback(previous_user_msg, prev_message):
-    prompt_symptom_fallback = f"Acknowledge the previous response empathetically and be smart. Don't say anything else: {prev_message}"
+    prompt_symptom_fallback = f"Acknowledge the latest user response empathetically and be smart. Don't say anything else: {prev_message}"
 
     previous_user_msg.append(create_dict("user", prompt_symptom_fallback))
 
     utterance = get_response(previous_user_msg)
+    previous_user_msg.pop()
     return utterance.strip()
 
 
@@ -28,6 +29,20 @@ def get_symptom(prev_message):
     from actions.dicts import msg
     msg.append(create_dict("user", prompt))
     return get_response(msg).strip()
+
+
+def get_chitchat(msg, prev_message):
+    prompt = f"Determine whether the previous user message contains a question for the assistant. " \
+             "If yes, give a short response. And ask if the user wants to record any symptom." \
+             "Else, just say \"None\". " \
+             f"previous user message: {prev_message}"
+
+    msg.append(create_dict("user", prompt))
+    utter = get_response(msg).strip()
+
+    msg.pop()
+
+    return utter
 
 
 def get_chitchat_in_form(prev_message, symptom, requested_slot):

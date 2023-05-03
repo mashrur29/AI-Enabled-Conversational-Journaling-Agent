@@ -54,6 +54,9 @@ nlu:
     - yeah
     - yeah, i am
     - it did
+    - Sure
+    - ok
+    - yup
 
 - intent: deny
   examples: |

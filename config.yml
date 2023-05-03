@@ -21,12 +21,12 @@ pipeline:
   epochs: 100
   constrain_similarities: true
 - name: FallbackClassifier
-  threshold: 0.1
+  threshold: 0.2
   ambiguity_threshold: 0.1
 policies:
 - name: MemoizationPolicy
 - name: RulePolicy
-  core_fallback_threshold: 0.01
+  core_fallback_threshold: 0.2
   core_fallback_action_name: action_default_fallback
   enable_fallback_prediction: true
 - name: UnexpecTEDIntentPolicy

@@ -622,6 +622,56 @@ stories:
   - intent: affirm
   - action: tremorjournaling
   - active_loop: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_2
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
 
 - story: bradykinesiajournal_action
   steps:
@@ -636,7 +686,42 @@ stories:
   - intent: affirm
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
-
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: null
+  - active_loop: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: dizzinessjournaling_action
   steps:
@@ -695,6 +780,7 @@ stories:
   - action: insomniajournaling
   - active_loop: insomniajournaling
 
+
 - story: alljournaling_action_deny_1
   steps:
   - intent: greet_alexa
@@ -746,3 +832,16 @@ stories:
   - action: utter_ask_to_conclude
   - intent: affirm
   - action: utter_ask_symptom
+
+- story: alljournaling_action_deny_3
+  steps:
+  - intent: greet_alexa
+  - action: utter_greet
+  - intent: affirm
+  - action: utter_ask_symptom
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
