@@ -212,11 +212,9 @@ nlu:
 
 - intent: early_quit
   examples: |
-    - please stop
-    - stop
     - i don't want to talk anymore
     - stop conversation
-    - i want to quit
-    - wanna quit
-    - wanna end this
-    - please end this
+    - i want to quit the conversation
+    - wanna quit the journaling
+    - wanna end the journal
+    - please end the conversation

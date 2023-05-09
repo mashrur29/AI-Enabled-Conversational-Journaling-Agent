@@ -2,6 +2,14 @@ version: "3.1"
 
 rules:
 
+- rule: greet
+  steps:
+    - or:
+        - intent: greet
+        - intent: greet_alexa
+    - action: utter_greet
+    - action: action_reset_slots
+
 - rule: fallback
   steps:
   - intent: nlu_fallback
@@ -150,11 +158,11 @@ rules:
     - intent: inform_specific_time
   - action: action_set_slot
 
-- rule: Early quit
-  steps:
-  - intent: early_quit
-  - action: utter_goodbye
-  - action: action_reset_slots
+#- rule: Early quit
+#  steps:
+#  - intent: early_quit
+#  - action: utter_goodbye
+#  - action: action_reset_slots
 
 - rule: Out of scope
   steps:
@@ -163,3 +171,27 @@ rules:
     - intent: what_can_you_do
   - action: utter_greet_large
   - action: utter_ask_symptom
+
+- rule: trigger tremor
+  condition:
+  - slot_was_set:
+      - symptom: tremor
+  steps:
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+
+- rule: trigger bradykinesia
+  condition:
+  - slot_was_set:
+      - symptom: bradykinesia
+  steps:
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+
+- rule: trigger dizziness
+  condition:
+  - slot_was_set:
+      - symptom: dizziness
+  steps:
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling

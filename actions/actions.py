@@ -172,6 +172,16 @@ class ActionSetSimplify(Action):
         return [SlotSet("is_simplify", True)]
 
 
+class ActionSetMedicineTime(Action):
+
+    def name(self) -> Text:
+        return "action_set_medicinetime"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        return [SlotSet("medicinetime", "NA")]
+
 class ActionResetSimplify(Action):
 
     def name(self) -> Text:

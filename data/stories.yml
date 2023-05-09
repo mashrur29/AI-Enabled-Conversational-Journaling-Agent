@@ -6,6 +6,7 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
+  - action: action_reset_slots
   - intent: affirm
   - action: utter_ask_symptom
 
@@ -14,6 +15,7 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
+  - action: action_reset_slots
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -24,6 +26,7 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
+  - action: action_reset_slots
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -34,6 +37,7 @@ stories:
   steps:
   - intent: greet_alexa
   - action: utter_greet
+  - action: action_reset_slots
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: deny
@@ -44,6 +48,7 @@ stories:
   steps:
   - intent: greet_alexa
   - action: utter_greet
+  - action: action_reset_slots
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: affirm
@@ -54,6 +59,7 @@ stories:
   steps:
   - intent: greet_alexa
   - action: utter_greet
+  - action: action_reset_slots
   - intent: affirm
   - action: utter_ask_symptom
   - intent: out_of_scope
@@ -67,6 +73,7 @@ stories:
   steps:
   - intent: greet_alexa
   - action: utter_greet
+  - action: action_reset_slots
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
@@ -84,6 +91,7 @@ stories:
   steps:
   - intent: greet_alexa
   - action: utter_greet
+  - action: action_reset_slots
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1

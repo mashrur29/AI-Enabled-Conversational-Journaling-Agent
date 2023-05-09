@@ -84,6 +84,7 @@ actions:
   - action_reset_simplify
   - action_revert_user_utterance
   - action_reset_slots
+  - action_set_medicinetime
 
 entities:
   - symptom
@@ -253,8 +254,8 @@ responses:
     - text: "Are there any other symptoms you'd like to record?"
 
   utter_ask_to_conclude:
-    - text: "Is there anything else you'd like to share with me? I'm here to listen!"
-    - text: "I'm here for you. Is there anything else you want to talk about?"
+    - text: Is there anything else you'd like to share with me? I'm here to listen!
+    - text: I'm here for you. Is there anything else you want to talk about?
 
   utter_start_journal:
     - condition:
@@ -285,7 +286,7 @@ responses:
         - type: slot
           name: symptom
           value: "mood"
-      text: "I'm sorry to hear that. Can I ask you a few questions about your sleep problems?"
+      text: "I'm sorry to hear that. Can I ask you a few questions about your mood?"
 
     - condition:
         - type: slot
@@ -294,6 +295,45 @@ responses:
       text: "I'm sorry to hear that. Can I ask you a few questions about you felt dizzy?"
 
     - text: "I'm sorry to hear that. Can I ask you a few questions about your experience?"
+
+  utter_switch_topic:
+    - condition:
+        - type: slot
+          name: symptom
+          value: "tremor"
+      text: "Alright, I will ask you a few questions about your tremor."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "bradykinesia"
+      text: "Alright, I will ask you a few questions about your experience."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "falling"
+      text: "Alright, I will ask you a few questions about your fall."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "insomnia"
+      text: "Alright, I will ask you a few questions about your sleep problems."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "mood"
+      text: "Alright, I will ask you a few questions about your mood."
+
+    - condition:
+        - type: slot
+          name: symptom
+          value: "dizziness"
+      text: "Alright, I will ask you a few questions about your experience."
+
+    - text: "Alright, I will ask you a few questions about your experience."
 
   utter_end_journal:
     - text: "Thank you for journaling your symptom with me."
@@ -536,6 +576,15 @@ responses:
       text: "Did you take any medication to help you sleep?"
 
     - text: "Did you take any medication to help you sleep?"
+
+  utter_ask_insomniajournaling_medicinetime:
+    - condition:
+        - type: slot
+          name: is_simplify
+          value: true
+      text: "When did you take it?"
+
+    - text: "When did you take it?"
 
   utter_ask_insomniajournaling_dailyactivity:
     - condition:
