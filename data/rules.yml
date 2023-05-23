@@ -34,7 +34,6 @@ rules:
       - intent: trigger_tremor_frequency
       - intent: trigger_tremor_location
       - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -44,7 +43,6 @@ rules:
   - or:
       - intent: trigger_bradykinesia_1
       - intent: trigger_bradykinesia_2
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -52,7 +50,6 @@ rules:
   steps:
   - or:
       - intent: trigger_dizziness
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -61,7 +58,6 @@ rules:
   - or:
       - intent: trigger_falling_1
       - intent: trigger_falling_2
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -71,7 +67,6 @@ rules:
       - intent: trigger_mood_1
       - intent: trigger_mood_2
       - intent: trigger_mood_3
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -79,7 +74,6 @@ rules:
   steps:
   - or:
       - intent: trigger_insomnia
-  - action: action_reset_slots
   - action: action_set_symptom
   - action: utter_start_journal
 
@@ -195,3 +189,70 @@ rules:
   steps:
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
+
+
+- rule: Submit tremor form
+  condition:
+  - active_loop: tremorjournaling
+  steps:
+  - action: tremorjournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+
+- rule: Submit bradykinesia form
+  condition:
+  - active_loop: bradykinesiajournaling
+  steps:
+  - action: bradykinesiajournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+
+- rule: Submit dizziness form
+  condition:
+  - active_loop: dizzinessjournaling
+  steps:
+  - action: dizzinessjournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+
+- rule: Submit falling form
+  condition:
+  - active_loop: fallingjournaling
+  steps:
+  - action: fallingjournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+
+- rule: Submit mood form
+  condition:
+  - active_loop: moodjournaling
+  steps:
+  - action: moodjournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+
+- rule: Submit insomnia form
+  condition:
+  - active_loop: insomniajournaling
+  steps:
+  - action: insomniajournaling
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude

@@ -77,7 +77,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: mood
@@ -95,7 +94,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: mood

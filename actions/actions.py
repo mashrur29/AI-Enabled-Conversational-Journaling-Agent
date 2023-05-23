@@ -10,7 +10,7 @@ from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
 
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
-    get_chitchat_in_form, get_chitchat
+    get_chitchat_in_form, get_chitchat, get_chitchat_ack
 
 
 class ActionRevertUserUtterance(Action):
@@ -66,6 +66,10 @@ class ActionDefaultFallback(Action):
 
         print('Inside fallback')
 
+        symptom = tracker.get_slot('symptom')
+
+        print(f'Current symptom: {symptom}')
+
         from actions.dicts import msg, msg_symptom_fallback
 
         for event in tracker.events:
@@ -81,7 +85,7 @@ class ActionDefaultFallback(Action):
 
 
         previous_user_msg = tracker.latest_message["text"]
-        symptom = tracker.get_slot('symptom')
+
 
         try:
             active_loop = tracker.active_loop.get("name")
@@ -103,11 +107,12 @@ class ActionDefaultFallback(Action):
         except Exception as e:
             print(str(e))
 
-        chitchat_utter = get_chitchat(msg, previous_user_msg)
+        det_chitchat = get_chitchat(msg, previous_user_msg)
 
-        print(f'Chitchat: {chitchat_utter}')
+        print(f'Chitchat: {det_chitchat}')
 
-        if "none" not in chitchat_utter.lower():
+        if "no" not in det_chitchat.lower():
+            chitchat_utter = get_chitchat_ack(msg, previous_user_msg)
             dispatcher.utter_message(text=chitchat_utter)
             return []
 

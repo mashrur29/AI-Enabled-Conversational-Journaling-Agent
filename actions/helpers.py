@@ -33,8 +33,7 @@ def get_symptom(prev_message):
 
 def get_chitchat(msg, prev_message):
     prompt = f"Determine whether the previous user message contains a question for the assistant. " \
-             "If yes, give a short response. And ask if the user wants to record any symptom." \
-             "Else, just say \"None\". " \
+             "Respond with a \"Yes\" or \"No\"." \
              f"previous user message: {prev_message}"
 
     msg.append(create_dict("user", prompt))
@@ -44,14 +43,28 @@ def get_chitchat(msg, prev_message):
 
     return utter
 
+def get_chitchat_ack(msg, prev_message):
+    prompt = "Acknowledge the previous user response empathetically. Don't say anything else." \
+             f"previous user message: {prev_message}"
+
+    msg.append(create_dict("user", prompt))
+    utter = get_response(msg).strip()
+
+    msg.pop()
+
+    return utter
 
 def get_chitchat_in_form(prev_message, symptom, requested_slot):
-    prompt = f"Determine whether the user message is a chitchat. The user is journaling {symptom} for Parkinsons and was asked about {requested_slot}." \
-             "If yes, acknowledge empathetically." \
-             "Else respond with \"None\"" \
+    prompt = f"The user is journaling {symptom} for Parkinsons and was asked about {requested_slot}." \
+             "Acknowledge the user message empathetically." \
              f"user message: {prev_message}"
 
     from actions.dicts import msg
+    det_chitchat = get_chitchat(msg, prev_message)
+
+    if "no" in det_chitchat.lower():
+        return "None"
+
     msg.append(create_dict("user", prompt))
     return get_response(msg).strip()
 

@@ -8,7 +8,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: tremor
@@ -57,9 +56,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: tremorjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -74,7 +73,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: tremor
@@ -117,9 +115,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: tremorjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -133,7 +131,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: tremor
@@ -161,7 +158,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: bradykinesia
@@ -197,9 +193,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: bradykinesiajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -213,7 +209,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: bradykinesia
@@ -243,9 +238,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: bradykinesiajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -259,7 +254,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: bradykinesia
@@ -292,7 +286,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: dizziness
@@ -361,9 +354,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: dizzinessjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -377,7 +370,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: dizziness
@@ -440,9 +432,9 @@ stories:
     - intent: deny
   - action: action_set_slot
   - action: dizzinessjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -456,7 +448,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: dizziness
@@ -489,7 +480,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: falling
@@ -517,9 +507,9 @@ stories:
   - intent: dizziness_severity
   - action: action_set_slot
   - action: fallingjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -533,7 +523,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: falling
@@ -550,7 +539,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: mood
@@ -572,9 +560,9 @@ stories:
     - intent: mood_cause
   - action: action_set_slot
   - action: moodjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -588,7 +576,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: mood
@@ -618,7 +605,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: insomnia
@@ -656,9 +642,9 @@ stories:
   - intent: insomnia_cause
   - action: action_set_slot
   - action: insomniajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -672,7 +658,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: insomnia
@@ -704,9 +689,9 @@ stories:
   - intent: insomnia_cause
   - action: action_set_slot
   - action: insomniajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -720,7 +705,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: insomnia
@@ -748,7 +732,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: tremor
@@ -798,9 +781,9 @@ stories:
   - slot_was_set:
     - history: it gets bad every day
   - action: tremorjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -814,7 +797,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_2
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: bradykinesia
@@ -872,9 +854,9 @@ stories:
   - slot_was_set:
     - cooccurrence: nothing except tremors
   - action: bradykinesiajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -890,7 +872,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: tremor
@@ -926,7 +907,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: insomnia
@@ -969,9 +949,9 @@ stories:
   - slot_was_set:
     - reason: i don't know, maybe because of my tremors
   - action: insomniajournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -985,7 +965,6 @@ stories:
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
-  - action: action_reset_slots
   - action: action_set_symptom
   - slot_was_set:
     - symptom: mood
@@ -1007,9 +986,9 @@ stories:
   - slot_was_set:
     - reason: i feel upset mostly due to my chronic condition
   - action: moodjournaling
+  - active_loop: null
   - slot_was_set:
     - requested_slot: null
-  - active_loop: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
@@ -1030,7 +1009,54 @@ stories:
   - intent: affirm
   - action: tremorjournaling
   - active_loop: tremorjournaling
-
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_2
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: bradykinesiajournal_action
   steps:
@@ -1046,6 +1072,41 @@ stories:
   - intent: affirm
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: dizzinessjournaling_action
   steps:
@@ -1061,7 +1122,74 @@ stories:
   - intent: affirm
   - action: dizzinessjournaling
   - active_loop: dizzinessjournaling
-
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_1
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: time
+  - intent: inform_specific_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: location
+  - intent: inform_location_environment
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: activity
+  - intent: activity_falling
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: insomnia_severity
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: fallingjournaling_action
   steps:
@@ -1077,6 +1205,33 @@ stories:
   - intent: affirm
   - action: fallingjournaling
   - active_loop: fallingjournaling
+  - slot_was_set:
+      - requested_slot: time
+  - intent: inform_specific_time
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: location
+  - intent: inform_location_environment
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: activity
+  - intent: activity_both
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: dizziness_severity
+  - action: action_set_slot
+  - action: fallingjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: moodjournaling_action
   steps:
@@ -1092,6 +1247,27 @@ stories:
   - intent: affirm
   - action: moodjournaling
   - active_loop: moodjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: moodjournaling
+  - slot_was_set:
+      - requested_slot: reason
+  - or:
+      - intent: mood_cause
+  - action: action_set_slot
+  - action: moodjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: insomniajournaling_action
   steps:
@@ -1107,7 +1283,43 @@ stories:
   - intent: affirm
   - action: insomniajournaling
   - active_loop: insomniajournaling
-
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: falling_severity
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: reason
+  - intent: insomnia_cause
+  - action: action_set_slot
+  - action: insomniajournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: alljournaling_action_deny_1
   steps:
@@ -1162,6 +1374,62 @@ stories:
   - action: utter_ask_to_conclude
   - intent: affirm
   - action: utter_ask_symptom
+  - intent: trigger_current_tremors
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: tremor
+  - action: utter_start_journal
+  - intent: affirm
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_2
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
 
 - story: alljournaling_action_deny_3
   steps:
