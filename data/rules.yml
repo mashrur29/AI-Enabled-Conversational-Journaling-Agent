@@ -2,6 +2,7 @@ version: "3.1"
 
 rules:
 
+
 - rule: greet
   steps:
     - or:
@@ -166,29 +167,29 @@ rules:
   - action: utter_greet_large
   - action: utter_ask_symptom
 
-- rule: trigger tremor
-  condition:
-  - slot_was_set:
-      - symptom: tremor
-  steps:
-  - action: tremorjournaling
-  - active_loop: tremorjournaling
-
-- rule: trigger bradykinesia
-  condition:
-  - slot_was_set:
-      - symptom: bradykinesia
-  steps:
-  - action: bradykinesiajournaling
-  - active_loop: bradykinesiajournaling
-
-- rule: trigger dizziness
-  condition:
-  - slot_was_set:
-      - symptom: dizziness
-  steps:
-  - action: bradykinesiajournaling
-  - active_loop: bradykinesiajournaling
+#- rule: trigger tremor
+#  condition:
+#  - slot_was_set:
+#      - symptom: tremor
+#  steps:
+#  - action: tremorjournaling
+#  - active_loop: tremorjournaling
+#
+#- rule: trigger bradykinesia
+#  condition:
+#  - slot_was_set:
+#      - symptom: bradykinesia
+#  steps:
+#  - action: bradykinesiajournaling
+#  - active_loop: bradykinesiajournaling
+#
+#- rule: trigger dizziness
+#  condition:
+#  - slot_was_set:
+#      - symptom: dizziness
+#  steps:
+#  - action: bradykinesiajournaling
+#  - active_loop: bradykinesiajournaling
 
 
 - rule: Submit tremor form

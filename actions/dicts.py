@@ -1,4 +1,4 @@
-with open('actions/chatgpt_prompt', 'r') as file:
+with open('actions/chatgpt_behavior', 'r') as file:
     data = file.read().replace('\n', '').strip()
 
 chatbot_behavior = str(data)

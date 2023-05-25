@@ -85,6 +85,7 @@ actions:
   - action_revert_user_utterance
   - action_reset_slots
   - action_set_medicinetime
+  - action_ask_medicinetype
 
 entities:
   - symptom

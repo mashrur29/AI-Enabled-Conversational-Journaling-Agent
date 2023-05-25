@@ -8,7 +8,7 @@ from actions.dicts import intent2Symptom, symptom2Slots
 from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
-
+from database import db
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
     get_chitchat_in_form, get_chitchat, get_chitchat_ack
 
