@@ -29,7 +29,7 @@ class AlexaConnector(InputChannel):
     # after you have parsed it
     def blueprint(self, on_new_message):
 
-        alexa_webhook = Blueprint("https://4bfa-54-224-59-177.ngrok-free.app/webhooks/alexa_assistant/webhook", __name__)
+        alexa_webhook = Blueprint("alexa_webhook", __name__)
 
         # required route: use to check if connector is live
         @alexa_webhook.route("/", methods=["GET"])
