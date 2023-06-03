@@ -6,7 +6,7 @@ chatbot_behavior = str(data)
 # "And ask if the user wants to journal either of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
 
 msg = [
-    {"role": "system", "content": "Be empathetic. You are a Parkinsons journaling chatbot."},
+    {"role": "system", "content": "Be empathetic."},
     {"role": "system", "content": "Answer in a single line and don't say anything else."}
 ]
 
@@ -17,6 +17,12 @@ msg_symptom = [
 msg_symptom_fallback = [
     {"role": "system", "content": "Answer in a short and empathetic manner. Don't say anything else."}
 ]
+
+
+profile_prompt = "The following is the user personal information. " \
+                 "Name: {}, Age: {}, Daily activities: {}, " \
+                 "Length the user had Parkinsons: {}, Existing symptoms: {}, Daily Challenges: {}, "\
+                 "Prescribed medications: {}."
 
 intent2Symptom = {
     "trigger_tremor_mild": "tremor",

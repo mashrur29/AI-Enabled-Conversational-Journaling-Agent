@@ -218,3 +218,67 @@ nlu:
     - wanna quit the journaling
     - wanna end the journal
     - please end the conversation
+
+- intent: provide_name
+  examples: |
+    - My name is John.
+    - You can call me Mary.
+    - I'm Robert.
+    - It's Alice.
+    - my name is mashrur
+    - mashrur rashik
+
+- intent: provide_age
+  examples: |
+    - I'm 72 years old.
+    - My age is 80.
+    - I just turned 65 last month.
+    - I'm 77 years old.
+    - 20 year old
+    - 22 years
+    - i am 25
+
+- intent: provide_daily_activity
+  examples: |
+    - I usually enjoy reading and going for a short walk in the park.
+    - I spend most of my day doing light chores and watching TV.
+    - My routine includes some gentle exercise in the morning, followed by rest.
+    - I spend my day doing light household tasks and then resting.
+    - i like to cook
+    - i find joy in reading and writing
+
+- intent: provide_years_of_parkinson
+  examples: |
+    - I was diagnosed with Parkinson's 5 years ago.
+    - It's been 3 years since my Parkinson's diagnosis.
+    - I've had Parkinson's for 10 years now.
+    - I've been living with Parkinson's disease for 7 years.
+    - around 10 years
+    - for about 5-8 years
+
+- intent: provide_existing_symptoms
+  examples: |
+    - I've been experiencing tremors and difficulty walking.
+    - My symptoms include muscle stiffness and tremors.
+    - I have trouble sleeping and feel fatigued often.
+    - I've noticed slow movement and difficulty with balance.
+    - i feel slow with tremors
+    - both tremors and slowness
+
+- intent: provide_daily_challenges
+  examples: |
+    - I find it hard to complete household chores due to my stiffness.
+    - Getting dressed and preparing meals has become a challenge for me.
+    - I struggle with balancing while walking and moving around the house.
+    - Doing my own shopping has become a challenge due to my reduced mobility.
+    - nothing in particular
+    - i find it hard to move
+    - hard to do anything
+
+- intent: provide_prescribed_medications
+  examples: |
+    - I'm currently taking Levodopa and Carbidopa.
+    - My medications include Ropinirole and Pramipexole.
+    - I'm on Amantadine and Selegiline.
+    - My doctor has prescribed Rasagiline and Entacapone.
+    - i take levodopa and some paracetemols

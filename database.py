@@ -9,7 +9,7 @@ class Database:
 
     def __init__(self):
         client = MongoClient('localhost', 27017)
-        self.db = client.voiceagents
+        self.db = client.voicebot
 
     @staticmethod
     def get_instance():

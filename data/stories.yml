@@ -5,8 +5,11 @@ stories:
 - story: happy path
   steps:
   - intent: greet
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
 
@@ -14,8 +17,11 @@ stories:
 - story: sad path 1
   steps:
   - intent: greet
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -25,8 +31,11 @@ stories:
 - story: sad path 2
   steps:
   - intent: greet
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -36,8 +45,11 @@ stories:
 - story: user denies journal
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: deny
@@ -47,8 +59,11 @@ stories:
 - story: user denies journal
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: affirm
@@ -58,8 +73,11 @@ stories:
 - story: out of scope journal
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: out_of_scope
@@ -72,8 +90,11 @@ stories:
 - story: user doesn't want to start journal 1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
@@ -89,8 +110,11 @@ stories:
 - story: user doesn't want to start journal 2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+      - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1

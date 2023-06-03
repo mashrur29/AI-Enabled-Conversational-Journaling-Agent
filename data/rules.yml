@@ -3,13 +3,34 @@ version: "3.1"
 rules:
 
 
-- rule: greet
+- rule: greet old user
+  condition:
+  - active_loop: null
   steps:
     - or:
         - intent: greet
         - intent: greet_alexa
-    - action: utter_greet
     - action: action_reset_slots
+    - action: action_check_profile
+    - slot_was_set:
+        - check_profile: true
+    - action: utter_greet
+
+
+- rule: greet new user
+  condition:
+  - active_loop: null
+  steps:
+    - or:
+        - intent: greet
+        - intent: greet_alexa
+    - action: action_reset_slots
+    - action: action_check_profile
+    - slot_was_set:
+        - check_profile: false
+    - action: utter_greet_new_user
+    - action: profilejournal
+    - active_loop: profilejournal
 
 - rule: fallback
   steps:
@@ -28,6 +49,8 @@ rules:
 
 
 - rule: trigger tremor
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_tremor_mild
@@ -40,6 +63,8 @@ rules:
 
 
 - rule: trigger bradykinesia
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_bradykinesia_1
@@ -48,6 +73,8 @@ rules:
   - action: utter_start_journal
 
 - rule: trigger dizziness
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_dizziness
@@ -55,6 +82,8 @@ rules:
   - action: utter_start_journal
 
 - rule: trigger falling
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_falling_1
@@ -63,6 +92,8 @@ rules:
   - action: utter_start_journal
 
 - rule: trigger mood
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_mood_1
@@ -72,6 +103,8 @@ rules:
   - action: utter_start_journal
 
 - rule: trigger insomnia
+  condition:
+  - active_loop: null
   steps:
   - or:
       - intent: trigger_insomnia
@@ -151,6 +184,13 @@ rules:
     - intent: inform_dizziness_severity
     - intent: inform_falling_severity
     - intent: inform_specific_time
+    - intent: provide_name
+    - intent: provide_age
+    - intent: provide_daily_activity
+    - intent: provide_years_of_parkinson
+    - intent: provide_existing_symptoms
+    - intent: provide_daily_challenges
+    - intent: provide_prescribed_medications
   - action: action_set_slot
 
 #- rule: Early quit
@@ -257,3 +297,14 @@ rules:
     - requested_slot: null
   - action: utter_end_journal
   - action: utter_ask_to_conclude
+
+- rule: Submit profile form
+  condition:
+  - active_loop: profilejournal
+  steps:
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom

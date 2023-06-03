@@ -74,6 +74,13 @@ intents:
   - greet_alexa
   - out_of_scope
   - what_can_you_do
+  - provide_name
+  - provide_age
+  - provide_daily_activity
+  - provide_years_of_parkinson
+  - provide_existing_symptoms
+  - provide_daily_challenges
+  - provide_prescribed_medications
 
 actions:
   - action_set_symptom
@@ -84,13 +91,62 @@ actions:
   - action_reset_simplify
   - action_revert_user_utterance
   - action_reset_slots
+  - action_create_user_profile
+  - action_check_profile
   - action_set_medicinetime
+  - validate_profilejournal
   - action_ask_medicinetype
+  - action_ask_medicinetime
 
 entities:
   - symptom
 
 slots:
+  name:
+    type: text
+    mappings:
+      - type: custom
+
+  age:
+    type: text
+    mappings:
+      - type: custom
+
+  daily_activity:
+    type: text
+    mappings:
+      - type: custom
+
+  years_of_pd:
+    type: text
+    mappings:
+      - type: custom
+
+  existing_symp:
+    type: text
+    mappings:
+      - type: custom
+
+  daily_challenges:
+    type: text
+    mappings:
+      - type: custom
+
+  prescribed_meds:
+    type: text
+    mappings:
+      - type: custom
+
+  check_profile:
+    type: categorical
+    values:
+      - true
+      - false
+    influence_conversation: true
+    mappings:
+      - type: custom
+        entity: action_check_profile
+
   is_previousData:
     type: bool
     initial_value: False
@@ -177,6 +233,16 @@ slots:
         entity: action_set_slot
 
 forms:
+  profilejournal:
+    required_slots:
+      - name
+      - age
+      - daily_activity
+      - years_of_pd
+      - existing_symp
+      - daily_challenges
+      - prescribed_meds
+
   tremorjournaling:
     required_slots:
       - medicinetype
@@ -247,6 +313,9 @@ responses:
 
   utter_greet:
     - text: "Here is your health journal. Are you ready to get started?"
+
+  utter_greet_new_user:
+    - text: "Here is your health journal. Before we start, I'll ask you a few questions that will help me learn more about you."
 
   utter_collected_slots:
     - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
@@ -613,6 +682,53 @@ responses:
       text: "Can you share any thoughts on why you may have had trouble sleeping? For example, is it due to stress or anxiety?"
 
     - text: "Why do you think you had trouble sleeping?"
+
+  utter_ask_profilejournal_name:
+    - text: What is your name?
+
+  utter_ask_profilejournal_age:
+    - text: What is your age?
+
+  utter_ask_profilejournal_daily_activity:
+    - text: What are your typical daily activities?
+
+  utter_ask_profilejournal_years_of_pd:
+    - text: How many years did you have Parkinsons
+
+  utter_ask_profilejournal_existing_symp:
+    - text: What are your existing Parkinsons symptom?
+
+  utter_ask_profilejournal_daily_challenges:
+    - text: What challenges do you face on a regular basis?
+
+  utter_ask_profilejournal_prescribed_meds:
+    - text: What are your prescribed medications?
+
+  utter_end_profile_journal:
+    - text: Thanks for sharing. We can start now.
+
+  utter_acknowledge:
+    - text: "Thank you for your response."
+    - text: "I appreciate your input."
+    - text: "Great! Noted your response."
+    - text: "Thanks for your answer."
+    - text: "Your response has been recorded."
+    - text: "Noted."
+    - text: "I see, thank you for your answer."
+    - text: "Thanks for the information."
+    - text: "Thank you for your response, it's very helpful."
+    - text: "Thanks for sharing that."
+    - text: "I value your input."
+    - text: "Good to know."
+    - text: "Your input has been registered."
+    - text: "Acknowledged."
+    - text: "Great input!"
+    - text: "I'm taking note of your response."
+    - text: "Excellent, thanks for your response."
+    - text: "Understood, thank you."
+    - text: "Your answer helps me understand better."
+    - text: "I've noted your response."
+
 
 session_config:
   session_expiration_time: 60

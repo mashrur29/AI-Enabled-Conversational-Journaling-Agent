@@ -3,8 +3,11 @@ stories:
 - story: tremor_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
@@ -68,8 +71,11 @@ stories:
 - story: tremor_story_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
@@ -126,8 +132,11 @@ stories:
 - story: tremor_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
@@ -153,8 +162,11 @@ stories:
 - story: bradykinesia_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
@@ -204,8 +216,11 @@ stories:
 - story: bradykinesia_story_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
@@ -249,8 +264,11 @@ stories:
 - story: bradykinesia_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
@@ -281,8 +299,11 @@ stories:
 - story: dizziness_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
@@ -343,7 +364,7 @@ stories:
   - action: dizzinessjournaling
   - slot_was_set:
     - requested_slot: severity
-  - intent: insomnia_severity
+  - intent: dizziness_severity
   - action: action_set_slot
   - action: dizzinessjournaling
   - slot_was_set:
@@ -365,8 +386,11 @@ stories:
 - story: dizziness_story_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
@@ -421,7 +445,7 @@ stories:
   - action: dizzinessjournaling
   - slot_was_set:
     - requested_slot: severity
-  - intent: insomnia_severity
+  - intent: dizziness_severity
   - action: action_set_slot
   - action: dizzinessjournaling
   - slot_was_set:
@@ -443,8 +467,11 @@ stories:
 - story: dizziness_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
@@ -475,8 +502,11 @@ stories:
 - story: falling_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
@@ -504,7 +534,7 @@ stories:
   - action: fallingjournaling
   - slot_was_set:
     - requested_slot: severity
-  - intent: dizziness_severity
+  - intent: falling_severity
   - action: action_set_slot
   - action: fallingjournaling
   - active_loop: null
@@ -518,8 +548,11 @@ stories:
 - story: falling_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
@@ -534,8 +567,11 @@ stories:
 - story: mood_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
@@ -571,8 +607,11 @@ stories:
 - story: mood_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
@@ -600,8 +639,11 @@ stories:
 - story: insomnia_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
@@ -634,7 +676,7 @@ stories:
   - action: insomniajournaling
   - slot_was_set:
     - requested_slot: severity
-  - intent: falling_severity
+  - intent: insomnia_severity
   - action: action_set_slot
   - action: insomniajournaling
   - slot_was_set:
@@ -653,8 +695,11 @@ stories:
 - story: insomnia_story_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
@@ -681,7 +726,7 @@ stories:
   - action: insomniajournaling
   - slot_was_set:
     - requested_slot: severity
-  - intent: falling_severity
+  - intent: insomnia_severity
   - action: action_set_slot
   - action: insomniajournaling
   - slot_was_set:
@@ -700,8 +745,11 @@ stories:
 - story: insomnia_story_early_quit
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
@@ -727,8 +775,11 @@ stories:
 - story: interactive_story_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
@@ -792,8 +843,11 @@ stories:
 - story: interactive_story_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_2
@@ -865,8 +919,11 @@ stories:
 - story: interactive_story_3
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: affirm
@@ -894,8 +951,11 @@ stories:
 - story: interactive_story_4
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: user_confused
   - action: action_set_simplify
   - slot_was_set:
@@ -960,8 +1020,11 @@ stories:
 - story: interactive_story_5
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
@@ -998,8 +1061,11 @@ stories:
 - story: tremorjournal_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1061,8 +1127,11 @@ stories:
 - story: bradykinesiajournal_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1111,8 +1180,11 @@ stories:
 - story: dizzinessjournaling_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1194,8 +1266,11 @@ stories:
 - story: fallingjournaling_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1236,8 +1311,11 @@ stories:
 - story: moodjournaling_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1272,8 +1350,11 @@ stories:
 - story: insomniajournaling_action
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1324,8 +1405,11 @@ stories:
 - story: alljournaling_action_deny_1
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1351,8 +1435,11 @@ stories:
 - story: alljournaling_action_deny_2
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
@@ -1434,13 +1521,818 @@ stories:
 - story: alljournaling_action_deny_3
   steps:
   - intent: greet_alexa
-  - action: utter_greet
   - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: true
+  - action: utter_greet
   - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
   - intent: deny
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+
+- story: new user tremor 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_tremor_mild
+    - intent: trigger_tremor_severe
+    - intent: trigger_tremor_frequency
+    - intent: trigger_tremor_location
+    - intent: trigger_current_tremors
+    - intent: trigger_bradykinesia_1
+    - intent: trigger_bradykinesia_2
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - or:
+    - intent: trigger_current_tremors
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: tremor
+  - action: utter_start_journal
+  - intent: affirm
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_2
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: tremorjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: new user tremor 2
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_dizziness
+    - intent: trigger_falling_1
+    - intent: trigger_falling_2
+    - intent: trigger_mood_1
+    - intent: trigger_mood_2
+    - intent: trigger_mood_3
+    - intent: trigger_insomnia
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_current_tremors
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: tremor
+  - action: utter_start_journal
+  - intent: affirm
+  - action: tremorjournaling
+  - active_loop: tremorjournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - intent: deny
+  - action: action_set_slot
+  - action: action_set_medicinetime
+  - action: tremorjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: early_quit
+  - action: utter_goodbye
+
+- story: new user bradykinesia 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - intent: provide_existing_symptoms
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_bradykinesia_1
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: bradykinesia
+  - action: utter_start_journal
+  - intent: affirm
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+
+- story: new user bradykinesia 2
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_tremor_severe
+    - intent: trigger_tremor_frequency
+    - intent: trigger_tremor_location
+    - intent: trigger_current_tremors
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: nlu_fallback
+  - action: action_default_fallback
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_bradykinesia_1
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: bradykinesia
+  - action: utter_start_journal
+  - intent: affirm
+  - action: bradykinesiajournaling
+  - active_loop: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: bradykinesiajournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: new user dizziness 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - intent: provide_existing_symptoms
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_dizziness
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: dizziness
+  - action: utter_start_journal
+  - intent: affirm
+  - action: dizzinessjournaling
+  - active_loop: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: duration
+  - intent: duration_1
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: time
+  - intent: inform_specific_time
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: location
+  - intent: inform_location_environment
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: activity
+  - intent: activity_falling
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: cooccurrence
+  - or:
+      - intent: inform_cooccurrence
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: dizziness_severity
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - slot_was_set:
+      - requested_slot: history
+  - or:
+      - intent: inform_history
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: dizzinessjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: new user falling 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_falling_2
+    - intent: trigger_mood_1
+    - intent: trigger_mood_2
+    - intent: trigger_mood_3
+    - intent: trigger_insomnia
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_falling_1
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: falling
+  - action: utter_start_journal
+  - intent: affirm
+  - action: fallingjournaling
+  - active_loop: fallingjournaling
+  - slot_was_set:
+      - requested_slot: time
+  - intent: inform_specific_time
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: location
+  - intent: inform_location_environment
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: activity
+  - intent: activity_both
+  - action: action_set_slot
+  - action: fallingjournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: dizziness_severity
+  - action: action_set_slot
+  - action: fallingjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: new user mood 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_tremor_severe
+    - intent: trigger_tremor_frequency
+    - intent: trigger_tremor_location
+    - intent: trigger_current_tremors
+    - intent: trigger_bradykinesia_1
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_mood_1
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: mood
+  - action: utter_start_journal
+  - intent: affirm
+  - action: moodjournaling
+  - active_loop: moodjournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: moodjournaling
+  - slot_was_set:
+      - requested_slot: reason
+  - or:
+      - intent: mood_cause
+  - action: action_set_slot
+  - action: moodjournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
+  - action: utter_ask_to_conclude
+  - intent: deny
+  - action: utter_goodbye
+
+- story: new user insomnia 1
+  steps:
+  - intent: greet_alexa
+  - action: action_reset_slots
+  - action: action_check_profile
+  - slot_was_set:
+    - check_profile: false
+  - action: utter_greet_new_user
+  - action: profilejournal
+  - active_loop: profilejournal
+  - slot_was_set:
+    - requested_slot: name
+  - intent: provide_name
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: age
+  - intent: provide_age
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_activity
+  - intent: provide_daily_activity
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: years_of_pd
+  - intent: provide_years_of_parkinson
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: existing_symp
+  - or:
+    - intent: provide_existing_symptoms
+    - intent: trigger_tremor_location
+    - intent: trigger_current_tremors
+    - intent: trigger_bradykinesia_1
+    - intent: trigger_bradykinesia_2
+    - intent: trigger_dizziness
+    - intent: trigger_falling_1
+    - intent: trigger_falling_2
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: daily_challenges
+  - intent: provide_daily_challenges
+  - action: action_set_slot
+  - action: profilejournal
+  - slot_was_set:
+    - requested_slot: prescribed_meds
+  - intent: provide_prescribed_medications
+  - action: action_set_slot
+  - action: profilejournal
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_end_profile_journal
+  - action: utter_ask_symptom
+  - intent: trigger_insomnia
+  - action: action_set_symptom
+  - slot_was_set:
+      - symptom: insomnia
+  - action: utter_start_journal
+  - intent: affirm
+  - action: insomniajournaling
+  - active_loop: insomniajournaling
+  - slot_was_set:
+      - requested_slot: medicinetype
+  - or:
+      - intent: inform_medicine_type
+      - intent: affirm
+      - intent: deny
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: medicinetime
+  - intent: inform_medicine_time
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: dailyactivity
+  - or:
+      - intent: inform_dailyactivity
+      - intent: affirm
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: severity
+  - intent: insomnia_severity
+  - action: action_set_slot
+  - action: insomniajournaling
+  - slot_was_set:
+      - requested_slot: reason
+  - intent: insomnia_cause
+  - action: action_set_slot
+  - action: insomniajournaling
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: utter_end_journal
   - action: utter_ask_to_conclude
   - intent: deny
   - action: utter_goodbye
