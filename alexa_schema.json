@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "patrika",
+            "invocationName": "patrika app",
             "intents": [
                 {
                     "name": "ReturnUserInput",
