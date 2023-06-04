@@ -187,9 +187,12 @@ class ActionDefaultFallback(Action):
                 dispatcher.utter_message(response="utter_ask_to_add")
                 return []
             else:
-                dispatcher.utter_message(response="utter_start_journal")
-                form_name = symptom2form[nw_symptom]
-                return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
+                if nw_symptom in symptoms:
+                    dispatcher.utter_message(response="utter_start_journal")
+                    form_name = symptom2form[nw_symptom]
+                    return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
+                dispatcher.utter_message(response="utter_please_rephrase")
+                return [UserUtteranceReverted()]
 
         utterance = get_response(msg)
         dispatcher.utter_message(text=utterance)
