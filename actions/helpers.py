@@ -155,6 +155,7 @@ def update_profile(senderid,
     timestamp = "{}".format(get_timestamp())
 
     data = {
+        "sender identification": senderid,
         "name": name,
         "age": age,
         "daily_activity": daily_activity,
@@ -168,8 +169,8 @@ def update_profile(senderid,
         id_ = db.voicebot.profiles.find_one({"sender_id": senderid})['_id']
     except Exception as e:
         print("Profile doesn't exist")
-        # db.voicebot.profiles.insert_one({"sender_id": senderid})
-        # id_ = db.voicebot.profiles.find_one({"sender_id": senderid})['_id']
+        db.voicebot.profiles.insert_one({"sender_id": senderid})
+        id_ = db.voicebot.profiles.find_one({"sender_id": senderid})['_id']
     try:
         db.voicebot.profiles.update_one({"_id": id_}, {'$push': {"data": data}})
     except Exception as e:

@@ -37,6 +37,7 @@ class ActionCreateUserProfile(Action):
             prescribed_meds = tracker.get_slot('prescribed_meds')
             update_profile(sender_id, name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
                            prescribed_meds)
+            print(f'Profile created for {sender_id}')
         except Exception as e:
             print("Profile Creation Failed!")
         return []
@@ -83,8 +84,6 @@ class ActionResetAllSlot(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         sender_id = tracker.sender_id
-        if check_profile(sender_id) == False:
-            update_profile(sender_id)
 
         all_msg = []
         for event in tracker.events:

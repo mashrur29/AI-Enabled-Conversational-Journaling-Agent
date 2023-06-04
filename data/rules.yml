@@ -307,4 +307,5 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom

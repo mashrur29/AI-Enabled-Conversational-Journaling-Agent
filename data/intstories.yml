@@ -1593,6 +1593,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - or:
     - intent: trigger_current_tremors
@@ -1711,6 +1712,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
   - action: action_set_symptom
@@ -1780,6 +1782,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
   - action: action_set_symptom
@@ -1883,6 +1886,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
   - action: action_set_symptom
@@ -1977,6 +1981,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_dizziness
   - action: action_set_symptom
@@ -2110,6 +2115,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_falling_1
   - action: action_set_symptom
@@ -2202,6 +2208,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom
@@ -2290,6 +2297,7 @@ stories:
   - slot_was_set:
     - requested_slot: null
   - action: utter_end_profile_journal
+  - action: action_create_user_profile
   - action: utter_ask_symptom
   - intent: trigger_insomnia
   - action: action_set_symptom
