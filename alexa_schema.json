@@ -8,7 +8,10 @@
                     "slots": [
                         {
                             "name": "text",
-                            "type": "ReturnAllText"
+                            "type": "ReturnAllText",
+                            "multipleValues": {
+                                "enabled": true
+                            }
                         }
                     ],
                     "samples": [
