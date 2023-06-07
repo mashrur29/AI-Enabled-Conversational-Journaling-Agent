@@ -684,7 +684,7 @@ responses:
     - text: "Why do you think you had trouble sleeping?"
 
   utter_ask_profilejournal_name:
-    - text: What is your name?
+    - text: Which name do you prefer to be addressed by?
 
   utter_ask_profilejournal_age:
     - text: What is your age?
@@ -696,7 +696,7 @@ responses:
     - text: How many years did you have Parkinsons
 
   utter_ask_profilejournal_existing_symp:
-    - text: What are your existing Parkinsons symptom?
+    - text: What are your existing Parkinsons symptoms?
 
   utter_ask_profilejournal_daily_challenges:
     - text: What challenges do you face on a regular basis?
