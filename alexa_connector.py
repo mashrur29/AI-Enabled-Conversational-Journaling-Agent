@@ -44,7 +44,7 @@ class AlexaConnector(InputChannel):
             # check to see if the user is trying to launch the skill
             intenttype = payload["request"]["type"]
             message = ''
-            session = "false"
+            session = "true"
             # if the user is starting the skill, let them know it worked & what to do next
             if intenttype == "LaunchRequest":
                 message = "Hello! This is Patrika. You can start by saying 'hi'."
