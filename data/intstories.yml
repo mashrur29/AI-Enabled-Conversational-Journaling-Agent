@@ -156,6 +156,9 @@ stories:
   - slot_was_set:
     - requested_slot: duration
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -294,6 +297,9 @@ stories:
   - slot_was_set:
     - requested_slot: dailyactivity
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 - story: dizziness_story_1
@@ -496,6 +502,9 @@ stories:
   - slot_was_set:
     - requested_slot: time
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -561,6 +570,9 @@ stories:
     - symptom: falling
   - action: utter_start_journal
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -633,6 +645,9 @@ stories:
   - slot_was_set:
     - requested_slot: reason
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -769,6 +784,9 @@ stories:
   - slot_was_set:
     - requested_slot: dailyactivity
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -946,6 +964,9 @@ stories:
   - slot_was_set:
     - requested_slot: medicinetime
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 - story: interactive_story_4
@@ -1430,6 +1451,9 @@ stories:
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: deny
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 - story: alljournaling_action_deny_2
@@ -1533,6 +1557,9 @@ stories:
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: deny
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 
@@ -1731,6 +1758,9 @@ stories:
   - slot_was_set:
       - requested_slot: duration
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
 
 - story: new user bradykinesia 1

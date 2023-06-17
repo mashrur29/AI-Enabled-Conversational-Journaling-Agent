@@ -161,11 +161,12 @@ class ActionDefaultFallback(Action):
                     dispatcher.utter_message(response="utter_return_journal")
                     return [UserUtteranceReverted(), FollowupAction(active_loop)]
         except Exception as e:
-            if symptom in symptoms:
-                form_name = symptom2form[symptom]
-                return [FollowupAction(form_name)]
-
-            print(str(e))
+            try:
+                if symptom in symptoms:
+                    form_name = symptom2form[symptom]
+                    return [FollowupAction(form_name)]
+            except Exception as e:
+                print(str(e))
 
         det_chitchat = get_chitchat(msg, previous_user_msg)
 

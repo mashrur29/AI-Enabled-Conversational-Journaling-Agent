@@ -54,7 +54,6 @@ stories:
   - action: utter_ask_to_conclude
   - intent: deny
   - action: utter_goodbye
-  - action: action_reset_slots
 
 - story: user denies journal
   steps:
@@ -84,8 +83,10 @@ stories:
   - action: utter_greet_large
   - action: utter_ask_symptom
   - intent: early_quit
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
   - action: utter_goodbye
-  - action: action_reset_slots
 
 - story: user doesn't want to start journal 1
   steps:

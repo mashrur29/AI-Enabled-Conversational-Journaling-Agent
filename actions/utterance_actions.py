@@ -41,8 +41,12 @@ def paraphrase_question(sender_id, ques, symptom):
                                     prescribed_meds)
     msg_profile.append(create_dict("system", profile))
     msg_profile.append(create_dict("user",
-                                   f"Rewrite the question based on the user profile. Don't say anything else. Question: {ques}"))
-    return get_response(msg_profile)
+                                   f"Rewrite the question based on the user profile. Don't say anything else. If it is impossible to rewrite the question, just say \"impossible\". Question: {ques}"))
+
+    response = get_response(msg_profile)
+    if "impossible" in response.lower():
+        return ques
+    return response
 
 
 class AskForMedicinetype(Action):
@@ -52,8 +56,7 @@ class AskForMedicinetype(Action):
     def run(
             self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
-
-        #print(domain['responses']['utter_ask_medicinetype'][-1]['text'])
+        # print(domain['responses']['utter_ask_medicinetype'][-1]['text'])
         text = 'Have you taken your Parkinson\'s medication today?'
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
@@ -62,6 +65,7 @@ class AskForMedicinetype(Action):
         dispatcher.utter_message(text=question)
         return []
 
+
 class AskForMedicinetime(Action):
     def name(self) -> Text:
         return "action_ask_medicinetime"
@@ -69,7 +73,6 @@ class AskForMedicinetime(Action):
     def run(
             self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
-
         text = 'When did you last take your Parkinson\'s medication?'
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
