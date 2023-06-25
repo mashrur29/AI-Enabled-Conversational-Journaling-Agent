@@ -132,12 +132,16 @@ rules:
   - action: action_reset_simplify
 
 - rule: User asks for help
+  condition:
+  - active_loop: null
   steps:
   - intent: ask_for_help
   - action: utter_propose_help
   - action: action_revert_user_utterance
 
 - rule: User interrupts the chatbot
+  condition:
+  - active_loop: null
   steps:
   - intent: interrupt_question
   - action: utter_interrupt_response
@@ -198,19 +202,12 @@ rules:
     - intent: provide_prescribed_medications
   - action: action_set_slot
 
-#- rule: Early quit
-#  steps:
-#  - intent: early_quit
-#  - action: utter_goodbye
-#  - action: action_reset_slots
 
 - rule: Out of scope
   steps:
   - or:
-    - intent: out_of_scope
     - intent: what_can_you_do
   - action: utter_greet_large
-  - action: utter_ask_symptom
 
 #- rule: trigger tremor
 #  condition:
@@ -306,6 +303,8 @@ rules:
 - rule: Submit profile form
   condition:
   - active_loop: profilejournal
+  - slot_was_set:
+    - check_profile: false
   steps:
   - action: profilejournal
   - active_loop: null

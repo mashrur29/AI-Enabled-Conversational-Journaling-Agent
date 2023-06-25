@@ -72,7 +72,6 @@ intents:
   - activity_falling
   - activity_both
   - greet_alexa
-  - out_of_scope
   - what_can_you_do
   - provide_name
   - provide_age

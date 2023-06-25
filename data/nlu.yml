@@ -117,6 +117,8 @@ nlu:
     - what can you do?
     - what are your capabilities
     - what is your purpose?
+    - what were you programmed for?
+    - What is your intention?
 
 - intent: repeat_question
   examples: |
@@ -204,11 +206,6 @@ nlu:
     - need to interrupt you
     - sorry i have a ques for you
 
-- intent: out_of_scope
-  examples: |
-    - i want to journal my eating disorder
-    - want to journal my addiction to medicine
-    - i want to play a video game
 
 - intent: early_quit
   examples: |
@@ -218,6 +215,7 @@ nlu:
     - wanna quit the journaling
     - wanna end the journal
     - please end the conversation
+    - exit
 
 - intent: provide_name
   examples: |

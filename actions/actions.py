@@ -10,8 +10,8 @@ from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset, FollowupActi
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
-    get_chitchat_in_form, get_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, symptom2form, \
-    symptoms
+    get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, symptom2form, \
+    symptoms, get_conv_context, get_response_generic
 
 
 class ActionCreateUserProfile(Action):
@@ -37,9 +37,9 @@ class ActionCreateUserProfile(Action):
             prescribed_meds = tracker.get_slot('prescribed_meds')
             update_profile(sender_id, name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
                            prescribed_meds)
-            print(f'Profile created for {sender_id}')
+            print(f'Profile updated for {sender_id}')
         except Exception as e:
-            print("Profile Creation Failed!")
+            print("Profile update failed for {}: {}".format(sender_id, str(e)))
         return []
 
 
@@ -119,47 +119,47 @@ class ActionDefaultFallback(Action):
 
         print('Inside fallback')
 
-        symptom = tracker.get_slot('symptom')
+        try:
+            symptom = tracker.get_slot('symptom')
+            previous_user_msg = tracker.latest_message["text"]
+        except Exception as e:
+            symptom = ''
+            previous_user_msg = ''
+            print('Error retrieving symptom and previous user message')
 
         print(f'Current symptom: {symptom}')
 
-        from actions.dicts import msg, msg_symptom_fallback
+        try:
+            conv_context = get_conv_context(tracker.events)
+        except Exception as e:
+            conv_context = []
+            print("Error in retrieving context: ", str(e))
 
-        for event in tracker.events:
-            if (event.get("event") == "bot") and (event.get("event") is not None):
-                latest_bot_message = event.get("text")
-                msg.append(create_dict("assistant", latest_bot_message))
-                msg_symptom_fallback.append(create_dict("assistant", latest_bot_message))
-            elif (event.get("event") == "user") and (event.get("event") is not None):
-                latest_user_message = event.get("text")
-                msg.append(create_dict("user", latest_user_message))
-                msg_symptom_fallback.append(create_dict("user", latest_user_message))
-
-        previous_user_msg = tracker.latest_message["text"]
+        det_chitchat = ''
 
         try:
             active_loop = tracker.active_loop.get("name")
+            print(f'Active loop: {active_loop}')
+
+            next_slot = tracker.get_slot("requested_slot")
+            print(f'Requested slot {next_slot}')
 
             if 'profilejournal' in active_loop:
-                next_slot = tracker.get_slot("requested_slot")
-                text = tracker.latest_message.get("text")
-                return [SlotSet(next_slot, text), FollowupAction('profilejournal')]
+                return [SlotSet(next_slot, previous_user_msg), FollowupAction('profilejournal')]
 
             if active_loop is not None:
-                print(f'Active loop: {active_loop}')
-                next_slot = tracker.get_slot("requested_slot")
-                print(f'Requested slot {next_slot}')
+                det_chitchat = determine_chitchat(conv_context)
+                print(f'det_chitchat: {det_chitchat}')
 
-                isChitchat = get_chitchat_in_form(previous_user_msg, symptom, next_slot)
-
-                if "None" in isChitchat:
-                    utterance = get_response_in_form(previous_user_msg, symptom)
+                if "no" in det_chitchat.lower():
+                    utterance = get_response_in_form(conv_context)
                     dispatcher.utter_message(text=utterance)
                     return [SlotSet(next_slot, utterance), FollowupAction(active_loop)]
                 else:
-                    dispatcher.utter_message(text=isChitchat)
+                    chitchat_response = get_chitchat_in_form(conv_context)
+                    dispatcher.utter_message(text=chitchat_response)
                     dispatcher.utter_message(response="utter_return_journal")
-                    return [UserUtteranceReverted(), FollowupAction(active_loop)]
+                    return [UserUtteranceReverted()]
         except Exception as e:
             try:
                 if symptom in symptoms:
@@ -168,14 +168,12 @@ class ActionDefaultFallback(Action):
             except Exception as e:
                 print(str(e))
 
-        det_chitchat = get_chitchat(msg, previous_user_msg)
-
-        print(f'Chitchat: {det_chitchat}')
+        print(f'user qna, no active form')
 
         if "no" not in det_chitchat.lower():
-            chitchat_utter = get_chitchat_ack(msg, previous_user_msg)
+            chitchat_utter = get_chitchat_ack(conv_context)
             dispatcher.utter_message(text=chitchat_utter)
-            return []
+            return [UserUtteranceReverted()]
 
         if symptom == "None":
             nw_symptom = get_symptom(previous_user_msg)
@@ -183,7 +181,7 @@ class ActionDefaultFallback(Action):
             print(f'predicted symptom: {nw_symptom}')
 
             if "none" in nw_symptom:
-                utterance = get_symptom_fallback(msg_symptom_fallback, previous_user_msg)
+                utterance = get_symptom_fallback(conv_context)
                 dispatcher.utter_message(text=utterance)
                 dispatcher.utter_message(response="utter_ask_to_add")
                 return []
@@ -193,11 +191,12 @@ class ActionDefaultFallback(Action):
                     form_name = symptom2form[nw_symptom]
                     return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
                 dispatcher.utter_message(response="utter_ask_to_conclude")
-                return [UserUtteranceReverted()]
+                return []
 
-        utterance = get_response(msg)
+        print('Final recall!')
+        utterance = get_response_generic(conv_context)
         dispatcher.utter_message(text=utterance)
-        # Revert user message which led to fallback.
+
         return [UserUtteranceReverted()]
 
 

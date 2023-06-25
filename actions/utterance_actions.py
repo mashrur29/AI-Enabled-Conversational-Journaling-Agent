@@ -41,7 +41,7 @@ def paraphrase_question(sender_id, ques, symptom):
                                     prescribed_meds)
     msg_profile.append(create_dict("system", profile))
     msg_profile.append(create_dict("user",
-                                   f"Rewrite the question based on the user profile. Don't say anything else. If it is impossible to rewrite the question, just say \"impossible\". Question: {ques}"))
+                                   f"Rewrite the question based on the user profile and don\'t say anything else. If it is impossible to rewrite the question, just say impossible. Question: {ques}"))
 
     response = get_response(msg_profile)
     if "impossible" in response.lower():

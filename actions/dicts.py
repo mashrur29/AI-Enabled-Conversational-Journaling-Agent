@@ -1,27 +1,29 @@
-with open('actions/chatgpt_behavior', 'r') as file:
-    data = file.read().replace('\n', '').strip()
-
-chatbot_behavior = str(data)
-
 # "And ask if the user wants to journal either of the following: \"tremor\", \"mood\", \"bradykinesia\", \"dizziness\", \"falling\", \"insomnia\"."
 
-msg = [
-    {"role": "system", "content": "Be empathetic."},
-    {"role": "system", "content": "Answer in a single line and don't say anything else."}
+prompt_determine_sidetalk = [
+    {"role": "system",
+     "content": "Answer in a single word and don\'t say anything else."}
+]
+prompt_sidetalk_response = [
+    {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
+]
+prompt_form_ack = [
+    {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
+]
+prompt_determine_symptom = [
+    {"role": "system", "content": "Answer in a single word and don\'t say anything else."}
+]
+prompt_symptom_fallback_ack = [
+    {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
 ]
 
-msg_symptom = [
-    {"role": "system", "content": "Answer in a single word and don't say anything else."}
+prompt_generic = [
+    {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
 ]
 
-msg_symptom_fallback = [
-    {"role": "system", "content": "Answer in a short and empathetic manner. Don't say anything else."}
-]
-
-
-profile_prompt = "The following is the user personal information. " \
+profile_prompt = "The following is a user\'s personal information. " \
                  "Name: {}, Age: {}, Daily activities: {}, " \
-                 "Length the user had Parkinsons: {}, Existing symptoms: {}, Daily Challenges: {}, "\
+                 "Length the user had Parkinsons: {}, Existing parkinsons symptoms: {}, Daily challenges: {}, " \
                  "Prescribed medications: {}."
 
 intent2Symptom = {
