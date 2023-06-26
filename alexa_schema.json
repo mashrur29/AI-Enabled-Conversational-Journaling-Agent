@@ -22,7 +22,10 @@
                     "name": "AMAZON.StopIntent",
                     "samples": [
                         "stop",
-                        "ok bye"
+                        "ok bye",
+                        "exit",
+                        "please stop",
+                        "don't want to journal"
                     ]
                 },
                 {

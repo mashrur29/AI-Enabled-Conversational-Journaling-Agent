@@ -88,6 +88,7 @@ nlu:
   examples: |
     - I just experienced a tremor
     - tremor
+    - Tremors
     - i have tremors
     - i want to journal my shaky hands
     - shaky hands
