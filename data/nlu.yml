@@ -194,6 +194,8 @@ nlu:
     - It's Alice.
     - my name is mashrur
     - mashrur rashik
+    - my preferred name is John
+    - I like to be called joana
 
 - intent: provide_age
   examples: |
