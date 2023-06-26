@@ -135,7 +135,8 @@ class ActionDefaultFallback(Action):
             conv_context = []
             print("Error in retrieving context: ", str(e))
 
-        det_chitchat = ''
+        det_chitchat = determine_chitchat(conv_context)
+        print(f'det_chitchat: {det_chitchat}')
 
         try:
             active_loop = tracker.active_loop.get("name")
@@ -148,8 +149,6 @@ class ActionDefaultFallback(Action):
                 return [SlotSet(next_slot, previous_user_msg), FollowupAction('profilejournal')]
 
             if active_loop is not None:
-                det_chitchat = determine_chitchat(conv_context)
-                print(f'det_chitchat: {det_chitchat}')
 
                 if "no" in det_chitchat.lower():
                     utterance = get_response_in_form(conv_context)
@@ -170,13 +169,15 @@ class ActionDefaultFallback(Action):
 
         print(f'user qna, no active form')
 
+        #print(conv_context)
+
         if "no" not in det_chitchat.lower():
             chitchat_utter = get_chitchat_ack(conv_context)
             dispatcher.utter_message(text=chitchat_utter)
             return [UserUtteranceReverted()]
 
         if symptom == "None":
-            nw_symptom = get_symptom(previous_user_msg)
+            nw_symptom = get_symptom(conv_context)
             nw_symptom = nw_symptom.replace('.', '').lower().strip()
             print(f'predicted symptom: {nw_symptom}')
 
@@ -189,6 +190,7 @@ class ActionDefaultFallback(Action):
                 if nw_symptom in symptoms:
                     dispatcher.utter_message(response="utter_start_journal")
                     form_name = symptom2form[nw_symptom]
+                    print(f'Starting {form_name}')
                     return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
                 dispatcher.utter_message(response="utter_ask_to_conclude")
                 return []

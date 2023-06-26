@@ -10,6 +10,10 @@ nlu:
     - i want to journal bradykinesia
     - want to talk about bradykinesia
     - Lets talk about bradykinesia
+    - I want to know more bradykinesia
+    - I think I have symptoms for bradykinesia
+    - I want guidance regarding bradykinesia
+    - I am recently diagoned with bradykinesia
 
 - intent: trigger_bradykinesia_2
   examples: |
@@ -19,3 +23,9 @@ nlu:
     - slowness in movement
     - slow to move
     - i feel slowness in my arms
+    - I feel slowness in my body
+    - I noticed I have become slow over the time
+    - I face difficulty in standing up from the chair
+    - I face difficulty in begining to walk
+    - I experience a reduced range of movements
+    - My body feels more rigid

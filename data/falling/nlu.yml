@@ -16,6 +16,8 @@ nlu:
     - fell down
     - falling
     - i fell
+    - I fell down while walking
+    - I tripped over a small stone ans instantly started bleeding
 
 - intent: trigger_falling_2
   examples: |
@@ -30,3 +32,6 @@ nlu:
     - i fell and bruised myself
     - i took a tumble and fell
     - fell off my chair
+    - I am scared of even going out as I fell down and bruised myself yesterday
+    - I am facing imbalance in my body
+    - My body has lost balance

@@ -13,6 +13,9 @@ nlu:
     - have been feeling hopeless
     - My mood has been up and down
     - I am struggling with my emotions
+    - My mood is majorly bad all day
+    - I feel irritated tday
+    - I feel tensed today
 
 - intent: trigger_mood_2
   examples: |
@@ -28,6 +31,7 @@ nlu:
     - I have been feeling nervous all day
     - anxious
     - restless
+    - panicky
 
 - intent: trigger_mood_3
   examples: |
@@ -44,3 +48,5 @@ nlu:
     - depressed
     - hopeless
     - mood
+    - sad
+    - dissatisfied

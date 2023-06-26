@@ -48,9 +48,6 @@ nlu:
     - I don't remember if I've reported my tremor before
     - How am I supposed to know if my tremor is the same as before?
     - Can you explain what you mean by "compare to my previously reported tremor"?
-    - I don't know how to answer that question
-    - I'm not sure if I'm understanding your question correctly
-    - Sorry, can you rephrase the question?
 
 - intent: inform_history
   examples: |

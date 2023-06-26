@@ -11,8 +11,6 @@ intents:
   - interrupt_question
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
   - trigger_tremor_mild
   - trigger_tremor_severe
@@ -96,6 +94,18 @@ actions:
   - validate_profilejournal
   - action_ask_medicinetype
   - action_ask_medicinetime
+  - action_ask_tremorjournaling_cooccurrence
+  - action_ask_tremorjournaling_dailyactivity
+  - action_ask_tremorjournaling_history
+  - action_ask_bradykinesiajournaling_dailyactivity
+  - action_ask_bradykinesiajournaling_cooccurrence
+  - action_ask_activity
+  - action_ask_dizzinessjournaling_cooccurrence
+  - action_ask_dizzinessjournaling_dailyactivity
+  - action_ask_moodjournaling_dailyactivity
+  - action_ask_moodjournaling_reason
+  - action_ask_insomniajournaling_dailyactivity
+  - action_ask_insomniajournaling_reason
 
 entities:
   - symptom
@@ -363,7 +373,7 @@ responses:
           value: "dizziness"
       text: "I'm sorry to hear that. Can I ask you a few questions about you felt dizzy?"
 
-    - text: "I'm sorry to hear that. Can I ask you a few questions about your experience?"
+    - text: "I'm sorry to hear that. I will ask you a few questions to learn more about your experience"
 
   utter_switch_topic:
     - condition:

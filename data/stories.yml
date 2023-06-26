@@ -14,34 +14,6 @@ stories:
   - action: utter_ask_symptom
 
 
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: action_reset_slots
-  - action: action_check_profile
-  - slot_was_set:
-      - check_profile: true
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: action_reset_slots
-  - action: action_check_profile
-  - slot_was_set:
-      - check_profile: true
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
 - story: user denies journal
   steps:
   - intent: greet_alexa
