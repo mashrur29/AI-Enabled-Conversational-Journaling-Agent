@@ -13,6 +13,9 @@ prompt_form_ack = [
 prompt_determine_symptom = [
     {"role": "system", "content": "Answer in a single word and don\'t say anything else."}
 ]
+prompt_determine_topicswitch = [
+    {"role": "system", "content": "Answer in a single word and don\'t say anything else."}
+]
 prompt_symptom_fallback_ack = [
     {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
 ]

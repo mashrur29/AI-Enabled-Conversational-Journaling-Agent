@@ -209,30 +209,6 @@ rules:
     - intent: what_can_you_do
   - action: utter_greet_large
 
-#- rule: trigger tremor
-#  condition:
-#  - slot_was_set:
-#      - symptom: tremor
-#  steps:
-#  - action: tremorjournaling
-#  - active_loop: tremorjournaling
-#
-#- rule: trigger bradykinesia
-#  condition:
-#  - slot_was_set:
-#      - symptom: bradykinesia
-#  steps:
-#  - action: bradykinesiajournaling
-#  - active_loop: bradykinesiajournaling
-#
-#- rule: trigger dizziness
-#  condition:
-#  - slot_was_set:
-#      - symptom: dizziness
-#  steps:
-#  - action: bradykinesiajournaling
-#  - active_loop: bradykinesiajournaling
-
 
 - rule: Submit tremor form
   condition:

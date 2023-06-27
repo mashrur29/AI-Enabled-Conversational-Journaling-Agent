@@ -10,7 +10,8 @@ from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset, FollowupActi
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
-    get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, symptom2form, \
+    get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
+    symptom2form, \
     symptoms, get_conv_context, get_response_generic
 
 
@@ -149,6 +150,15 @@ class ActionDefaultFallback(Action):
                 return [SlotSet(next_slot, previous_user_msg), FollowupAction('profilejournal')]
 
             if active_loop is not None:
+                nw_symptom = get_symptom(conv_context)
+                nw_symptom = nw_symptom.replace('.', '').lower().strip()
+
+                print(f'Symptom in active loop: {nw_symptom} | {symptom}')
+
+                if (nw_symptom != symptom) and (nw_symptom in symptoms):
+                    start_new_response = f'utter_topicswitch_{nw_symptom}'
+                    print(start_new_response)
+                    dispatcher.utter_message(response=start_new_response)
 
                 if "no" in det_chitchat.lower():
                     utterance = get_response_in_form(conv_context)
@@ -169,7 +179,7 @@ class ActionDefaultFallback(Action):
 
         print(f'user qna, no active form')
 
-        #print(conv_context)
+        # print(conv_context)
 
         if "no" not in det_chitchat.lower():
             chitchat_utter = get_chitchat_ack(conv_context)

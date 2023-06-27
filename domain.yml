@@ -738,6 +738,18 @@ responses:
     - text: "Your answer helps me understand better."
     - text: "I've noted your response."
 
+  utter_topicswitch_bradykinesia:
+    - text: I am sorry to hear that you are also experiencing bradykinesia.
+  utter_topicswitch_dizziness:
+    - text: I am sorry to hear that you are also feeling dizzy.
+  utter_topicswitch_falling:
+    - text: I am sorry to hear that you also fell.
+  utter_topicswitch_insomnia:
+    - text: I am sorry to hear that you are having sleep problems.
+  utter_topicswitch_mood:
+    - text: I am sorry to hear that you are also feeling mentally unwell.
+  utter_topicswitch_tremor:
+    - text: I am sorry to hear that you are also experiencing tremors.
 
 session_config:
   session_expiration_time: 60
