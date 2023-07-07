@@ -48,6 +48,9 @@ class AlexaConnector(InputChannel):
                 session = "false"
             else:
                 # get the Alexa-detected intent
+                sender_id = request.json.get("sender")
+                input_channel = self.name()
+                metadata = self.get_metadata(request)
                 intent = payload["request"]["intent"]["name"]
 
                 # makes sure the user isn't trying to end the skill
@@ -66,7 +69,13 @@ class AlexaConnector(InputChannel):
 
                     # send the user message to Rasa & wait for the
                     # response to be sent back
-                    await on_new_message(UserMessage(text, out))
+                    await on_new_message(UserMessage(
+                        text,
+                        out,
+                        sender_id,
+                        input_channel=input_channel,
+                        metadata=metadata
+                    ))
                     # extract the text from Rasa's response
                     responses = [m["text"] for m in out.messages]
                     message = ''
