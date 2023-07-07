@@ -61,11 +61,13 @@ class ActionUserCheckProfile(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         sender_id = tracker.sender_id
+        print(f'Checking profile for {sender_id}')
 
         try:
             if check_profile(sender_id):
                 return [SlotSet("check_profile", "true")]
             else:
+
                 #init_profile(sender_id)
                 return [SlotSet("check_profile", "false")]
         except Exception as e:
