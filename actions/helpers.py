@@ -177,15 +177,21 @@ def update_profile(senderid,
                    prescribed_meds='paracetamols'):
     timestamp = "{}".format(get_timestamp())
 
+    if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
+            len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
+        print('Incomplete profile!')
+        return
+
     data = {
-        "sender identification": senderid,
+        "sender_id": senderid,
         "name": name,
         "age": age,
         "daily_activity": daily_activity,
         "years_of_pd": years_of_pd,
         "existing_symptoms": existing_symp,
         "daily_challenges": daily_challenges,
-        "prescribed_medications": prescribed_meds
+        "prescribed_medications": prescribed_meds,
+        "timestamp": timestamp
     }
 
     try:

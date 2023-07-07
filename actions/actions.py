@@ -26,8 +26,6 @@ class ActionCreateUserProfile(Action):
 
         try:
             sender_id = tracker.sender_id
-            if check_profile(sender_id) == False:
-                init_profile(sender_id)
 
             name = tracker.get_slot('name')
             age = tracker.get_slot('age')
@@ -36,6 +34,16 @@ class ActionCreateUserProfile(Action):
             existing_symp = tracker.get_slot('existing_symp')
             daily_challenges = tracker.get_slot('daily_challenges')
             prescribed_meds = tracker.get_slot('prescribed_meds')
+
+
+            if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
+                    len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
+                print('Incomplete profile!')
+                return []
+
+            if check_profile(sender_id) == False:
+                init_profile(sender_id)
+
             update_profile(sender_id, name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
                            prescribed_meds)
             print(f'Profile updated for {sender_id}')
@@ -58,7 +66,7 @@ class ActionUserCheckProfile(Action):
             if check_profile(sender_id):
                 return [SlotSet("check_profile", "true")]
             else:
-                init_profile(sender_id)
+                #init_profile(sender_id)
                 return [SlotSet("check_profile", "false")]
         except Exception as e:
             return [SlotSet("check_profile", "false")]
