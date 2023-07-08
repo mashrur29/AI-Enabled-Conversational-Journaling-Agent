@@ -71,7 +71,7 @@ class AlexaConnector(InputChannel):
                     message = "I'm sorry I did not understand what you said"
                 else:
                     # get the user-provided text from the slot named "text"
-                    text = payload['request']['intent']['slots']['message']['value']
+                    text = payload["request"]["intent"]["slots"]["text"]["value"]
 
                     # initialize output channel
                     out = CollectingOutputChannel()
