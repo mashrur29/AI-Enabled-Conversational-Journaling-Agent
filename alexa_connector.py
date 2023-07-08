@@ -1,12 +1,17 @@
 import logging
-import json
-from sanic import Blueprint, response
+import asyncio
+import inspect
+from sanic import Sanic, Blueprint, response
 from sanic.request import Request
-from typing import Text, Optional, List, Dict, Any
-
-from rasa.core.channels.channel import UserMessage, OutputChannel
-from rasa.core.channels.channel import InputChannel
-from rasa.core.channels.channel import CollectingOutputChannel
+from sanic.response import HTTPResponse
+from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn
+from rasa.shared.core.trackers import DialogueStateTracker
+import rasa.utils.endpoints
+from rasa.core.channels.channel import (
+    InputChannel,
+    CollectingOutputChannel,
+    UserMessage,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +30,9 @@ class AlexaConnector(InputChannel):
     # Sanic blueprint for handling input. The on_new_message
     # function pass the received message to Rasa Core
     # after you have parsed it
-    def blueprint(self, on_new_message):
+    def blueprint(
+            self, on_new_message: Callable[[UserMessage], Awaitable[None]]
+    ) -> Blueprint:
 
         alexa_webhook = Blueprint("alexa_webhook", __name__)
 
@@ -40,6 +47,7 @@ class AlexaConnector(InputChannel):
             # get the json request sent by Alexa
             payload = request.json
             # check to see if the user is trying to launch the skill
+            print(f'Payload: {payload}')
             intenttype = payload["request"]["type"]
 
             # if the user is starting the skill, let them know it worked & what to do next
@@ -48,10 +56,12 @@ class AlexaConnector(InputChannel):
                 session = "false"
             else:
                 # get the Alexa-detected intent
-                sender_id = request.json.get("sender")
+                sender_id = payload.get("sender")
                 input_channel = self.name()
                 metadata = self.get_metadata(request)
                 intent = payload["request"]["intent"]["name"]
+                tracker = DialogueStateTracker.from_dict(sender_id, payload['session'].get('attributes', {}),
+                                                         self.domain.slots)
 
                 # makes sure the user isn't trying to end the skill
                 if intent == "AMAZON.StopIntent":
@@ -62,7 +72,7 @@ class AlexaConnector(InputChannel):
                     message = "I'm sorry I did not understand what you said"
                 else:
                     # get the user-provided text from the slot named "text"
-                    text = payload["request"]["intent"]["slots"]["text"]["value"]
+                    text = payload.get("text")
 
                     # initialize output channel
                     out = CollectingOutputChannel()
@@ -74,7 +84,8 @@ class AlexaConnector(InputChannel):
                         out,
                         sender_id,
                         input_channel=input_channel,
-                        metadata=metadata
+                        metadata=metadata,
+                        tracker=tracker
                     ))
                     # extract the text from Rasa's response
                     responses = [m["text"] for m in out.messages]
