@@ -56,12 +56,11 @@ class AlexaConnector(InputChannel):
                 session = "false"
             else:
                 # get the Alexa-detected intent
-                sender_id = payload.get("sender")
-                input_channel = self.name()
+                sender_id = payload['session']['user']['userId']
+                input_channel = payload['session']['device']['deviceID']
                 metadata = self.get_metadata(request)
                 intent = payload["request"]["intent"]["name"]
-                tracker = DialogueStateTracker.from_dict(sender_id, payload['session'].get('attributes', {}),
-                                                         self.domain.slots)
+
 
                 # makes sure the user isn't trying to end the skill
                 if intent == "AMAZON.StopIntent":
@@ -72,7 +71,7 @@ class AlexaConnector(InputChannel):
                     message = "I'm sorry I did not understand what you said"
                 else:
                     # get the user-provided text from the slot named "text"
-                    text = payload.get("text")
+                    text = payload['request']['intent']['slots']['message']['value']
 
                     # initialize output channel
                     out = CollectingOutputChannel()
@@ -84,8 +83,7 @@ class AlexaConnector(InputChannel):
                         out,
                         sender_id,
                         input_channel=input_channel,
-                        metadata=metadata,
-                        tracker=tracker
+                        metadata=metadata
                     ))
                     # extract the text from Rasa's response
                     responses = [m["text"] for m in out.messages]
