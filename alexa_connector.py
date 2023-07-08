@@ -57,7 +57,7 @@ class AlexaConnector(InputChannel):
             else:
                 # get the Alexa-detected intent
                 sender_id = payload['session']['user']['userId']
-                input_channel = payload['session']['device']['deviceId']
+                input_channel = self.name()
                 metadata = self.get_metadata(request)
                 intent = payload["request"]["intent"]["name"]
 
