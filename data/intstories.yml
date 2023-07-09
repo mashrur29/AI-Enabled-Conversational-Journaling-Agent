@@ -8,7 +8,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
   - action: action_set_symptom
@@ -76,7 +75,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
   - action: action_set_symptom
@@ -137,7 +135,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
   - action: action_set_symptom
@@ -170,7 +167,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
   - action: action_set_symptom
@@ -224,7 +220,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
   - action: action_set_symptom
@@ -272,7 +267,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_1
   - action: action_set_symptom
@@ -310,7 +304,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
   - action: action_set_symptom
@@ -397,7 +390,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
   - action: action_set_symptom
@@ -478,7 +470,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_dizziness
   - action: action_set_symptom
@@ -516,7 +507,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
   - action: action_set_symptom
@@ -562,7 +552,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_falling_1
   - action: action_set_symptom
@@ -584,7 +573,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom
@@ -624,7 +612,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom
@@ -659,7 +646,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
   - action: action_set_symptom
@@ -715,7 +701,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
   - action: action_set_symptom
@@ -765,7 +750,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
   - action: action_set_symptom
@@ -798,7 +782,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_current_tremors
   - action: action_set_symptom
@@ -866,7 +849,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_bradykinesia_2
   - action: action_set_symptom
@@ -876,17 +858,6 @@ stories:
   - intent: affirm
   - action: bradykinesiajournaling
   - active_loop: bradykinesiajournaling
-  - slot_was_set:
-    - requested_slot: medicinetype
-  - intent: user_confused
-  - action: action_set_simplify
-  - slot_was_set:
-    - is_simplify: true
-  - action: action_repeat_question
-  - action: action_reset_simplify
-  - slot_was_set:
-    - is_simplify: false
-  - action: bradykinesiajournaling
   - slot_was_set:
     - requested_slot: medicinetype
   - intent: inform_medicine_type
@@ -900,17 +871,6 @@ stories:
   - action: action_set_slot
   - slot_was_set:
     - medicinetime: don't know
-  - action: bradykinesiajournaling
-  - slot_was_set:
-    - requested_slot: dailyactivity
-  - intent: user_confused
-  - action: action_set_simplify
-  - slot_was_set:
-    - is_simplify: true
-  - action: action_repeat_question
-  - action: action_reset_simplify
-  - slot_was_set:
-    - is_simplify: false
   - action: bradykinesiajournaling
   - slot_was_set:
     - requested_slot: dailyactivity
@@ -942,6 +902,7 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
+  - action: utter_ask_symptom
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: affirm
@@ -977,15 +938,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: user_confused
-  - action: action_set_simplify
-  - slot_was_set:
-    - is_simplify: true
-  - action: action_repeat_question
-  - action: action_reset_simplify
-  - slot_was_set:
-    - is_simplify: false
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_insomnia
   - action: action_set_symptom
@@ -1046,7 +998,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom
@@ -1087,7 +1038,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1153,7 +1103,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1206,7 +1155,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1292,7 +1240,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1337,7 +1284,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1376,7 +1322,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1431,7 +1376,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1464,7 +1408,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback
@@ -1550,7 +1493,6 @@ stories:
   - slot_was_set:
     - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: nlu_fallback
   - action: action_default_fallback

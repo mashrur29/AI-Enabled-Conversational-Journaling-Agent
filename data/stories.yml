@@ -10,7 +10,6 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
 
 
@@ -22,6 +21,7 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
+  - action: utter_ask_symptom
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: deny
@@ -35,6 +35,7 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
+  - action: utter_ask_symptom
   - intent: deny
   - action: utter_ask_to_conclude
   - intent: affirm
@@ -49,7 +50,6 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: out_of_scope
   - action: utter_greet_large
@@ -68,7 +68,6 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom
@@ -88,7 +87,6 @@ stories:
   - slot_was_set:
       - check_profile: true
   - action: utter_greet
-  - intent: affirm
   - action: utter_ask_symptom
   - intent: trigger_mood_1
   - action: action_set_symptom

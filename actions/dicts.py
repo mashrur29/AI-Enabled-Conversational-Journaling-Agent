@@ -4,6 +4,7 @@ prompt_determine_sidetalk = [
     {"role": "system",
      "content": "Answer in a single word and don\'t say anything else."}
 ]
+
 prompt_sidetalk_response = [
     {"role": "system", "content": "Don't ask any questions and be empathetic. Also answer in a single sentence."}
 ]

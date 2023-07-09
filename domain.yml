@@ -4,11 +4,6 @@ intents:
   - greet
   - goodbye
   - early_quit
-  - user_confused
-  - repeat_question
-  - clarify_question
-  - ask_for_help
-  - interrupt_question
   - affirm
   - deny
   - bot_challenge
@@ -302,18 +297,6 @@ forms:
       - reason
 
 responses:
-  utter_propose_help:
-    - text: "Sure, I'm here to help you. Can you please clarify what kind of help you need?"
-    - text: "Of course, I'm here for you. Can you please tell me more about what you're struggling with so I can better assist you?"
-
-  utter_return_journal:
-    - text: "Now, let's go back to the last question."
-    - text: "Let's get back to the original topic of discussion."
-
-  utter_interrupt_response:
-    - text: "I'm sorry, please let me know how I can assist you."
-    - text: "I'm sorry, what can I help you with?"
-
   utter_greet_large:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
     - text: "I'm your personal Parkinson's journaling chatbot. My role is to help you keep track of your Parkinson's symptoms through easy and convenient data logging. Please note that I won't provide any advice or analysis related to your symptoms."
@@ -321,10 +304,10 @@ responses:
     - text: "As your Parkinson's journaling chatbot, I'm here to help you keep track of your symptoms related to Parkinson's disease. My sole responsibility is to collect data and I won't provide any insights or advice."
 
   utter_greet:
-    - text: "Here is your health journal. Are you ready to get started?"
+    - text: "This is Patrika, your journaling assistant. Let’s start with your Parkinson’s symptoms"
 
   utter_greet_new_user:
-    - text: "Here is your health journal. Before we start, I'll ask you a few questions that will help me learn more about you."
+    - text: "This is Patrika, your journaling assistant. Before we start, I'll ask you a few questions that will help me learn more about you."
 
   utter_collected_slots:
     - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
@@ -333,47 +316,47 @@ responses:
     - text: "Are there any other symptoms you'd like to record?"
 
   utter_ask_to_conclude:
-    - text: Is there anything else you'd like to share with me? I'm here to listen!
-    - text: I'm here for you. Is there anything else you want to talk about?
+    - text: Is there anything else you'd like to share with me?
+    - text: Is there anything else you want to talk about?
 
   utter_start_journal:
     - condition:
         - type: slot
           name: symptom
           value: "tremor"
-      text: "I'm sorry to hear that. Can I ask you a few questions about your tremor?"
+      text: "Can I ask you a few questions about your tremor?"
 
     - condition:
         - type: slot
           name: symptom
           value: "bradykinesia"
-      text: "I'm sorry to hear that. Can I ask you a few questions about how you're feeling slow?"
+      text: "Can I ask you a few questions about how you're feeling slow?"
 
     - condition:
         - type: slot
           name: symptom
           value: "falling"
-      text: "I'm sorry to hear that. Can I ask you a few questions about your fall?"
+      text: "Can I ask you a few questions about your fall?"
 
     - condition:
         - type: slot
           name: symptom
           value: "insomnia"
-      text: "I'm sorry to hear that. Can I ask you a few questions about your sleep problems?"
+      text: "Can I ask you a few questions about your sleep problems?"
 
     - condition:
         - type: slot
           name: symptom
           value: "mood"
-      text: "I'm sorry to hear that. Can I ask you a few questions about your mood?"
+      text: "Can I ask you a few questions about your mood?"
 
     - condition:
         - type: slot
           name: symptom
           value: "dizziness"
-      text: "I'm sorry to hear that. Can I ask you a few questions about you felt dizzy?"
+      text: "Can I ask you a few questions about your dizziness?"
 
-    - text: "I'm sorry to hear that. I will ask you a few questions to learn more about your experience"
+    - text: "I will ask you a few questions to learn more about your experience"
 
   utter_switch_topic:
     - condition:
@@ -434,8 +417,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "If you need to talk, feel free to reach out again. Take care!"
-    - text: "If you need to chat in the future, don't hesitate to reach out. Take care!"
+    - text: "If you need to chat in the future, say \"Alexa, open patrika\" and I will assist you in recording your symptoms. Bye!"
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."

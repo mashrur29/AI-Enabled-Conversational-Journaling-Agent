@@ -69,9 +69,11 @@ class ActionUserCheckProfile(Action):
             else:
 
                 #init_profile(sender_id)
-                return [SlotSet("check_profile", "false")]
+                return [SlotSet("check_profile", "true")]
+                #return [SlotSet("check_profile", "false")]
         except Exception as e:
-            return [SlotSet("check_profile", "false")]
+            return [SlotSet("check_profile", "true")]
+            #return [SlotSet("check_profile", "false")]
 
 
 class ActionRevertUserUtterance(Action):
@@ -191,10 +193,10 @@ class ActionDefaultFallback(Action):
 
         # print(conv_context)
 
-        if "no" not in det_chitchat.lower():
-            chitchat_utter = get_chitchat_ack(conv_context)
-            dispatcher.utter_message(text=chitchat_utter)
-            return [UserUtteranceReverted()]
+        # if "no" not in det_chitchat.lower():
+        #     chitchat_utter = get_chitchat_ack(conv_context)
+        #     dispatcher.utter_message(text=chitchat_utter)
+        #     return [UserUtteranceReverted()]
 
         if symptom == "None":
             nw_symptom = get_symptom(conv_context)

@@ -15,6 +15,7 @@ rules:
     - slot_was_set:
         - check_profile: true
     - action: utter_greet
+    - action: utter_ask_symptom
 
 
 - rule: greet new user
@@ -117,35 +118,6 @@ rules:
   - action: utter_start_journal
 
 
-- rule: Repeat bot message on user request
-  steps:
-  - intent: repeat_question
-  - action: action_repeat_question
-
-- rule: Simplify previous bot message
-  steps:
-  - or:
-      - intent: user_confused
-      - intent: clarify_question
-  - action: action_set_simplify
-  - action: action_repeat_question
-  - action: action_reset_simplify
-
-- rule: User asks for help
-  condition:
-  - active_loop: null
-  steps:
-  - intent: ask_for_help
-  - action: utter_propose_help
-  - action: action_revert_user_utterance
-
-- rule: User interrupts the chatbot
-  condition:
-  - active_loop: null
-  steps:
-  - intent: interrupt_question
-  - action: utter_interrupt_response
-  - action: action_revert_user_utterance
 
 - rule: Set slot
   steps:
