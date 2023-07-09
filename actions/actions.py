@@ -69,10 +69,10 @@ class ActionUserCheckProfile(Action):
             else:
 
                 #init_profile(sender_id)
-                return [SlotSet("check_profile", "true")]
+                return [SlotSet("check_profile", "false")]
                 #return [SlotSet("check_profile", "false")]
         except Exception as e:
-            return [SlotSet("check_profile", "true")]
+            return [SlotSet("check_profile", "false")]
             #return [SlotSet("check_profile", "false")]
 
 
