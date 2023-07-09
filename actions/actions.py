@@ -13,6 +13,7 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic
+from utils import logger
 
 
 class ActionCreateUserProfile(Action):
@@ -35,10 +36,9 @@ class ActionCreateUserProfile(Action):
             daily_challenges = tracker.get_slot('daily_challenges')
             prescribed_meds = tracker.get_slot('prescribed_meds')
 
-
             if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
                     len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
-                print('Incomplete profile!')
+                logger.error('Incomplete profile')
                 return []
 
             if check_profile(sender_id) == False:
@@ -46,9 +46,9 @@ class ActionCreateUserProfile(Action):
 
             update_profile(sender_id, name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
                            prescribed_meds)
-            print(f'Profile updated for {sender_id}')
+            logger.info(f'Profile updated for {sender_id}')
         except Exception as e:
-            print("Profile update failed for {}: {}".format(sender_id, str(e)))
+            logger.error("Profile update failed for {}".format(tracker.sender_id))
         return []
 
 
@@ -61,19 +61,18 @@ class ActionUserCheckProfile(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         sender_id = tracker.sender_id
-        print(f'Checking profile for {sender_id}')
+
+        logger.info(f'Checking profile for {sender_id}')
 
         try:
             if check_profile(sender_id):
                 return [SlotSet("check_profile", "true")]
             else:
 
-                #init_profile(sender_id)
+                # init_profile(sender_id)
                 return [SlotSet("check_profile", "false")]
-                #return [SlotSet("check_profile", "false")]
         except Exception as e:
             return [SlotSet("check_profile", "false")]
-            #return [SlotSet("check_profile", "false")]
 
 
 class ActionRevertUserUtterance(Action):
@@ -111,7 +110,7 @@ class ActionResetAllSlot(Action):
                     f.write('{}\n'.format(x))
 
         except Exception as e:
-            print(str(e))
+            logger.error("Error in resetting slots {}".format(str(e)))
 
         return [AllSlotsReset()]
 
@@ -130,7 +129,7 @@ class ActionDefaultFallback(Action):
             domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        print('Inside fallback')
+        logger.info('Inside fallback')
 
         try:
             symptom = tracker.get_slot('symptom')
@@ -138,25 +137,26 @@ class ActionDefaultFallback(Action):
         except Exception as e:
             symptom = ''
             previous_user_msg = ''
-            print('Error retrieving symptom and previous user message')
+            logger.error('Error retrieving symptom and previous user message')
 
-        print(f'Current symptom: {symptom}')
+        logger.info(f'Current symptom: {symptom}')
 
         try:
             conv_context = get_conv_context(tracker.events)
         except Exception as e:
             conv_context = []
-            print("Error in retrieving context: ", str(e))
+            logger.error("Error in retrieving context: {}".format(str(e)))
+
 
         det_chitchat = determine_chitchat(conv_context)
-        print(f'det_chitchat: {det_chitchat}')
+        logger.info(f'det_chitchat: {det_chitchat}')
 
         try:
             active_loop = tracker.active_loop.get("name")
-            print(f'Active loop: {active_loop}')
+            logger.info(f'Active loop: {active_loop}')
 
             next_slot = tracker.get_slot("requested_slot")
-            print(f'Requested slot {next_slot}')
+            logger.info(f'Requested slot {next_slot}')
 
             if 'profilejournal' in active_loop:
                 return [SlotSet(next_slot, previous_user_msg), FollowupAction('profilejournal')]
@@ -165,11 +165,11 @@ class ActionDefaultFallback(Action):
                 nw_symptom = get_symptom(conv_context)
                 nw_symptom = nw_symptom.replace('.', '').lower().strip()
 
-                print(f'Symptom in active loop: {nw_symptom} | {symptom}')
+                logger.info(f'Symptom in active loop: {nw_symptom} | {symptom}')
 
                 if (nw_symptom != symptom) and (nw_symptom in symptoms):
                     start_new_response = f'utter_topicswitch_{nw_symptom}'
-                    print(start_new_response)
+                    logger.info(f'Topic switch {start_new_response}')
                     dispatcher.utter_message(response=start_new_response)
 
                 if "no" in det_chitchat.lower():
@@ -187,9 +187,9 @@ class ActionDefaultFallback(Action):
                     form_name = symptom2form[symptom]
                     return [FollowupAction(form_name)]
             except Exception as e:
-                print(str(e))
+                logger.error(str(e))
 
-        print(f'user qna, no active form')
+        logger.info('user qna, no active form')
 
         # print(conv_context)
 
@@ -201,7 +201,7 @@ class ActionDefaultFallback(Action):
         if symptom == "None":
             nw_symptom = get_symptom(conv_context)
             nw_symptom = nw_symptom.replace('.', '').lower().strip()
-            print(f'predicted symptom: {nw_symptom}')
+            logger.info(f'predicted symptom: {nw_symptom}')
 
             if "none" in nw_symptom:
                 utterance = get_symptom_fallback(conv_context)
@@ -212,12 +212,12 @@ class ActionDefaultFallback(Action):
                 if nw_symptom in symptoms:
                     dispatcher.utter_message(response="utter_start_journal")
                     form_name = symptom2form[nw_symptom]
-                    print(f'Starting {form_name}')
+                    logger.info(f'Starting {form_name}')
                     return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
                 dispatcher.utter_message(response="utter_ask_to_conclude")
                 return []
 
-        print('Final recall!')
+        logger.info('Final recall!')
         utterance = get_response_generic(conv_context)
         dispatcher.utter_message(text=utterance)
 

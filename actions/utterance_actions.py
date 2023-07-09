@@ -7,7 +7,7 @@ from rasa_sdk import Action
 from actions.dicts import profile_prompt
 from actions.helpers import create_dict, get_response
 from database import db
-
+from utils import logger
 nlp = spacy.load("en_core_web_md")
 
 def get_user_profile(sender_id):
@@ -29,7 +29,8 @@ def get_user_profile(sender_id):
         daily_challenges = val['data'][0]['daily_challenges']
         prescribed_meds = val['data'][0]['prescribed_medications']
     except Exception as e:
-        print(str(e))
+        logger.error(str(e))
+
 
     return name, age, daily_activity, years_of_pd, existing_symp, daily_challenges, prescribed_meds
 
@@ -56,7 +57,7 @@ def paraphrase_question(sender_id, ques, symptom):
             return response
         return ques
     except Exception as e:
-        print(str(e))
+        logger.error(str(e))
         return ques
 
 

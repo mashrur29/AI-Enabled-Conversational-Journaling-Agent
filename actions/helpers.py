@@ -6,6 +6,7 @@ from database import db
 from actions.dicts import prompt_determine_sidetalk, prompt_sidetalk_response, prompt_form_ack, \
     prompt_determine_symptom, \
     prompt_symptom_fallback_ack, prompt_generic
+from utils import logger
 
 symptom2form = {
     "tremor": "tremorjournaling",
@@ -143,9 +144,9 @@ def check_profile(senderid):
 def init_profile(senderid):
     try:
         db.voicebot.profiles.insert_one({"sender_id": senderid})
-        print(f'Profile created for {senderid}')
+        logger.info(f'Profile created for {senderid}')
     except Exception as e:
-        print(f'Profile creation failed for {senderid}')
+        logger.error(f'Profile creation failed for {senderid}')
 
 
 def get_conv_context(events, history=4):
@@ -179,7 +180,7 @@ def update_profile(senderid,
 
     if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
             len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
-        print('Incomplete profile!')
+        logger.error('Incomplete profile!')
         return
 
     data = {
@@ -197,10 +198,10 @@ def update_profile(senderid,
     try:
         id_ = db.voicebot.profiles.find_one({"sender_id": senderid})['_id']
     except Exception as e:
-        print("Profile doesn't exist")
+        logger.error("Profile doesn't exist")
         init_profile(senderid)
         id_ = db.voicebot.profiles.find_one({"sender_id": senderid})['_id']
     try:
         db.voicebot.profiles.update_one({"_id": id_}, {'$push': {"data": data}})
     except Exception as e:
-        print("Profile update failed for {}: {}".format(senderid, str(e)))
+        logger.error("Profile update failed for {}: {}".format(senderid, str(e)))
