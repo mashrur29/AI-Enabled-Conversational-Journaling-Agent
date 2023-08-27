@@ -7,10 +7,6 @@ intents:
   - affirm
   - deny
   - bot_challenge
-  - trigger_tremor_mild
-  - trigger_tremor_severe
-  - trigger_tremor_frequency
-  - trigger_tremor_location
   - trigger_current_tremors
   - medication_intake
   - medication_time
@@ -101,6 +97,12 @@ actions:
   - action_ask_moodjournaling_reason
   - action_ask_insomniajournaling_dailyactivity
   - action_ask_insomniajournaling_reason
+  - validate_moodjournaling
+  - validate_insomniajournaling
+  - validate_dizzinessjournaling
+  - validate_bradykinesiajournaling
+  - validate_tremorjournaling
+  - validate_fallingjournaling
 
 entities:
   - symptom
@@ -417,7 +419,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "If you need to chat in the future, say \"Alexa, open patrika\" and I will assist you in recording your symptoms. Bye!"
+    - text: "If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."

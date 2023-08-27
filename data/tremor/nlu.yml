@@ -1,88 +1,88 @@
 version: "3.1"
 
 nlu:
-- intent: trigger_tremor_mild
-  examples: |
-    - I felt a slight tremor in my left hand this morning
-    - My hand had a mild tremor for a few minutes
-    - I experienced a slight tremor in my leg while standing
-    - I noticed a small tremor in my arm while writing
-    - I felt a mild tremor in my hands and legs just now
-    - I am experiencing a slight tremor in my hands since few minutes now
-    - I sensed a mild tremor in my left this morning
-    - This morning, a subtle tremor coursed through my left hand.
-    - I experienced a mild tremor in my limbs just now
-    - I am feeling a bit of tremor in my hand right now
-    - I felt a slight tremor in my hand while working
-    - My hands were shaking while doing daily chores
-    - My hands are shivering
-    - My arm is out of control
-    - My hand is out of control
-    - My hands are shaking a little right now
-    - My arm is shaking a little
-    - My arm is shaking subtly
-    - I am feeling a light tremor in my hand
-    - I am feeling a light shake in my arm
-    - I am not able to control my hand
-    - i am not able to control my arm from shaking
-
-- intent: trigger_tremor_severe
-  examples: |
-    - I experienced a very strong tremor in my right arm for 20 minutes today
-    - My leg had a severe tremor that lasted for over an hour
-    - I had a very bad tremor in my hand while holding a cup
-    - My arm was shaking violently during my workout
-    - My hands cannot stop shaking
-    - My arm was out of control when I was in the bathroom
-    - My arm was very out of control
-    - My hand was shaking heavily
-    - I sensed a heavy tremor in my arm
-    - I felt a very high tremor in my hand
-    - Today's tremor was very strong
-    - Today I felt a strong shake in my arm
-    - My body was shaking uncontrollably
-    - My body had very strong tremors
-    - I sensed a bad shake in my body
-    - I could not control my body while it was shaking
-    - I experienced a horrifying tremor today
-    - I felt a strong tremor today
-    - Today's tremor was very uncomfortable and uncotrollable
-    - Yesterday, I experienced a strong tremor that shook my body completely
-    - I was impacted by a strong tremor
-
-- intent: trigger_tremor_frequency
-  examples: |
-    - I had multiple tremors throughout the day, including one that lasted for over an hour
-    - My hand trembled many times today, more than usual
-    - I experienced a tremor almost every hour today
-    - My leg had tremors on and off throughout the day
-    - My arm shook two times today
-    - My body was uncontrollable a couple times today
-    - My hand shook several times today
-    - My leg experienced tremors a couple times today
-    - My jaw was uncontrollable Morning and afternoon
-    - My hand were shaking in the afternoon and evening
-    - I had tremors almost every hour
-    - I had continuous tremors of 10 mintues on all days for almost a week
-    - I am having stints of tremors every hour since yesterday
-    - I noticed that the frequency of my tremors have increased recently
-    - I experience tremors more often nowadays
-
-- intent: trigger_tremor_location
-  examples: |
-    - I had a tremor in my legs while walking this morning
-    - My hand had a tremor while I was typing
-    - I experienced a tremor in my jaw during breakfast
-    - My arm had a tremor while I was putting on my coat
-    - My hands were shaky when I buttoned my shirt
-    - I have experienced tremor in my limbs while working
-    - I feel shivers in my hands sometimes
-    - I feel shivers in my legs sometimes
-    - My fingers shake while working
-    - I experienced tremor in my forearm while lifting suitcase
-    - I face tremor in my shoulders whenever bending
-    - My feet shake when I stand for longer
-    - I felt tremor in my thighs this morning
+#- intent: trigger_tremor_mild
+#  examples: |
+#    - I felt a slight tremor in my left hand this morning
+#    - My hand had a mild tremor for a few minutes
+#    - I experienced a slight tremor in my leg while standing
+#    - I noticed a small tremor in my arm while writing
+#    - I felt a mild tremor in my hands and legs just now
+#    - I am experiencing a slight tremor in my hands since few minutes now
+#    - I sensed a mild tremor in my left this morning
+#    - This morning, a subtle tremor coursed through my left hand.
+#    - I experienced a mild tremor in my limbs just now
+#    - I am feeling a bit of tremor in my hand right now
+#    - I felt a slight tremor in my hand while working
+#    - My hands were shaking while doing daily chores
+#    - My hands are shivering
+#    - My arm is out of control
+#    - My hand is out of control
+#    - My hands are shaking a little right now
+#    - My arm is shaking a little
+#    - My arm is shaking subtly
+#    - I am feeling a light tremor in my hand
+#    - I am feeling a light shake in my arm
+#    - I am not able to control my hand
+#    - i am not able to control my arm from shaking
+#
+#- intent: trigger_tremor_severe
+#  examples: |
+#    - I experienced a very strong tremor in my right arm for 20 minutes today
+#    - My leg had a severe tremor that lasted for over an hour
+#    - I had a very bad tremor in my hand while holding a cup
+#    - My arm was shaking violently during my workout
+#    - My hands cannot stop shaking
+#    - My arm was out of control when I was in the bathroom
+#    - My arm was very out of control
+#    - My hand was shaking heavily
+#    - I sensed a heavy tremor in my arm
+#    - I felt a very high tremor in my hand
+#    - Today's tremor was very strong
+#    - Today I felt a strong shake in my arm
+#    - My body was shaking uncontrollably
+#    - My body had very strong tremors
+#    - I sensed a bad shake in my body
+#    - I could not control my body while it was shaking
+#    - I experienced a horrifying tremor today
+#    - I felt a strong tremor today
+#    - Today's tremor was very uncomfortable and uncotrollable
+#    - Yesterday, I experienced a strong tremor that shook my body completely
+#    - I was impacted by a strong tremor
+#
+#- intent: trigger_tremor_frequency
+#  examples: |
+#    - I had multiple tremors throughout the day, including one that lasted for over an hour
+#    - My hand trembled many times today, more than usual
+#    - I experienced a tremor almost every hour today
+#    - My leg had tremors on and off throughout the day
+#    - My arm shook two times today
+#    - My body was uncontrollable a couple times today
+#    - My hand shook several times today
+#    - My leg experienced tremors a couple times today
+#    - My jaw was uncontrollable Morning and afternoon
+#    - My hand were shaking in the afternoon and evening
+#    - I had tremors almost every hour
+#    - I had continuous tremors of 10 mintues on all days for almost a week
+#    - I am having stints of tremors every hour since yesterday
+#    - I noticed that the frequency of my tremors have increased recently
+#    - I experience tremors more often nowadays
+#
+#- intent: trigger_tremor_location
+#  examples: |
+#    - I had a tremor in my legs while walking this morning
+#    - My hand had a tremor while I was typing
+#    - I experienced a tremor in my jaw during breakfast
+#    - My arm had a tremor while I was putting on my coat
+#    - My hands were shaky when I buttoned my shirt
+#    - I have experienced tremor in my limbs while working
+#    - I feel shivers in my hands sometimes
+#    - I feel shivers in my legs sometimes
+#    - My fingers shake while working
+#    - I experienced tremor in my forearm while lifting suitcase
+#    - I face tremor in my shoulders whenever bending
+#    - My feet shake when I stand for longer
+#    - I felt tremor in my thighs this morning
 
 - intent: trigger_current_tremors
   examples: |

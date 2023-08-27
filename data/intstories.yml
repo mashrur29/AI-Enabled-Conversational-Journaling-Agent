@@ -1539,10 +1539,6 @@ stories:
     - requested_slot: existing_symp
   - or:
     - intent: provide_existing_symptoms
-    - intent: trigger_tremor_mild
-    - intent: trigger_tremor_severe
-    - intent: trigger_tremor_frequency
-    - intent: trigger_tremor_location
     - intent: trigger_current_tremors
     - intent: trigger_bradykinesia_1
     - intent: trigger_bradykinesia_2
@@ -1837,9 +1833,6 @@ stories:
     - requested_slot: existing_symp
   - or:
     - intent: provide_existing_symptoms
-    - intent: trigger_tremor_severe
-    - intent: trigger_tremor_frequency
-    - intent: trigger_tremor_location
     - intent: trigger_current_tremors
   - action: action_set_slot
   - action: profilejournal
@@ -2159,9 +2152,6 @@ stories:
     - requested_slot: existing_symp
   - or:
     - intent: provide_existing_symptoms
-    - intent: trigger_tremor_severe
-    - intent: trigger_tremor_frequency
-    - intent: trigger_tremor_location
     - intent: trigger_current_tremors
     - intent: trigger_bradykinesia_1
   - action: action_set_slot
@@ -2246,7 +2236,6 @@ stories:
     - requested_slot: existing_symp
   - or:
     - intent: provide_existing_symptoms
-    - intent: trigger_tremor_location
     - intent: trigger_current_tremors
     - intent: trigger_bradykinesia_1
     - intent: trigger_bradykinesia_2

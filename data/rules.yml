@@ -59,10 +59,6 @@ rules:
   - active_loop: null
   steps:
   - or:
-      - intent: trigger_tremor_mild
-      - intent: trigger_tremor_severe
-      - intent: trigger_tremor_frequency
-      - intent: trigger_tremor_location
       - intent: trigger_current_tremors
   - action: action_set_symptom
   - action: utter_start_journal
