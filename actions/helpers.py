@@ -105,7 +105,7 @@ def get_response(msg, temperature=0.4):
         try:
             openai.api_key = API_KEY_1
             completion = openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-3.5-turbo",
                 messages=msg,
                 temperature=temperature
             )
