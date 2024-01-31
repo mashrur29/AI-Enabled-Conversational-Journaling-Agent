@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from threading import Lock
 
 
+
 class Database:
     db = None
     instance = None
