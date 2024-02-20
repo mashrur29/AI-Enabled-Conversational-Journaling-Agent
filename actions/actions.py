@@ -1,7 +1,6 @@
 import random
 from datetime import datetime
 from typing import Any, Text, Dict, List
-
 from rasa.core.actions.forms import FormAction
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
@@ -131,6 +130,17 @@ class ActionDefaultFallback(Action):
 
         logger.info('Inside fallback')
 
+        active_loop = tracker.active_loop.get("name")
+        if active_loop is not None:
+            logger.info(f'Active Loop: {active_loop}')
+
+            next_slot = tracker.get_slot("requested_slot")
+            logger.info(f'Requested slot: {next_slot}')
+
+            previous_user_msg = tracker.latest_message["text"]
+            logger.info(f'Previous user message: {previous_user_msg}')
+            return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
+
         try:
             symptom = tracker.get_slot('symptom')
             previous_user_msg = tracker.latest_message["text"]
@@ -146,7 +156,6 @@ class ActionDefaultFallback(Action):
         except Exception as e:
             conv_context = []
             logger.error("Error in retrieving context: {}".format(str(e)))
-
 
         det_chitchat = determine_chitchat(conv_context)
         logger.info(f'det_chitchat: {det_chitchat}')
@@ -237,11 +246,7 @@ class ActionRepeatQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(response="utter_repeat_question")
-
-        is_simplify = tracker.get_slot('is_simplify')
-        if is_simplify:
-            return []
+        dispatcher.utter_message(response="utter_asr_repeat")
 
         latest_bot_message = ''
         for event in tracker.events:
@@ -329,3 +334,41 @@ class ActionSetSlot(Action):
             return []
         except Exception as e:
             return []
+
+
+class ActionSubmitProfileForm(Action):
+    def name(self) -> Text:
+        return "action_followup"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        all_msg = []
+        for event in tracker.events:
+            if (event.get("event") == "bot") or (event.get("event") == "user"):
+                latest_message = event.get("text")
+                all_msg.append('{}: {}'.format(event.get("event"), latest_message))
+
+        behavior = 'Answer in a single sentence. Don\'t say anything else'
+        previous_user_msg = tracker.latest_message["text"]
+        prompt = 'Imagine you are a conversational agent designed for journaling Parkinson\'s, and the following is the conversation between you and a user:\n' + \
+                 f', '.join(
+                     all_msg) + f'\nIn the latest message, the user provided the following utterance: {previous_user_msg}. Now provide an appropriate response to the user\'s latest message. Don\'t respond with a question. Don\'t say anything else.'
+
+        context = [{'role': 'system', 'content': behavior},
+                   {'role': 'user', 'content': prompt}]
+
+        out = get_response(context, 0.5)
+
+        if 'AI' not in out:
+            dispatcher.utter_message(out)
+
+        active_loop = tracker.active_loop.get("name")
+
+
+        if active_loop is not None:
+            return [FollowupAction(active_loop)]
+
+        dispatcher.utter_message(text='utter_ask_to_conclude')
+        return []

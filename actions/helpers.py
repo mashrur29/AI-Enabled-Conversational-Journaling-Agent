@@ -1,5 +1,6 @@
 from datetime import datetime
-
+from openai.error import RateLimitError
+import backoff as backoff
 import openai
 from actions.API import API_KEY_1, API_KEY_2, API_KEY_3, API_KEY_4
 from database import db
@@ -100,50 +101,28 @@ def get_response_generic(conv_context):
     return get_response(prompt_generic).strip()
 
 
+@backoff.on_exception(backoff.expo, RateLimitError)
+def completions_with_backoff(**kwargs):
+    return openai.ChatCompletion.create(**kwargs)
+
+
 def get_response(msg, temperature=0.4):
-    while True:
+    API_KEY_1 = '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'
+    numTries = 20
+    for it in range(numTries):
         try:
             openai.api_key = API_KEY_1
-            completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+            completion = completions_with_backoff(
+                model="gpt-4",
                 messages=msg,
                 temperature=temperature
             )
             response = str(completion.choices[0].message['content'])
+
             return response.strip()
         except Exception as e:
-            try:
-                openai.api_key = API_KEY_2
-                completion = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=msg,
-                    temperature=temperature
-                )
-                response = str(completion.choices[0].message['content'])
-                return response.strip()
-            except Exception as e1:
-                try:
-                    openai.api_key = API_KEY_3
-                    completion = openai.ChatCompletion.create(
-                        model="gpt-3.5-turbo",
-                        messages=msg,
-                        temperature=temperature
-                    )
-                    response = str(completion.choices[0].message['content'])
-                    return response.strip()
-                except Exception as e2:
-                    try:
-                        openai.api_key = API_KEY_4
-                        completion = openai.ChatCompletion.create(
-                            model="gpt-3.5-turbo",
-                            messages=msg,
-                            temperature=temperature
-                        )
-                        response = str(completion.choices[0].message['content'])
-                        return response.strip()
-                    except Exception as e3:
-                        return "I'm sorry, I didn't quite understand that. Could you rephrase?"
-        pass
+            print("ERR: ", str(e))
+    return 'none'
 
 
 def get_timestamp():

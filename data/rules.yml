@@ -2,14 +2,16 @@ version: "3.1"
 
 rules:
 
+- rule: asr error
+  steps:
+    - intent: asr
+    - action: action_repeat_question
 
 - rule: greet old user
   condition:
   - active_loop: null
   steps:
-    - or:
-        - intent: greet
-        - intent: greet_alexa
+    - intent: greet
     - action: action_reset_slots
     - action: action_check_profile
     - slot_was_set:
@@ -17,14 +19,11 @@ rules:
     - action: utter_greet
     - action: utter_ask_symptom
 
-
 - rule: greet new user
   condition:
   - active_loop: null
   steps:
-    - or:
-        - intent: greet
-        - intent: greet_alexa
+    - intent: greet
     - action: action_reset_slots
     - action: action_check_profile
     - slot_was_set:
@@ -33,227 +32,502 @@ rules:
     - action: profilejournal
     - active_loop: profilejournal
 
-- rule: fallback
-  steps:
-  - intent: nlu_fallback
-  - action: action_default_fallback
-
-- rule: Say goodbye anytime the user says goodbye
-  steps:
-  - or:
-    - intent: goodbye
-    - intent: early_quit
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_goodbye
-
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
-
-
-- rule: trigger tremor
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_current_tremors
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-
-- rule: trigger bradykinesia
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_bradykinesia_1
-      - intent: trigger_bradykinesia_2
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-- rule: trigger dizziness
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_dizziness
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-- rule: trigger falling
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_falling_1
-      - intent: trigger_falling_2
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-- rule: trigger mood
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_mood_1
-      - intent: trigger_mood_2
-      - intent: trigger_mood_3
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-- rule: trigger insomnia
-  condition:
-  - active_loop: null
-  steps:
-  - or:
-      - intent: trigger_insomnia
-  - action: action_set_symptom
-  - action: utter_start_journal
-
-
-
-- rule: Set slot
-  steps:
-  - or:
-    - intent: activity_dizziness
-    - intent: activity_falling
-    - intent: activity_both
-    - intent: cooccurrence_yes
-    - intent: cooccurrence_no
-    - intent: inform_cooccurrence
-    - intent: daily_activity_yes
-    - intent: daily_activity_no
-    - intent: daily_activity_unsure
-    - intent: inform_dailyactivity
-    - intent: duration_1
-    - intent: duration_2
-    - intent: history_compare_tremor
-    - intent: history_compare_dizziness
-    - intent: history_compare_deny
-    - intent: history_compare_uncertain
-    - intent: history_confused_tremor
-    - intent: inform_history
-    - intent: inform_location_dizziness
-    - intent: inform_location_falling
-    - intent: inform_location_symptoms
-    - intent: inform_location_context
-    - intent: inform_location_environment
-    - intent: medication_intake
-    - intent: affirm_medicine
-    - intent: deny_medicine
-    - intent: unsure_medicine
-    - intent: specify_medicine_type
-    - intent: inform_medicine_type
-    - intent: medication_time
-    - intent: specify_medicine_time
-    - intent: inform_medicine_time
-    - intent: mood_cause
-    - intent: insomnia_cause
-    - intent: dizziness_severity
-    - intent: falling_severity
-    - intent: insomnia_severity
-    - intent: inform_time_dizziness
-    - intent: inform_time_falling
-    - intent: inform_time_symptoms
-    - intent: inform_dizziness_severity
-    - intent: inform_falling_severity
-    - intent: inform_specific_time
-    - intent: provide_name
-    - intent: provide_age
-    - intent: provide_daily_activity
-    - intent: provide_years_of_parkinson
-    - intent: provide_existing_symptoms
-    - intent: provide_daily_challenges
-    - intent: provide_prescribed_medications
-  - action: action_set_slot
-
-
-- rule: Out of scope
-  steps:
-  - or:
-    - intent: what_can_you_do
-  - action: utter_greet_large
-
-
-- rule: Submit tremor form
-  condition:
-  - active_loop: tremorjournaling
-  steps:
-  - action: tremorjournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
-- rule: Submit bradykinesia form
-  condition:
-  - active_loop: bradykinesiajournaling
-  steps:
-  - action: bradykinesiajournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
-- rule: Submit dizziness form
-  condition:
-  - active_loop: dizzinessjournaling
-  steps:
-  - action: dizzinessjournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
-- rule: Submit falling form
-  condition:
-  - active_loop: fallingjournaling
-  steps:
-  - action: fallingjournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
-- rule: Submit mood form
-  condition:
-  - active_loop: moodjournaling
-  steps:
-  - action: moodjournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
-- rule: Submit insomnia form
-  condition:
-  - active_loop: insomniajournaling
-  steps:
-  - action: insomniajournaling
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_journal
-  - action: utter_ask_to_conclude
-
 - rule: Submit profile form
   condition:
-  - active_loop: profilejournal
-  - slot_was_set:
-    - check_profile: false
+    - active_loop: profilejournal
   steps:
-  - action: profilejournal
-  - active_loop: null
-  - slot_was_set:
-    - requested_slot: null
-  - action: utter_end_profile_journal
-  - action: action_create_user_profile
-  - action: utter_ask_symptom
+    - action: profilejournal
+    - active_loop: null
+    - action: utter_ask_symptom
+
+- rule: start mood journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: mood
+    - action: utter_topicswitch_generic
+    - action: moodjournaling
+    - active_loop: moodjournaling
+
+- rule: Submit mood journal form
+  condition:
+    - active_loop: moodjournaling
+  steps:
+    - action: moodjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start tremor journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: tremor
+    - action: utter_topicswitch_generic
+    - action: tremorjournaling
+    - active_loop: tremorjournaling
+
+- rule: Submit tremor journal form
+  condition:
+    - active_loop: tremorjournaling
+  steps:
+    - action: tremorjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start tremor journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: tremor
+    - action: utter_topicswitch_generic
+    - action: tremorjournaling
+    - active_loop: tremorjournaling
+
+- rule: Submit tremor journal form
+  condition:
+    - active_loop: tremorjournaling
+  steps:
+    - action: tremorjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start bradykinesia journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: bradykinesia
+    - action: utter_topicswitch_generic
+    - action: bradykinesiajournaling
+    - active_loop: bradykinesiajournaling
+
+- rule: Submit bradykinesia journal form
+  condition:
+    - active_loop: bradykinesiajournaling
+  steps:
+    - action: bradykinesiajournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start dizziness journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: dizziness
+    - action: utter_topicswitch_generic
+    - action: dizzinessjournaling
+    - active_loop: dizzinessjournaling
+
+- rule: Submit dizziness journal form
+  condition:
+    - active_loop: dizzinessjournaling
+  steps:
+    - action: dizzinessjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start falling journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: falling
+    - action: utter_topicswitch_generic
+    - action: fallingjournaling
+    - active_loop: fallingjournaling
+
+- rule: Submit falling journal form
+  condition:
+    - active_loop: fallingjournaling
+  steps:
+    - action: fallingjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start insomnia journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: insomnia
+    - action: utter_topicswitch_generic
+    - action: insomniajournaling
+    - active_loop: insomniajournaling
+
+- rule: Submit insomnia journal form
+  condition:
+    - active_loop: insomniajournaling
+  steps:
+    - action: insomniajournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+
+- rule: start stiffness journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: stiffness
+    - action: utter_topicswitch_generic
+    - action: stiffnessjournaling
+    - active_loop: stiffnessjournaling
+
+- rule: Submit stiffness journal form
+  condition:
+    - active_loop: stiffnessjournaling
+  steps:
+    - action: stiffnessjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start fatigue journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: fatigue
+    - action: utter_topicswitch_generic
+    - action: fatiguejournaling
+    - active_loop: fatiguejournaling
+
+- rule: Submit fatigue journal form
+  condition:
+    - active_loop: fatiguejournaling
+  steps:
+    - action: fatiguejournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start dyskinesia journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: dyskinesia
+    - action: utter_topicswitch_generic
+    - action: dyskinesiajournaling
+    - active_loop: dyskinesiajournaling
+
+- rule: Submit dyskinesia journal form
+  condition:
+    - active_loop: dyskinesiajournaling
+  steps:
+    - action: dyskinesiajournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start dystonia journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: dystonia
+    - action: utter_topicswitch_generic
+    - action: dystoniajournaling
+    - active_loop: dystoniajournaling
+
+- rule: Submit dystonia journal form
+  condition:
+    - active_loop: dystoniajournaling
+  steps:
+    - action: dystoniajournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start balance journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: balance
+    - action: utter_topicswitch_generic
+    - action: balancejournaling
+    - active_loop: balancejournaling
+
+- rule: Submit balance journal form
+  condition:
+    - active_loop: balancejournaling
+  steps:
+    - action: balancejournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start pain journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: pain
+    - action: utter_topicswitch_generic
+    - action: painjournaling
+    - active_loop: painjournaling
+
+- rule: Submit pain journal form
+  condition:
+    - active_loop: painjournaling
+  steps:
+    - action: painjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: start weakness journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: weakness
+    - action: utter_topicswitch_generic
+    - action: weaknessjournaling
+    - active_loop: weaknessjournaling
+
+- rule: Submit weakness journal form
+  condition:
+    - active_loop: weaknessjournaling
+  steps:
+    - action: weaknessjournaling
+    - active_loop: null
+    - action: utter_goodbye
+
+- rule: Provide followups to user
+  steps:
+    - intent: followup
+    - action: action_followup
+
+- rule: Conclude journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: deny
+    - action: utter_goodbye
+
+- rule: Conclude journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: none
+    - action: utter_goodbye
+
+- rule: Conclude journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: multiple
+    - action: utter_goodbye
+
+# these are old rules
+#
+#- rule: fallback
+#  steps:
+#  - intent: nlu_fallback
+#  - action: action_default_fallback
+#
+#- rule: Say goodbye anytime the user says goodbye
+#  steps:
+#  - or:
+#    - intent: goodbye
+#    - intent: early_quit
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_goodbye
+#
+#- rule: Say 'I am a bot' anytime the user challenges
+#  steps:
+#  - intent: bot_challenge
+#  - action: utter_iamabot
+#
+#
+#- rule: trigger tremor
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_current_tremors
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#
+#- rule: trigger bradykinesia
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_bradykinesia_1
+#      - intent: trigger_bradykinesia_2
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#- rule: trigger dizziness
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_dizziness
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#- rule: trigger falling
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_falling_1
+#      - intent: trigger_falling_2
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#- rule: trigger mood
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_mood_1
+#      - intent: trigger_mood_2
+#      - intent: trigger_mood_3
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#- rule: trigger insomnia
+#  condition:
+#  - active_loop: null
+#  steps:
+#  - or:
+#      - intent: trigger_insomnia
+#  - action: action_set_symptom
+#  - action: utter_start_journal
+#
+#
+#
+#- rule: Set slot
+#  steps:
+#  - or:
+#    - intent: activity_dizziness
+#    - intent: activity_falling
+#    - intent: activity_both
+#    - intent: cooccurrence_yes
+#    - intent: cooccurrence_no
+#    - intent: inform_cooccurrence
+#    - intent: daily_activity_yes
+#    - intent: daily_activity_no
+#    - intent: daily_activity_unsure
+#    - intent: inform_dailyactivity
+#    - intent: duration_1
+#    - intent: duration_2
+#    - intent: history_compare_tremor
+#    - intent: history_compare_dizziness
+#    - intent: history_compare_deny
+#    - intent: history_compare_uncertain
+#    - intent: history_confused_tremor
+#    - intent: inform_history
+#    - intent: inform_location_dizziness
+#    - intent: inform_location_falling
+#    - intent: inform_location_symptoms
+#    - intent: inform_location_context
+#    - intent: inform_location_environment
+#    - intent: medication_intake
+#    - intent: affirm_medicine
+#    - intent: deny_medicine
+#    - intent: unsure_medicine
+#    - intent: specify_medicine_type
+#    - intent: inform_medicine_type
+#    - intent: medication_time
+#    - intent: specify_medicine_time
+#    - intent: inform_medicine_time
+#    - intent: mood_cause
+#    - intent: insomnia_cause
+#    - intent: dizziness_severity
+#    - intent: falling_severity
+#    - intent: insomnia_severity
+#    - intent: inform_time_dizziness
+#    - intent: inform_time_falling
+#    - intent: inform_time_symptoms
+#    - intent: inform_dizziness_severity
+#    - intent: inform_falling_severity
+#    - intent: inform_specific_time
+#    - intent: provide_name
+#    - intent: provide_age
+#    - intent: provide_daily_activity
+#    - intent: provide_years_of_parkinson
+#    - intent: provide_existing_symptoms
+#    - intent: provide_daily_challenges
+#    - intent: provide_prescribed_medications
+#  - action: action_set_slot
+#
+#
+#- rule: Out of scope
+#  steps:
+#  - or:
+#    - intent: what_can_you_do
+#  - action: utter_greet_large
+#
+#
+#- rule: Submit tremor form
+#  condition:
+#  - active_loop: tremorjournaling
+#  steps:
+#  - action: tremorjournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit bradykinesia form
+#  condition:
+#  - active_loop: bradykinesiajournaling
+#  steps:
+#  - action: bradykinesiajournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit dizziness form
+#  condition:
+#  - active_loop: dizzinessjournaling
+#  steps:
+#  - action: dizzinessjournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit falling form
+#  condition:
+#  - active_loop: fallingjournaling
+#  steps:
+#  - action: fallingjournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit mood form
+#  condition:
+#  - active_loop: moodjournaling
+#  steps:
+#  - action: moodjournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit insomnia form
+#  condition:
+#  - active_loop: insomniajournaling
+#  steps:
+#  - action: insomniajournaling
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_journal
+#  - action: utter_ask_to_conclude
+#
+#- rule: Submit profile form
+#  condition:
+#  - active_loop: profilejournal
+#  - slot_was_set:
+#    - check_profile: false
+#  steps:
+#  - action: profilejournal
+#  - active_loop: null
+#  - slot_was_set:
+#    - requested_slot: null
+#  - action: utter_end_profile_journal
+#  - action: action_create_user_profile
+#  - action: utter_ask_symptom

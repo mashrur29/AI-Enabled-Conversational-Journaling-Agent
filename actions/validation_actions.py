@@ -27,6 +27,11 @@ class ValidateProfileForm(FormValidationAction):
             domain: DomainDict,
     ) -> Dict[Text, Any]:
         text = tracker.latest_message.get("text")
+
+        if text is None:
+            text = 'none'
+
+        dispatcher.utter_message(text=f'Noted your name: {text}')
         return {"name": text}
 
 
@@ -476,3 +481,323 @@ class ValidateFallingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
         text = tracker.latest_message.get("text")
         return {"severity": text}
+
+
+class ValidateStiffnessForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_stiffnessjournaling"
+
+    def validate_medicinetype(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetype": text}
+
+    def validate_medicinetime(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetime": text}
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_duration(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"duration": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
+class ValidateFatigueForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_fatiguejournaling"
+
+    def validate_time(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"time": text}
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
+class ValidateDyskinesiaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_dyskinesiajournaling"
+
+    def validate_medicinetype(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetype": text}
+
+    def validate_medicinetime(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetime": text}
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_duration(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"duration": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
+
+class ValidateDystoniaForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_dystoniajournaling"
+
+    def validate_medicinetype(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetype": text}
+
+    def validate_medicinetime(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetime": text}
+
+    def validate_cooccurrence(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"cooccurrence": text}
+
+    def validate_time(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"time": text}
+
+class ValidateBalanceForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_balancejournaling"
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_cooccurrence(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"cooccurrence": text}
+
+    def validate_duration(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"duration": text}
+
+    def validate_devices(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"devices": text}
+
+class ValidatePainForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_painjournaling"
+
+    def validate_medicinetype(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetype": text}
+
+    def validate_medicinetime(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetime": text}
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
+    def validate_duration(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"duration": text}
+
+class ValidateWeaknessForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_weaknessjournaling"
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
+    def validate_cooccurrence(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"cooccurrence": text}

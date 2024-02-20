@@ -4,71 +4,24 @@ intents:
   - greet
   - goodbye
   - early_quit
-  - affirm
-  - deny
-  - bot_challenge
-  - trigger_current_tremors
-  - medication_intake
-  - medication_time
-  - affirm_medicine
-  - deny_medicine
-  - unsure_medicine
-  - specify_medicine_type
-  - inform_medicine_type
-  - specify_medicine_time
-  - inform_medicine_time
-  - duration_1
-  - duration_2
-  - cooccurrence_yes
-  - cooccurrence_no
-  - inform_cooccurrence
-  - daily_activity_yes
-  - daily_activity_no
-  - daily_activity_unsure
-  - inform_dailyactivity
-  - history_compare_tremor
-  - history_confused_tremor
-  - history_compare_dizziness
-  - history_compare_deny
-  - history_compare_uncertain
-  - inform_history
-  - trigger_bradykinesia_1
-  - trigger_bradykinesia_2
-  - inform_time_dizziness
-  - inform_time_falling
-  - inform_time_symptoms
-  - inform_dizziness_severity
-  - inform_falling_severity
-  - inform_specific_time
-  - inform_location_dizziness
-  - inform_location_falling
-  - inform_location_symptoms
-  - inform_location_context
-  - inform_location_environment
-  - dizziness_severity
-  - falling_severity
-  - insomnia_severity
-  - mood_cause
-  - insomnia_cause
-  - trigger_dizziness
-  - trigger_falling_1
-  - trigger_falling_2
-  - trigger_insomnia
-  - trigger_mood_1
-  - trigger_mood_2
-  - trigger_mood_3
-  - activity_dizziness
-  - activity_falling
-  - activity_both
-  - greet_alexa
-  - what_can_you_do
-  - provide_name
-  - provide_age
-  - provide_daily_activity
-  - provide_years_of_parkinson
-  - provide_existing_symptoms
-  - provide_daily_challenges
-  - provide_prescribed_medications
+  - tremor
+  - bradykinesia
+  - stiffness
+  - dizziness
+  - falling
+  - insomnia
+  - fatigue
+  - mood
+  - dyskinesia
+  - dystonia
+  - balance
+  - pain
+  - weakness
+  - multiple
+  - followup
+  - asr
+  - none
+  - continue_journal
 
 actions:
   - action_set_symptom
@@ -103,6 +56,14 @@ actions:
   - validate_bradykinesiajournaling
   - validate_tremorjournaling
   - validate_fallingjournaling
+  - validate_stiffnessjournaling
+  - validate_fatiguejournaling
+  - validate_dyskinesiajournaling
+  - validate_dystoniajournaling
+  - validate_balancejournaling
+  - validate_painjournaling
+  - validate_weaknessjournaling
+  - action_followup
 
 entities:
   - symptom
@@ -238,6 +199,18 @@ slots:
       - type: custom
         entity: action_set_slot
 
+  description:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  devices:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
 forms:
   profilejournal:
     required_slots:
@@ -297,6 +270,56 @@ forms:
       - dailyactivity
       - severity
       - reason
+
+  stiffnessjournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - description
+      - duration
+      - dailyactivity
+
+  fatiguejournaling:
+    required_slots:
+      - time
+      - description
+      - dailyactivity
+
+  dyskinesiajournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - description
+      - duration
+      - dailyactivity
+
+  dystoniajournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - cooccurrence
+      - time
+
+  balancejournaling:
+    required_slots:
+      - description
+      - cooccurrence
+      - duration
+      - devices
+
+  painjournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - description
+      - dailyactivity
+      - duration
+
+  weaknessjournaling:
+    required_slots:
+      - description
+      - dailyactivity
+      - cooccurrence
 
 responses:
   utter_greet_large:
@@ -399,6 +422,9 @@ responses:
 
     - text: "Alright, I will ask you a few questions about your experience."
 
+  utter_asr_repeat:
+    - text: "I'm sorry, I didn't understand your response. Could you please repeat?"
+
   utter_end_journal:
     - text: "Thank you for journaling your symptom with me."
     - text: "I appreciate you sharing information about your symptoms with me."
@@ -419,7 +445,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
+    - text: "Thank you for journaling with me. If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
@@ -722,6 +748,95 @@ responses:
     - text: "Your answer helps me understand better."
     - text: "I've noted your response."
 
+  utter_ask_stiffnessjournaling_medicinetype:
+    - text: Did you take your medication?
+
+  utter_ask_stiffnessjournaling_medicinetime:
+    - text: When did you last take it?
+
+  utter_ask_stiffnessjournaling_description:
+    - text: Can you describe where in your body you are feeling stiffness?
+
+  utter_ask_stiffnessjournaling_duration:
+    - text: How long does the stiffness usually last?
+
+  utter_ask_stiffnessjournaling_dailyactivity:
+    - text: Did your condition get in the way of doing any of your daily activities or chores?
+
+  utter_ask_fatiguejournaling_time:
+    - text: Have you taken any naps today or felt the need to rest more than usual?
+
+  utter_ask_fatiguejournaling_description:
+    - text: Can you describe the fatigue you are experiencing? Is it more physical, mental, or a combination of both?
+
+  utter_ask_fatiguejournaling_dailyactivity:
+    - text: Did your condition get in the way of doing any of your daily activities or chores?
+
+  utter_ask_dyskinesiajournaling_medicinetype:
+    - text: Did you take your medication?
+
+  utter_ask_dyskinesiajournaling_medicinetime:
+    - text: When did you last take it?
+
+  utter_ask_dyskinesiajournaling_description:
+    - text: Can you describe the dyskinesia you are experiencing? For example, are you having involuntary movements, and if so, what type (e.g., twitching, flailing, writhing)?
+
+  utter_ask_dyskinesiajournaling_duration:
+    - text: How long does your dyskinesia typically last?
+
+  utter_ask_dyskinesiajournaling_dailyactivity:
+    - text: How have these involuntary movements affected your daily activities?
+
+  utter_ask_dystoniajournaling_medicinetype:
+    - text: Did you take your medication?
+
+  utter_ask_dystoniajournaling_medicinetime:
+    - text: When did you last take it?
+
+  utter_ask_dystoniajournaling_cooccurrence:
+    - text: Have you identified any triggers or activities that seem to exacerbate your dystonia?
+
+  utter_ask_dystoniajournaling_time:
+    - text: When do you typically experience these dystonic episodes?
+
+  utter_ask_balancejournaling_description:
+    - text: Can you describe how you experience this loss of balance? For example, does it feel like dizziness, unsteadiness, or something else.
+
+  utter_ask_balancejournaling_cooccurrence:
+    - text: Have you had any falls or near falls because of this issue?
+
+  utter_ask_balancejournaling_duration:
+    - text: How frequently have you been experiencing these balance issues?
+
+  utter_ask_balancejournaling_devices:
+    - text: Are you using any assistive devices, like a cane or walker, to help with your mobility?
+
+  utter_ask_painjournaling_medicinetype:
+    - text: Did you take your medication?
+
+  utter_ask_painjournaling_medicinetime:
+    - text: When did you last take it?
+
+  utter_ask_painjournaling_description:
+    - text: Can you describe the type of pain you are experiencing?
+
+  utter_ask_painjournaling_dailyactivity:
+    - text: How has this pain affected your daily activities?
+
+  utter_ask_painjournaling_duration:
+    - text: How long do pain episodes typically last?
+
+  utter_ask_weaknessjournaling_description:
+    - text: Can you describe the weakness you are feeling? Is it in specific utter_ask_muscles or muscle groups, or do you feel it throughout your body?
+
+  utter_ask_weaknessjournaling_dailyactivity:
+    - text: How has this weakness affected your ability to perform daily tasks?
+
+  utter_ask_weaknessjournaling_cooccurrence:
+    - text: Have there been any other changes to your overall health recently that might be contributing to the weakness?
+
+  utter_topicswitch_generic:
+    - text: I am sorry to hear this. I'll ask you a few questions to better understand your condition.
   utter_topicswitch_bradykinesia:
     - text: I am sorry to hear that you are also experiencing bradykinesia.
   utter_topicswitch_dizziness:
