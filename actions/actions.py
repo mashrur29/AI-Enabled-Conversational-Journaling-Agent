@@ -139,6 +139,9 @@ class ActionDefaultFallback(Action):
 
             previous_user_msg = tracker.latest_message["text"]
             logger.info(f'Previous user message: {previous_user_msg}')
+
+            dispatcher.utter_message(f'Noted your response: {previous_user_msg}')
+
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
         try:
@@ -299,8 +302,6 @@ class ActionSetSymptom(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         slot_name = tracker.latest_message['intent'].get('name')
-        if slot_name in intent2Symptom:
-            slot_name = intent2Symptom[slot_name]
 
         return [SlotSet("symptom", slot_name)]
 

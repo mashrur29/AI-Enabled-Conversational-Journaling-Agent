@@ -3,6 +3,8 @@ version: "3.1"
 rules:
 
 - rule: asr error
+  condition:
+    - active_loop: null
   steps:
     - intent: asr
     - action: action_repeat_question
@@ -38,6 +40,8 @@ rules:
   steps:
     - action: profilejournal
     - active_loop: null
+    - action: utter_end_profile_journal
+    - action: action_create_user_profile
     - action: utter_ask_symptom
 
 - rule: start mood journal
@@ -45,6 +49,7 @@ rules:
     - active_loop: null
   steps:
     - intent: mood
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: moodjournaling
     - active_loop: moodjournaling
@@ -62,6 +67,7 @@ rules:
     - active_loop: null
   steps:
     - intent: tremor
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: tremorjournaling
     - active_loop: tremorjournaling
@@ -74,28 +80,13 @@ rules:
     - active_loop: null
     - action: utter_goodbye
 
-- rule: start tremor journal
-  condition:
-    - active_loop: null
-  steps:
-    - intent: tremor
-    - action: utter_topicswitch_generic
-    - action: tremorjournaling
-    - active_loop: tremorjournaling
-
-- rule: Submit tremor journal form
-  condition:
-    - active_loop: tremorjournaling
-  steps:
-    - action: tremorjournaling
-    - active_loop: null
-    - action: utter_goodbye
 
 - rule: start bradykinesia journal
   condition:
     - active_loop: null
   steps:
     - intent: bradykinesia
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: bradykinesiajournaling
     - active_loop: bradykinesiajournaling
@@ -113,6 +104,7 @@ rules:
     - active_loop: null
   steps:
     - intent: dizziness
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: dizzinessjournaling
     - active_loop: dizzinessjournaling
@@ -130,6 +122,7 @@ rules:
     - active_loop: null
   steps:
     - intent: falling
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: fallingjournaling
     - active_loop: fallingjournaling
@@ -147,6 +140,7 @@ rules:
     - active_loop: null
   steps:
     - intent: insomnia
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: insomniajournaling
     - active_loop: insomniajournaling
@@ -165,6 +159,7 @@ rules:
     - active_loop: null
   steps:
     - intent: stiffness
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: stiffnessjournaling
     - active_loop: stiffnessjournaling
@@ -182,6 +177,7 @@ rules:
     - active_loop: null
   steps:
     - intent: fatigue
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: fatiguejournaling
     - active_loop: fatiguejournaling
@@ -199,6 +195,7 @@ rules:
     - active_loop: null
   steps:
     - intent: dyskinesia
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: dyskinesiajournaling
     - active_loop: dyskinesiajournaling
@@ -216,6 +213,7 @@ rules:
     - active_loop: null
   steps:
     - intent: dystonia
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: dystoniajournaling
     - active_loop: dystoniajournaling
@@ -233,6 +231,7 @@ rules:
     - active_loop: null
   steps:
     - intent: balance
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: balancejournaling
     - active_loop: balancejournaling
@@ -250,6 +249,7 @@ rules:
     - active_loop: null
   steps:
     - intent: pain
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: painjournaling
     - active_loop: painjournaling
@@ -267,6 +267,7 @@ rules:
     - active_loop: null
   steps:
     - intent: weakness
+    - action: action_set_symptom
     - action: utter_topicswitch_generic
     - action: weaknessjournaling
     - active_loop: weaknessjournaling

@@ -31,7 +31,7 @@ class ValidateProfileForm(FormValidationAction):
         if text is None:
             text = 'none'
 
-        dispatcher.utter_message(text=f'Noted your name: {text}')
+
         return {"name": text}
 
 

@@ -64,6 +64,45 @@ actions:
   - validate_painjournaling
   - validate_weaknessjournaling
   - action_followup
+  - action_ask_tremorjournaling_duration
+  - action_ask_duration
+  - action_ask_time
+  - action_ask_location
+  - action_ask_dizzinessjournaling_severity
+  - action_ask_dizzinessjournaling_history
+  - action_ask_fallingjournaling_severity
+  - action_ask_insomniajournaling_medicinetype
+  - action_ask_insomniajournaling_medicinetime
+  - action_ask_insomniajournaling_severity
+  - action_ask_stiffnessjournaling_medicinetype
+  - action_ask_stiffnessjournaling_medicinetime
+  - action_ask_stiffnessjournaling_description
+  - action_ask_stiffnessjournaling_duration
+  - action_ask_stiffnessjournaling_dailyactivity
+  - action_ask_fatiguejournaling_time
+  - action_ask_fatiguejournaling_description
+  - action_ask_fatiguejournaling_dailyactivity
+  - action_ask_dyskinesiajournaling_medicinetype
+  - action_ask_dyskinesiajournaling_medicinetime
+  - action_ask_dyskinesiajournaling_description
+  - action_ask_dyskinesiajournaling_duration
+  - action_ask_dyskinesiajournaling_dailyactivity
+  - action_ask_dystoniajournaling_medicinetype
+  - action_ask_dystoniajournaling_medicinetime
+  - action_ask_dystoniajournaling_cooccurrence
+  - action_ask_dystoniajournaling_time
+  - action_ask_balancejournaling_description
+  - action_ask_balancejournaling_cooccurrence
+  - action_ask_balancejournaling_duration
+  - action_ask_balancejournaling_devices
+  - action_ask_painjournaling_medicinetype
+  - action_ask_painjournaling_medicinetime
+  - action_ask_painjournaling_description
+  - action_ask_painjournaling_dailyactivity
+  - action_ask_painjournaling_duration
+  - action_ask_weaknessjournaling_description
+  - action_ask_weaknessjournaling_dailyactivity
+  - action_ask_weaknessjournaling_cooccurrence
 
 entities:
   - symptom
@@ -724,7 +763,7 @@ responses:
     - text: What are your prescribed medications?
 
   utter_end_profile_journal:
-    - text: Thanks for sharing. We can start now.
+    - text: Thank you. I've created your profile, so you can begin recording your symptoms now.
 
   utter_acknowledge:
     - text: "Thank you for your response."
