@@ -289,13 +289,6 @@ rules:
   condition:
     - active_loop: null
   steps:
-    - intent: deny
-    - action: utter_goodbye
-
-- rule: Conclude journal
-  condition:
-    - active_loop: null
-  steps:
     - intent: none
     - action: utter_goodbye
 
