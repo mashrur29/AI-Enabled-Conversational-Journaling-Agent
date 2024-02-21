@@ -280,10 +280,6 @@ rules:
     - active_loop: null
     - action: utter_goodbye
 
-- rule: Provide followups to user
-  steps:
-    - intent: followup
-    - action: action_followup
 
 - rule: user asks question outside loop
   condition:

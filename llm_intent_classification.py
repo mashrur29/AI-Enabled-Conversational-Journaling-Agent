@@ -28,10 +28,10 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
     #     return ["openai"]
 
     def __init__(
-        self,
-        config: Dict[Text, Any],
-        model_storage: ModelStorage,
-        resource: Resource
+            self,
+            config: Dict[Text, Any],
+            model_storage: ModelStorage,
+            resource: Resource
     ) -> None:
         super().__init__(config, model_storage, resource)
 
@@ -106,8 +106,7 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
             prompt2 = 'In the previous response, you mentioned, \'multiple\', indicating that the user wants to report more than one symptom. Now which of the following symptoms is the user talking about: \'tremor\', \'bradykinesia\', \'stiffness\', \'dizziness\', \'falling\', \'insomnia\', \'fatigue\', \'mood\', \'dyskinesia\', \'dystonia\', \'balance-issue\', \'pain\', \'weakness\'? Mention the symptoms separated by a comma. For instance, say, \'tremor, insomnia\', if the user wants to record their tremors and sleep problems. Don\'t use quotes. Don\'t say anything else.'
 
             intents = ['tremor', 'bradykinesia', 'stiffness', 'dizziness', 'falling', 'insomnia', 'fatigue', 'mood',
-                       'dyskinesia', 'dystonia', 'balance', 'pain', 'weakness', 'multiple', 'followup', 'asr',
-                       'none']
+                       'dyskinesia', 'dystonia', 'balance', 'pain', 'weakness', 'multiple', 'asr', 'none']
 
             context = [{'role': 'system', 'content': behavior},
                        {'role': 'user', 'content': prompt_l_no_history}]
@@ -120,7 +119,6 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             return 'none'
 
-
         for message in messages:
             text = message.data["text"]
 
@@ -130,8 +128,6 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             intent = {"name": prediction, "confidence": confidence}
 
-
             message.set("intent", intent, add_to_output=True)
-
 
         return messages

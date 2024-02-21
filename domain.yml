@@ -19,7 +19,6 @@ intents:
   - pain
   - weakness
   - multiple
-  - followup
   - asr
   - none
   - continue_journal
@@ -64,7 +63,6 @@ actions:
   - validate_balancejournaling
   - validate_painjournaling
   - validate_weaknessjournaling
-  - action_followup
   - action_ask_tremorjournaling_duration
   - action_ask_duration
   - action_ask_time
