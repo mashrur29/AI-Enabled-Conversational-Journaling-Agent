@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
-
+from utils import logger
 from rasa.nlu.classifiers.classifier import IntentClassifier
 from rasa.engine.recipes.default_recipe import DefaultV1Recipe
 from rasa.shared.nlu.training_data.message import Message
@@ -62,7 +62,9 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
             return 'none'
 
         def _predict_intent(msg):
-            if 'hi' in msg.lower():
+            greetings = ['hi', 'hello', 'hey', 'hii', 'Hi!', 'Hi']
+
+            if msg.lower() in greetings:
                 return 'greet'
 
             temperature = 0
@@ -98,7 +100,7 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             prediction = _predict_intent(text)
             confidence = 1.0
-
+            logger.info(f'Predicted intent for \'{text}\' is {prediction}')
 
             intent = {"name": prediction, "confidence": confidence}
 
