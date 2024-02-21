@@ -11,7 +11,7 @@ from rasa_sdk.types import DomainDict
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
-    symptoms, get_conv_context, get_response_generic
+    symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query
 from utils import logger
 
 
@@ -93,24 +93,6 @@ class ActionResetAllSlot(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        sender_id = tracker.sender_id
-
-        all_msg = []
-        for event in tracker.events:
-            if (event.get("event") == "bot") or (event.get("event") == "user"):
-                latest_bot_message = event.get("text")
-                all_msg.append('{}> {}'.format(event.get("event"), latest_bot_message))
-        # print(all_msg)
-        try:
-            id_ = random.randint(0, 100000)
-            with open('actions/convs/msg_{}.txt'.format(id_), 'w') as f:
-                for x in all_msg:
-                    f.write('{}\n'.format(x))
-
-        except Exception as e:
-            logger.error("Error in resetting slots {}".format(str(e)))
-
         return [AllSlotsReset()]
 
 
@@ -140,7 +122,26 @@ class ActionDefaultFallback(Action):
             previous_user_msg = tracker.latest_message["text"]
             logger.info(f'Previous user message: {previous_user_msg}')
 
-            dispatcher.utter_message(f'Noted your response: {previous_user_msg}')
+            # check if the user asks a question, respond and repeat previous bot utterance
+            if is_question(previous_user_msg) == True:
+                logger.info('Predicted user message is a question')
+                bot_response = answer_user_query(previous_user_msg, get_conv_context_raw(tracker.events, 20))
+                dispatcher.utter_message(bot_response)
+
+                latest_bot_message = ''
+                for event in tracker.events:
+                    if (event.get("event") == "bot") and (event.get("event") is not None):
+                        latest_bot_message = event.get("text")
+                dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
+                return [UserUtteranceReverted()]
+
+
+            logger.info('Predicted user message is not a question')
+
+            if previous_user_msg[-1] == '.':
+                previous_user_msg = previous_user_msg[:-1]
+
+            dispatcher.utter_message(f'Noted your response: {previous_user_msg}.')
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
@@ -303,7 +304,12 @@ class ActionSetSymptom(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         slot_name = tracker.latest_message['intent'].get('name')
 
-        return [SlotSet("symptom", slot_name)]
+        previous_user_msg = tracker.latest_message["text"]
+        slots_to_set = []
+        slots_to_set.append(SlotSet("symptom", slot_name))
+        # slots_to_set.append(SlotSet("bulk_report", False))
+
+        return slots_to_set
 
 
 class ActionSetSlot(Action):
@@ -366,7 +372,6 @@ class ActionSubmitProfileForm(Action):
             dispatcher.utter_message(out)
 
         active_loop = tracker.active_loop.get("name")
-
 
         if active_loop is not None:
             return [FollowupAction(active_loop)]

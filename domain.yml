@@ -165,6 +165,12 @@ slots:
     mappings:
       - type: custom
 
+  bulk_report:
+    type: bool
+    initial_value: False
+    mappings:
+      - type: custom
+
   symptom:
     type: text
     influence_conversation: true
@@ -875,6 +881,12 @@ responses:
     - text: Have there been any other changes to your overall health recently that might be contributing to the weakness?
 
   utter_topicswitch_generic:
+    - condition:
+        - type: slot
+          name: bulk_report
+          value: true
+      text: I am sorry to hear this and thank you for sharing this information. I'll ask you a few more questions to better understand your condition.
+
     - text: I am sorry to hear this. I'll ask you a few questions to better understand your condition.
   utter_topicswitch_bradykinesia:
     - text: I am sorry to hear that you are also experiencing bradykinesia.

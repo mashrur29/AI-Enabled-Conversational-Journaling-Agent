@@ -8,6 +8,8 @@ from actions.dicts import prompt_determine_sidetalk, prompt_sidetalk_response, p
     prompt_determine_symptom, \
     prompt_symptom_fallback_ack, prompt_generic
 from utils import logger
+import pickle
+import nltk
 
 symptom2form = {
     "tremor": "tremorjournaling",
@@ -35,6 +37,64 @@ def create_dict(role, content):
     }
     return dict
 
+
+f = open('models/naive_classifier_ques.pickle', 'rb')
+classifier = pickle.load(f)
+f.close()
+question_types = ["whQuestion", "ynQuestion"]
+
+question_pattern = ["do i", "do you", "what", "who", "is it", "why", "would you", "how", "is there",
+                    "are there", "is it so", "is this true", "to know", "is that true", "are we", "am i",
+                    "question is", "tell me more", "can i", "can we", "tell me", "can you explain",
+                    "question", "answer", "questions", "answers", "ask"]
+
+helping_verbs = ["is", "am", "can", "are", "do", "does"]
+
+
+def dialogue_act_features(post):
+    features = {}
+    for word in nltk.word_tokenize(post):
+        features['contains({})'.format(word.lower())] = True
+    return features
+
+
+def is_ques_using_nltk(ques):
+    question_type = classifier.classify(dialogue_act_features(ques))
+    return question_type in question_types
+
+
+def is_question(question):
+    question = question.lower().strip()
+    if not is_ques_using_nltk(question):
+        is_ques = False
+        for pattern in question_pattern:
+            is_ques = pattern in question
+            if is_ques:
+                break
+
+        sentence_arr = question.split(".")
+        for sentence in sentence_arr:
+            if len(sentence.strip()):
+                first_word = nltk.word_tokenize(sentence)[0]
+                if sentence.endswith("?") or first_word in helping_verbs:
+                    is_ques = True
+                    break
+        return is_ques
+    else:
+        return True
+
+
+def answer_user_query(previous_user_msg, history):
+    behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
+    prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
+             f', '.join(
+                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is {previous_user_msg}. The latest user message was predicted as a question for the bot. Now, respond to the user in a single sentence. Don\'t respond with a question. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, 0.5)
+    return out
 
 def get_symptom(conv_context):
     prompt_determine_symptom.extend(conv_context)
@@ -101,6 +161,10 @@ def get_response_generic(conv_context):
     return get_response(prompt_generic).strip()
 
 
+def check_bulk_report(previous_user_msg):
+    pass
+
+
 @backoff.on_exception(backoff.expo, RateLimitError)
 def completions_with_backoff(**kwargs):
     return openai.ChatCompletion.create(**kwargs)
@@ -159,6 +223,25 @@ def get_conv_context(events, history=4):
         elif (event.get("event") == "user") and (event.get("event") is not None):
             latest_user_message = event.get("text")
             conv_utter.append(create_dict("user", latest_user_message))
+            history = history - 1
+        if history == 0:
+            break
+
+    conv_utter.reverse()
+    return conv_utter
+
+
+def get_conv_context_raw(events, history=4):
+    conv_utter = []
+
+    for event in reversed(events):
+        if (event.get("event") == "bot") and (event.get("event") is not None):
+            latest_bot_message = event.get("text")
+            conv_utter.append(f'bot: {latest_bot_message}')
+            history = history - 1
+        elif (event.get("event") == "user") and (event.get("event") is not None):
+            latest_user_message = event.get("text")
+            conv_utter.append(f'user: {latest_user_message}')
             history = history - 1
         if history == 0:
             break
