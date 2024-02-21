@@ -285,6 +285,13 @@ rules:
     - intent: followup
     - action: action_followup
 
+- rule: user asks question outside loop
+  condition:
+    - active_loop: null
+  steps:
+    - intent: question
+    - action: action_answer_question
+
 - rule: Conclude journal
   condition:
     - active_loop: null

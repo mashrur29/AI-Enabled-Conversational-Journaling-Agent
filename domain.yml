@@ -4,6 +4,7 @@ intents:
   - greet
   - goodbye
   - early_quit
+  - question
   - tremor
   - bradykinesia
   - stiffness
@@ -103,6 +104,7 @@ actions:
   - action_ask_weaknessjournaling_description
   - action_ask_weaknessjournaling_dailyactivity
   - action_ask_weaknessjournaling_cooccurrence
+  - action_answer_question
 
 entities:
   - symptom

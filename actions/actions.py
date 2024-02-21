@@ -95,6 +95,26 @@ class ActionResetAllSlot(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         return [AllSlotsReset()]
 
+class ActionAnswerQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_answer_question"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        logger.info('Predicted user message is a question outside fallback')
+        previous_user_msg = tracker.latest_message["text"]
+        bot_response = answer_user_query(previous_user_msg, get_conv_context_raw(tracker.events, 20))
+        dispatcher.utter_message(bot_response)
+
+        latest_bot_message = ''
+        for event in tracker.events:
+            if (event.get("event") == "bot") and (event.get("event") is not None):
+                latest_bot_message = event.get("text")
+        dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
+        return [UserUtteranceReverted()]
 
 class ActionDefaultFallback(Action):
     """Executes the fallback action and goes back to the previous state
@@ -141,7 +161,7 @@ class ActionDefaultFallback(Action):
             if previous_user_msg[-1] == '.':
                 previous_user_msg = previous_user_msg[:-1]
 
-            dispatcher.utter_message(f'Noted your response: {previous_user_msg}.')
+            dispatcher.utter_message(f'Recorded your response: {previous_user_msg}.')
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 

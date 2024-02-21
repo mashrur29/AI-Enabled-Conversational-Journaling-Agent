@@ -38,6 +38,29 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
     def process(self, messages: List[Message]) -> List[Message]:
         from openai.error import RateLimitError
         import backoff as backoff
+        import nltk
+
+        def _is_question_from_pattern(question):
+            question = question.lower().strip()
+            question_pattern = ["do i", "do you", "what", "who", "is it", "why", "would you", "how", "is there",
+                                "are there", "is it so", "is this true", "to know", "is that true", "are we", "am i",
+                                "question is", "tell me more", "can i", "can we", "tell me", "can you explain",
+                                "question", "answer", "questions", "answers", "ask"]
+
+            helping_verbs = ["is", "am", "can", "are", "do", "does"]
+            is_ques = False
+            for pattern in question_pattern:
+                is_ques = pattern in question
+                if is_ques:
+                    break
+            sentence_arr = question.split(".")
+            for sentence in sentence_arr:
+                if len(sentence.strip()):
+                    first_word = nltk.word_tokenize(sentence)[0]
+                    if sentence.endswith("?") or first_word in helping_verbs:
+                        is_ques = True
+                        break
+            return is_ques
 
         @backoff.on_exception(backoff.expo, RateLimitError)
         def _completions_with_backoff(**kwargs):
@@ -66,6 +89,9 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             if msg.lower() in greetings:
                 return 'greet'
+
+            if _is_question_from_pattern(msg) == True:
+                return 'question'
 
             temperature = 0
 
@@ -107,15 +133,5 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             message.set("intent", intent, add_to_output=True)
 
-            # intents = ['tremor', 'bradykinesia', 'stiffness', 'dizziness', 'falling', 'insomnia', 'fatigue', 'mood',
-            #            'dyskinesia', 'dystonia', 'balance', 'pain', 'weakness', 'multiple', 'followup', 'asr',
-            #            'none']
-            #
-            # intent_ranking = []
-            # intent_ranking.append(intent)
-            # for x in intents:
-            #     if x != prediction:
-            #         intent_ranking.append({"name": x, "confidence": 0.0})
-            # message.set("intent_ranking", intent_ranking, add_to_output=True)
 
         return messages
