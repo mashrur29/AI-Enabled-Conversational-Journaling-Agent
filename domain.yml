@@ -103,6 +103,7 @@ actions:
   - action_ask_weaknessjournaling_dailyactivity
   - action_ask_weaknessjournaling_cooccurrence
   - action_answer_question
+  - action_generic_acknowledge
 
 entities:
   - symptom

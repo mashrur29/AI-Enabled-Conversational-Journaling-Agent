@@ -293,6 +293,7 @@ rules:
     - active_loop: null
   steps:
     - intent: none
+    - action: action_generic_acknowledge
     - action: utter_goodbye
 
 - rule: Conclude journal
@@ -300,6 +301,7 @@ rules:
     - active_loop: null
   steps:
     - intent: multiple
+    - action: action_generic_acknowledge
     - action: utter_goodbye
 
 # these are old rules

@@ -84,6 +84,19 @@ def is_question(question):
         return True
 
 
+def get_generic_ack(previous_user_msg, history):
+    behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
+    prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
+             f', '.join(
+                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is {previous_user_msg}. Now, acknowledge the user\'s latest utterance in a single sentence. Include information from the conversation context in the acknowledgement, whenever necessary. Don\'t respond with a question. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, 0.5)
+    return out
+
+
 def answer_user_query(previous_user_msg, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
     prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
@@ -95,6 +108,7 @@ def answer_user_query(previous_user_msg, history):
 
     out = get_response(context, 0.5)
     return out
+
 
 def get_symptom(conv_context):
     prompt_determine_symptom.extend(conv_context)

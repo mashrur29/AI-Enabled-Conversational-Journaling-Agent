@@ -11,7 +11,8 @@ from rasa_sdk.types import DomainDict
 from actions.helpers import create_dict, get_response, get_symptom, get_symptom_fallback, get_response_in_form, \
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
-    symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query
+    symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
+    get_generic_ack
 from utils import logger
 
 
@@ -94,6 +95,22 @@ class ActionResetAllSlot(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         return [AllSlotsReset()]
+
+class ActionGenericAcknowledge(Action):
+
+    def name(self) -> Text:
+        return "action_generic_acknowledge"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        logger.info('Inside generic acknowledge')
+        previous_user_msg = tracker.latest_message["text"]
+        bot_response = get_generic_ack(previous_user_msg, get_conv_context_raw(tracker.events, 20))
+        dispatcher.utter_message(bot_response)
+
+        return []
 
 class ActionAnswerQuestion(Action):
 
