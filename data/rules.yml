@@ -296,6 +296,14 @@ rules:
     - action: action_generic_acknowledge
     - action: utter_goodbye
 
+- rule: Early quit
+  steps:
+    - intent: early_quit
+    - action: action_deactivate_loop
+    - active_loop: null
+    - action: action_generic_acknowledge
+    - action: utter_goodbye
+
 - rule: Conclude journal
   condition:
     - active_loop: null

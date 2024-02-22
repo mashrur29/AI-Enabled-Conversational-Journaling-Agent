@@ -84,11 +84,24 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
                     print("ERR: ", str(e))
             return 'none'
 
+        def _check_early_quit(msg):
+            behavior = 'Answer in a single word. Don\'t say anything else'
+            prompt_early_quit = f'Imagine you are a journaling chatbot talking to a user who is a Parkinson\'s patient. In the latest utterance the user responded with {msg}. Now, determine if the latest utterance is an intent to quit journaling. For instance, if the user says, \'quit\', \'i don\'t want to talk anymore\', \'my head will blow off because of you\', then this is an intent to quit journaling. Say \'yes\' if the user wants to quit journaling; otherwise, say \'no\'. Don\'t say anything else.'
+            context = [{'role': 'system', 'content': behavior},
+                       {'role': 'user', 'content': prompt_early_quit}]
+            out = _get_response_gpt(context, temperature=0).lower()
+            if out == 'yes':
+                return True
+            return False
+
         def _predict_intent(msg):
             greetings = ['hi', 'hello', 'hey', 'hii', 'Hi!', 'Hi']
 
             if msg.lower() in greetings:
                 return 'greet'
+
+            if _check_early_quit(msg):
+                return 'early_quit'
 
             if _is_question_from_pattern(msg) == True:
                 return 'question'

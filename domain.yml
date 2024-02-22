@@ -758,7 +758,7 @@ responses:
     - text: What are your typical daily activities?
 
   utter_ask_profilejournal_years_of_pd:
-    - text: How many years did you have Parkinsons
+    - text: How many years did you have Parkinsons?
 
   utter_ask_profilejournal_existing_symp:
     - text: What are your existing Parkinsons symptoms?

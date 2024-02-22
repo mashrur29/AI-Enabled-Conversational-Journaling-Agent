@@ -83,6 +83,35 @@ def is_question(question):
     else:
         return True
 
+def is_question_from_pattern(question):
+    question = question.lower().strip()
+    question_pattern = ["do i", "do you", "what", "who", "is it", "why", "would you", "how", "is there",
+                        "are there", "is it so", "is this true", "to know", "is that true", "are we", "am i",
+                        "question is", "tell me more", "can i", "can we", "tell me", "can you explain",
+                        "question", "answer", "questions", "answers", "ask"]
+    helping_verbs = ["is", "am", "can", "are", "do", "does"]
+    is_ques = False
+    for pattern in question_pattern:
+        is_ques = pattern in question
+        if is_ques:
+            break
+    sentence_arr = question.split(".")
+    for sentence in sentence_arr:
+        if len(sentence.strip()):
+            first_word = nltk.word_tokenize(sentence)[0]
+            if sentence.endswith("?") or first_word in helping_verbs:
+                is_ques = True
+                break
+    return is_ques
+
+def get_latest_bot_message(events):
+    latest_bot_message = ''
+    for event in events:
+        if (event.get("event") == "bot") and (event.get("event") is not None):
+            latest_bot_message = event.get("text")
+    if 'Let\'s gently circle back to our conversation:' in latest_bot_message:
+        latest_bot_message = latest_bot_message.replace('Let\'s gently circle back to our conversation:', '')
+    return latest_bot_message.strip()
 
 def get_generic_ack(previous_user_msg, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
@@ -97,11 +126,11 @@ def get_generic_ack(previous_user_msg, history):
     return out
 
 
-def answer_user_query(previous_user_msg, history):
+def answer_user_query(previous_user_msg, latest_bot_message, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
     prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
              f', '.join(
-                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is {previous_user_msg}. The latest user message was predicted as a question for the bot. Now, respond to the user in a single sentence. Don\'t respond with a question. Don\'t say anything else.'
+                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is \'{previous_user_msg}\', when asked \'{latest_bot_message}\'. The latest user message was predicted as a question for the bot. Now, respond to the user in a single sentence. Don\'t respond with a question for the user. Don\'t say anything else.'
 
     context = [{'role': 'system', 'content': behavior},
                {'role': 'user', 'content': prompt}]

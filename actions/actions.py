@@ -12,7 +12,7 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
-    get_generic_ack
+    get_generic_ack, get_latest_bot_message, is_question_from_pattern
 from utils import logger
 
 
@@ -96,6 +96,7 @@ class ActionResetAllSlot(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         return [AllSlotsReset()]
 
+
 class ActionGenericAcknowledge(Action):
 
     def name(self) -> Text:
@@ -104,13 +105,13 @@ class ActionGenericAcknowledge(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         logger.info('Inside generic acknowledge')
         previous_user_msg = tracker.latest_message["text"]
         bot_response = get_generic_ack(previous_user_msg, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
         return []
+
 
 class ActionAnswerQuestion(Action):
 
@@ -120,18 +121,16 @@ class ActionAnswerQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         logger.info('Predicted user message is a question outside fallback')
         previous_user_msg = tracker.latest_message["text"]
         bot_response = answer_user_query(previous_user_msg, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
-        latest_bot_message = ''
-        for event in tracker.events:
-            if (event.get("event") == "bot") and (event.get("event") is not None):
-                latest_bot_message = event.get("text")
+        latest_bot_message = get_latest_bot_message(tracker.events)
+
         dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
         return [UserUtteranceReverted()]
+
 
 class ActionDefaultFallback(Action):
     """Executes the fallback action and goes back to the previous state
@@ -159,19 +158,17 @@ class ActionDefaultFallback(Action):
             previous_user_msg = tracker.latest_message["text"]
             logger.info(f'Previous user message: {previous_user_msg}')
 
-            # check if the user asks a question, respond and repeat previous bot utterance
-            if is_question(previous_user_msg) == True:
-                logger.info('Predicted user message is a question')
-                bot_response = answer_user_query(previous_user_msg, get_conv_context_raw(tracker.events, 20))
-                dispatcher.utter_message(bot_response)
+            latest_bot_message = get_latest_bot_message(tracker.events)
+            logger.info(f'Latest bot message: {latest_bot_message}')
 
-                latest_bot_message = ''
-                for event in tracker.events:
-                    if (event.get("event") == "bot") and (event.get("event") is not None):
-                        latest_bot_message = event.get("text")
+            # check if the user asks a question, respond and repeat previous bot utterance
+            if is_question_from_pattern(previous_user_msg) == True:
+                logger.info('Predicted user message is a question')
+                bot_response = answer_user_query(previous_user_msg, latest_bot_message,
+                                                 get_conv_context_raw(tracker.events, 20))
+                dispatcher.utter_message(bot_response)
                 dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
                 return [UserUtteranceReverted()]
-
 
             logger.info('Predicted user message is not a question')
 
@@ -289,10 +286,7 @@ class ActionRepeatQuestion(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_asr_repeat")
 
-        latest_bot_message = ''
-        for event in tracker.events:
-            if (event.get("event") == "bot") and (event.get("event") is not None):
-                latest_bot_message = event.get("text")
+        latest_bot_message = get_latest_bot_message(tracker.events)
         dispatcher.utter_message(text=latest_bot_message)
 
         return [UserUtteranceReverted()]
@@ -378,5 +372,3 @@ class ActionSetSlot(Action):
             return []
         except Exception as e:
             return []
-
-
