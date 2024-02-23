@@ -22,6 +22,10 @@ First install the dependencies using pip: `pip install -r requirements.txt`
 
 - Follow: `https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/`
 
+# Tutorial: Localtunnel (ngrok alt)
+
+- Follow: `https://techmonger.github.io/13/localtunnel-ubuntu/`
+
 # Store Git Password
 
 - `git config --global credential.helper store`

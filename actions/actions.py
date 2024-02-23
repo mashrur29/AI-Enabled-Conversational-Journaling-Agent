@@ -123,10 +123,11 @@ class ActionAnswerQuestion(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         logger.info('Predicted user message is a question outside fallback')
         previous_user_msg = tracker.latest_message["text"]
-        bot_response = answer_user_query(previous_user_msg, get_conv_context_raw(tracker.events, 20))
+        latest_bot_message = get_latest_bot_message(tracker.events)
+        bot_response = answer_user_query(previous_user_msg, latest_bot_message, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
-        latest_bot_message = get_latest_bot_message(tracker.events)
+
 
         dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
         return [UserUtteranceReverted()]
