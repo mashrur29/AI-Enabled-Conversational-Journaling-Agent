@@ -5,10 +5,12 @@ from rasa_sdk.events import EventType
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk import Action
 from actions.dicts import profile_prompt
-from actions.helpers import create_dict, get_response
+from actions.helpers import create_dict, get_response, get_conv_context_raw, similarity_bm25
 from database import db
 from utils import logger
+
 nlp = spacy.load("en_core_web_md")
+
 
 def get_user_profile(sender_id):
     name = ''
@@ -18,6 +20,7 @@ def get_user_profile(sender_id):
     existing_symp = ''
     daily_challenges = ''
     prescribed_meds = ''
+    profile = []
 
     try:
         val = db.voicebot.profiles.find_one({"sender_id": sender_id})
@@ -31,31 +34,80 @@ def get_user_profile(sender_id):
     except Exception as e:
         logger.error(str(e))
 
+    profile.append(f'What is your preferred name? -> {name}')
+    profile.append(f'What is your age? -> {age}')
+    profile.append(f'What are your typical daily activities? -> {daily_activity}')
+    profile.append(f'How many years did you have Parkinson\'s? -> {years_of_pd}')
+    profile.append(f'What are your existing Parkinson\'s symptoms? -> {existing_symp}')
+    profile.append(f'What challenges do you face on a regular basis? -> {daily_challenges}')
+    profile.append(f'What are your prescribed medications? -> {daily_challenges}')
 
-    return name, age, daily_activity, years_of_pd, existing_symp, daily_challenges, prescribed_meds
+    return profile
+
+
+def get_conversation_history(sender_id, ques):
+    items = db.conversations.find({"sender_id": sender_id})
+    events = items[0]['events']
+    all_convs = []
+    latest_bot_message = ''
+
+    for event in events:
+        if (event.get("event") == "bot") and (event.get("event") is not None):
+            latest_bot_message = latest_bot_message + ' ' + event.get("text")
+            latest_bot_message = latest_bot_message.strip()
+
+        elif (event.get("event") == "user") and (event.get("event") is not None):
+            latest_user_message = event.get("text")
+
+            if len(latest_bot_message) != 0:
+                msg_2_add = '{} -> {}'.format(latest_bot_message, latest_user_message)
+                latest_bot_message = ''
+                score = similarity_bm25(msg_2_add, ques)
+
+                if score >= 0.5:
+                    all_convs.append(msg_2_add)
+    return all_convs
+
 
 def sentence_similarity(text1, text2):
     doc1 = nlp(text1)
     doc2 = nlp(text2)
     return doc1.similarity(doc2)
 
-def paraphrase_question(sender_id, ques, symptom):
-    try:
-        name, age, daily_activity, years_of_pd, existing_symp, daily_challenges, prescribed_meds = get_user_profile(
-            sender_id)
-        msg_profile = []
-        profile = profile_prompt.format(name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
-                                        prescribed_meds)
-        msg_profile.append(create_dict("system", profile))
-        msg_profile.append(create_dict("user",
-                                       f"Rewrite the question based on the user profile and don\'t say anything else. If it is impossible to rewrite the question, just say impossible. Question: {ques}"))
 
-        response = get_response(msg_profile)
-        if "impossible" in response.lower():
-            return ques
-        elif sentence_similarity(ques, response) >= 0.8:
-            return response
-        return ques
+def generate_personalized_message(msg, history, profile, conv_context):
+    behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with an answer.'
+
+    if len(history) > 0:
+        prompt = 'Imagine you are a bot or a conversational agent and the following is the conversation between you and a user:\n' + \
+                 f', '.join(
+                     conv_context) + '\n Also you are given the following profile of the user who is a Parkinson\'s patient: ' + ', '.join(
+            profile) + '. And the following conversation history between the user and the conversational agent: ' + ', '.join(
+            history) + f' The latest utterance in the conversation by you is: {msg}.' + \
+                 ' Now use relevant and appropriate content from the conversation, history, and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t say anything else.'
+    else:
+        prompt = 'Imagine you are a bot or a conversational agent and the following is the conversation between you and a user:\n' + \
+                 f', '.join(
+                     conv_context) + '\n Also you are given the following profile of the user who is a Parkinson\'s patient: ' + ', '.join(
+            profile) + f' The latest utterance in the conversation by you is: {msg}.' + \
+                 ' Now use relevant and appropriate content from the conversation and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, 0.5)
+    if similarity_bm25(out, msg) >= 0.5:
+        return out
+    return msg
+
+
+def paraphrase_question(sender_id, ques, events):
+    try:
+        profile = get_user_profile(sender_id)
+        history = get_conversation_history(sender_id, ques)
+        conv_context = get_conv_context_raw(events, history=20)
+
+        return generate_personalized_message(ques, history, profile, conv_context)
     except Exception as e:
         logger.error(str(e))
         return ques
@@ -72,7 +124,7 @@ class AskForMedicinetype(Action):
         text = 'Did you take your Parkinson\'s medication today?'
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         # dispatcher.utter_message(response="utter_ask_medicinetype")
         dispatcher.utter_message(text=question)
         return []
@@ -88,7 +140,7 @@ class AskForMedicinetime(Action):
         text = 'When did you last take your Parkinson\'s medication?'
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         # dispatcher.utter_message(response="utter_ask_medicinetype")
         dispatcher.utter_message(text=question)
         return []
@@ -104,9 +156,10 @@ class AskForTremorDuration(Action):
         text = domain['responses']['utter_ask_tremorjournaling_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForTremorCooccurrence(Action):
     def name(self) -> Text:
@@ -118,7 +171,7 @@ class AskForTremorCooccurrence(Action):
         text = domain['responses']['utter_ask_tremorjournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -133,7 +186,7 @@ class AskForTremorDailyactivity(Action):
         text = domain['responses']['utter_ask_tremorjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -148,7 +201,7 @@ class AskForTremorHistory(Action):
         text = domain['responses']['utter_ask_tremorjournaling_history'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -163,7 +216,7 @@ class AskForBradykinesiaDailyactivity(Action):
         text = domain['responses']['utter_ask_bradykinesiajournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -178,7 +231,7 @@ class AskForBradykinesiaCooccurrence(Action):
         text = domain['responses']['utter_ask_bradykinesiajournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -193,9 +246,10 @@ class AskForDuration(Action):
         text = domain['responses']['utter_ask_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForTime(Action):
     def name(self) -> Text:
@@ -207,9 +261,10 @@ class AskForTime(Action):
         text = domain['responses']['utter_ask_time'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForLocation(Action):
     def name(self) -> Text:
@@ -221,7 +276,7 @@ class AskForLocation(Action):
         text = domain['responses']['utter_ask_location'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -236,7 +291,7 @@ class AskForActivity(Action):
         text = domain['responses']['utter_ask_activity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -251,7 +306,7 @@ class AskForDizzinessCooccurrence(Action):
         text = domain['responses']['utter_ask_dizzinessjournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -266,9 +321,10 @@ class AskForDizzinessDailyactivity(Action):
         text = domain['responses']['utter_ask_dizzinessjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDizzinessSeverity(Action):
     def name(self) -> Text:
@@ -280,9 +336,10 @@ class AskForDizzinessSeverity(Action):
         text = domain['responses']['utter_ask_dizzinessjournaling_severity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDizzinessHistory(Action):
     def name(self) -> Text:
@@ -294,9 +351,10 @@ class AskForDizzinessHistory(Action):
         text = domain['responses']['utter_ask_dizzinessjournaling_history'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForFallingSeverity(Action):
     def name(self) -> Text:
@@ -308,9 +366,10 @@ class AskForFallingSeverity(Action):
         text = domain['responses']['utter_ask_fallingjournaling_severity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForMoodDailyactivity(Action):
     def name(self) -> Text:
@@ -322,7 +381,7 @@ class AskForMoodDailyactivity(Action):
         text = domain['responses']['utter_ask_moodjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -337,7 +396,7 @@ class AskForMoodReason(Action):
         text = domain['responses']['utter_ask_moodjournaling_reason'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
 
@@ -352,9 +411,10 @@ class AskForInsomniaMedicinetype(Action):
         text = domain['responses']['utter_ask_insomniajournaling_medicinetype'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForInsomniaMedicinetime(Action):
     def name(self) -> Text:
@@ -366,9 +426,10 @@ class AskForInsomniaMedicinetime(Action):
         text = domain['responses']['utter_ask_insomniajournaling_medicinetime'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForInsomniaDailyactivity(Action):
     def name(self) -> Text:
@@ -380,9 +441,10 @@ class AskForInsomniaDailyactivity(Action):
         text = domain['responses']['utter_ask_insomniajournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForInsomniaSeverity(Action):
     def name(self) -> Text:
@@ -394,9 +456,10 @@ class AskForInsomniaSeverity(Action):
         text = domain['responses']['utter_ask_insomniajournaling_severity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForInsomniaReason(Action):
     def name(self) -> Text:
@@ -408,9 +471,10 @@ class AskForInsomniaReason(Action):
         text = domain['responses']['utter_ask_insomniajournaling_reason'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForStiffnessMedicinetype(Action):
     def name(self) -> Text:
@@ -422,9 +486,10 @@ class AskForStiffnessMedicinetype(Action):
         text = domain['responses']['utter_ask_stiffnessjournaling_medicinetype'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForStiffnessMedicinetime(Action):
     def name(self) -> Text:
@@ -436,9 +501,10 @@ class AskForStiffnessMedicinetime(Action):
         text = domain['responses']['utter_ask_stiffnessjournaling_medicinetime'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForStiffnessDescription(Action):
     def name(self) -> Text:
@@ -450,9 +516,10 @@ class AskForStiffnessDescription(Action):
         text = domain['responses']['utter_ask_stiffnessjournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForStiffnessDuration(Action):
     def name(self) -> Text:
@@ -464,9 +531,10 @@ class AskForStiffnessDuration(Action):
         text = domain['responses']['utter_ask_stiffnessjournaling_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForStiffnessDailyactivity(Action):
     def name(self) -> Text:
@@ -478,9 +546,10 @@ class AskForStiffnessDailyactivity(Action):
         text = domain['responses']['utter_ask_stiffnessjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForFatigueTime(Action):
     def name(self) -> Text:
@@ -492,9 +561,10 @@ class AskForFatigueTime(Action):
         text = domain['responses']['utter_ask_fatiguejournaling_time'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForFatigueDescription(Action):
     def name(self) -> Text:
@@ -506,9 +576,10 @@ class AskForFatigueDescription(Action):
         text = domain['responses']['utter_ask_fatiguejournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForFatigueDailyactivity(Action):
     def name(self) -> Text:
@@ -520,9 +591,10 @@ class AskForFatigueDailyactivity(Action):
         text = domain['responses']['utter_ask_fatiguejournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDyskinesiaMedicinetype(Action):
     def name(self) -> Text:
@@ -534,9 +606,10 @@ class AskForDyskinesiaMedicinetype(Action):
         text = domain['responses']['utter_ask_dyskinesiajournaling_medicinetype'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDyskinesiaMedicinetime(Action):
     def name(self) -> Text:
@@ -548,9 +621,10 @@ class AskForDyskinesiaMedicinetime(Action):
         text = domain['responses']['utter_ask_dyskinesiajournaling_medicinetime'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDyskinesiaDescription(Action):
     def name(self) -> Text:
@@ -562,9 +636,10 @@ class AskForDyskinesiaDescription(Action):
         text = domain['responses']['utter_ask_dyskinesiajournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDyskinesiaDuration(Action):
     def name(self) -> Text:
@@ -576,9 +651,10 @@ class AskForDyskinesiaDuration(Action):
         text = domain['responses']['utter_ask_dyskinesiajournaling_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDyskinesiaDailyactivity(Action):
     def name(self) -> Text:
@@ -590,9 +666,10 @@ class AskForDyskinesiaDailyactivity(Action):
         text = domain['responses']['utter_ask_dyskinesiajournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDystoniaMedicinetype(Action):
     def name(self) -> Text:
@@ -604,9 +681,10 @@ class AskForDystoniaMedicinetype(Action):
         text = domain['responses']['utter_ask_dystoniajournaling_medicinetype'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDystoniaMedicinetime(Action):
     def name(self) -> Text:
@@ -618,9 +696,10 @@ class AskForDystoniaMedicinetime(Action):
         text = domain['responses']['utter_ask_dystoniajournaling_medicinetime'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDystoniaCooccurence(Action):
     def name(self) -> Text:
@@ -632,9 +711,10 @@ class AskForDystoniaCooccurence(Action):
         text = domain['responses']['utter_ask_dystoniajournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForDystoniaTime(Action):
     def name(self) -> Text:
@@ -646,9 +726,10 @@ class AskForDystoniaTime(Action):
         text = domain['responses']['utter_ask_dystoniajournaling_time'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForBalanceDescription(Action):
     def name(self) -> Text:
@@ -660,9 +741,10 @@ class AskForBalanceDescription(Action):
         text = domain['responses']['utter_ask_balancejournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForBalanceCooccurence(Action):
     def name(self) -> Text:
@@ -674,9 +756,10 @@ class AskForBalanceCooccurence(Action):
         text = domain['responses']['utter_ask_balancejournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForBalanceDuration(Action):
     def name(self) -> Text:
@@ -688,9 +771,10 @@ class AskForBalanceDuration(Action):
         text = domain['responses']['utter_ask_balancejournaling_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForBalanceDevices(Action):
     def name(self) -> Text:
@@ -702,9 +786,10 @@ class AskForBalanceDevices(Action):
         text = domain['responses']['utter_ask_balancejournaling_devices'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForPainMedicinetype(Action):
     def name(self) -> Text:
@@ -716,9 +801,10 @@ class AskForPainMedicinetype(Action):
         text = domain['responses']['utter_ask_painjournaling_medicinetype'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForPainMedicinetime(Action):
     def name(self) -> Text:
@@ -730,9 +816,10 @@ class AskForPainMedicinetime(Action):
         text = domain['responses']['utter_ask_painjournaling_medicinetime'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForPainDescription(Action):
     def name(self) -> Text:
@@ -744,9 +831,10 @@ class AskForPainDescription(Action):
         text = domain['responses']['utter_ask_painjournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForPainDailyactivity(Action):
     def name(self) -> Text:
@@ -758,9 +846,10 @@ class AskForPainDailyactivity(Action):
         text = domain['responses']['utter_ask_painjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForPainDuration(Action):
     def name(self) -> Text:
@@ -772,9 +861,10 @@ class AskForPainDuration(Action):
         text = domain['responses']['utter_ask_painjournaling_duration'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForWeaknessDescription(Action):
     def name(self) -> Text:
@@ -786,9 +876,10 @@ class AskForWeaknessDescription(Action):
         text = domain['responses']['utter_ask_weaknessjournaling_description'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForWeaknessDailyactivity(Action):
     def name(self) -> Text:
@@ -800,9 +891,10 @@ class AskForWeaknessDailyactivity(Action):
         text = domain['responses']['utter_ask_weaknessjournaling_dailyactivity'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForWeaknessCooccurence(Action):
     def name(self) -> Text:
@@ -814,6 +906,6 @@ class AskForWeaknessCooccurence(Action):
         text = domain['responses']['utter_ask_weaknessjournaling_cooccurrence'][-1]['text']
         sender_id = tracker.sender_id
         symptom = tracker.get_slot('symptom')
-        question = paraphrase_question(sender_id, text, symptom)
+        question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []

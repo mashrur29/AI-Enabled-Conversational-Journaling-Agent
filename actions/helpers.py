@@ -10,6 +10,7 @@ from actions.dicts import prompt_determine_sidetalk, prompt_sidetalk_response, p
 from utils import logger
 import pickle
 import nltk
+from rank_bm25 import BM25Okapi
 
 symptom2form = {
     "tremor": "tremorjournaling",
@@ -29,6 +30,14 @@ symptoms = [
     "mood"
 ]
 
+def similarity_bm25(sent1, sent2):
+    corpus = [sent2]
+    tokenized_corpus = [doc.split(" ") for doc in corpus]
+    bm25 = BM25Okapi(tokenized_corpus)
+    tokenized_query = sent1.split(" ")
+    doc_scores = bm25.get_scores(tokenized_query)
+
+    return abs(doc_scores[0])
 
 def create_dict(role, content):
     dict = {
