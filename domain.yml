@@ -104,6 +104,7 @@ actions:
   - action_ask_weaknessjournaling_cooccurrence
   - action_answer_question
   - action_generic_acknowledge
+  - validate_closingloop
 
 entities:
   - symptom
@@ -257,6 +258,12 @@ slots:
       - type: custom
         entity: action_set_slot
 
+  additional_symptom:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
 forms:
   profilejournal:
     required_slots:
@@ -367,6 +374,10 @@ forms:
       - dailyactivity
       - cooccurrence
 
+  closingloop:
+    required_slots:
+      - additional_symptom
+
 responses:
   utter_greet_large:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
@@ -375,7 +386,7 @@ responses:
     - text: "As your Parkinson's journaling chatbot, I'm here to help you keep track of your symptoms related to Parkinson's disease. My sole responsibility is to collect data and I won't provide any insights or advice."
 
   utter_greet:
-    - text: "This is Patrika, your journaling assistant. Let’s start with your Parkinson’s symptoms"
+    - text: "Your journal is ready."
 
   utter_greet_new_user:
     - text: "This is Patrika, your journaling assistant. Before we start, I'll ask you a few questions that will help me learn more about you."
@@ -491,7 +502,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "Thank you for journaling with me. If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
+    - text: "I have successfully saved all of your responses. If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
@@ -771,6 +782,9 @@ responses:
 
   utter_end_profile_journal:
     - text: Thank you. I've created your profile, so you can begin recording your symptoms now.
+
+  utter_ask_closingloop_additional_symptom:
+    - text: Thank you for journaling with me. Is there anything else that you would like to record in your journal now?
 
   utter_acknowledge:
     - text: "Thank you for your response."

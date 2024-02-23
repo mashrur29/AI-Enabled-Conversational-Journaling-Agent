@@ -176,100 +176,17 @@ class ActionDefaultFallback(Action):
             if previous_user_msg[-1] == '.':
                 previous_user_msg = previous_user_msg[:-1]
 
-            dispatcher.utter_message(f'Recorded your response: {previous_user_msg}.')
+            if active_loop != 'closingloop':
+                dispatcher.utter_message(f'Recorded your response: {previous_user_msg}.')
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
-        try:
-            symptom = tracker.get_slot('symptom')
-            previous_user_msg = tracker.latest_message["text"]
-        except Exception as e:
-            symptom = ''
-            previous_user_msg = ''
-            logger.error('Error retrieving symptom and previous user message')
+        logger.info('No active loop in fallback, giving generic ack')
+        previous_user_msg = tracker.latest_message["text"]
+        bot_response = get_generic_ack(previous_user_msg, get_conv_context_raw(tracker.events, 20))
+        dispatcher.utter_message(bot_response)
 
-        logger.info(f'Current symptom: {symptom}')
-
-        try:
-            conv_context = get_conv_context(tracker.events)
-        except Exception as e:
-            conv_context = []
-            logger.error("Error in retrieving context: {}".format(str(e)))
-
-        det_chitchat = determine_chitchat(conv_context)
-        logger.info(f'det_chitchat: {det_chitchat}')
-
-        try:
-            active_loop = tracker.active_loop.get("name")
-            logger.info(f'Active loop: {active_loop}')
-
-            next_slot = tracker.get_slot("requested_slot")
-            logger.info(f'Requested slot {next_slot}')
-
-            if 'profilejournal' in active_loop:
-                return [SlotSet(next_slot, previous_user_msg), FollowupAction('profilejournal')]
-
-            if active_loop is not None:
-                nw_symptom = get_symptom(conv_context)
-                nw_symptom = nw_symptom.replace('.', '').lower().strip()
-
-                logger.info(f'Symptom in active loop: {nw_symptom} | {symptom}')
-
-                if (nw_symptom != symptom) and (nw_symptom in symptoms):
-                    start_new_response = f'utter_topicswitch_{nw_symptom}'
-                    logger.info(f'Topic switch {start_new_response}')
-                    dispatcher.utter_message(response=start_new_response)
-
-                if "no" in det_chitchat.lower():
-                    utterance = get_response_in_form(conv_context)
-                    dispatcher.utter_message(text=utterance)
-                    return [SlotSet(next_slot, utterance), FollowupAction(active_loop)]
-                else:
-                    chitchat_response = get_chitchat_in_form(conv_context)
-                    dispatcher.utter_message(text=chitchat_response)
-                    dispatcher.utter_message(response="utter_return_journal")
-                    return [UserUtteranceReverted()]
-        except Exception as e:
-            try:
-                if symptom in symptoms:
-                    form_name = symptom2form[symptom]
-                    return [FollowupAction(form_name)]
-            except Exception as e:
-                logger.error(str(e))
-
-        logger.info('user qna, no active form')
-
-        # print(conv_context)
-
-        # if "no" not in det_chitchat.lower():
-        #     chitchat_utter = get_chitchat_ack(conv_context)
-        #     dispatcher.utter_message(text=chitchat_utter)
-        #     return [UserUtteranceReverted()]
-
-        if symptom == "None":
-            nw_symptom = get_symptom(conv_context)
-            nw_symptom = nw_symptom.replace('.', '').lower().strip()
-            logger.info(f'predicted symptom: {nw_symptom}')
-
-            if "none" in nw_symptom:
-                utterance = get_symptom_fallback(conv_context)
-                dispatcher.utter_message(text=utterance)
-                dispatcher.utter_message(response="utter_ask_to_add")
-                return []
-            else:
-                if nw_symptom in symptoms:
-                    dispatcher.utter_message(response="utter_start_journal")
-                    form_name = symptom2form[nw_symptom]
-                    logger.info(f'Starting {form_name}')
-                    return [SlotSet("symptom", nw_symptom), FollowupAction(form_name)]
-                dispatcher.utter_message(response="utter_ask_to_conclude")
-                return []
-
-        logger.info('Final recall!')
-        utterance = get_response_generic(conv_context)
-        dispatcher.utter_message(text=utterance)
-
-        return [UserUtteranceReverted()]
+        return []
 
 
 class ActionRepeatQuestion(Action):

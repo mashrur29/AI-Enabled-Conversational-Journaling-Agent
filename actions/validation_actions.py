@@ -801,3 +801,17 @@ class ValidateWeaknessForm(FormValidationAction):
     ) -> Dict[Text, Any]:
         text = tracker.latest_message.get("text")
         return {"cooccurrence": text}
+
+class ValidateClosingLoop(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_closingloop"
+
+    def validate_additional_symptom(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"additional_symptom": text}
