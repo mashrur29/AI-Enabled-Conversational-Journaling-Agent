@@ -4,7 +4,7 @@ from typing import Any, Text, Dict, List
 from rasa.core.actions.forms import FormAction
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
-from actions.dicts import intent2Symptom, symptom2Slots
+from actions.dicts import intent2Symptom, symptom2form
 from rasa_sdk.events import SlotSet, ActionReverted, AllSlotsReset, FollowupAction
 from rasa_sdk.events import UserUtteranceReverted
 from rasa_sdk.types import DomainDict
@@ -12,7 +12,7 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
-    get_generic_ack, get_latest_bot_message, is_question_from_pattern
+    get_generic_ack, get_latest_bot_message, is_question_from_gpt
 from utils import logger
 
 
@@ -127,10 +127,7 @@ class ActionAnswerQuestion(Action):
         bot_response = answer_user_query(previous_user_msg, latest_bot_message, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
-
-
-        dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
-        return [UserUtteranceReverted()]
+        return []
 
 
 class ActionDefaultFallback(Action):
@@ -162,26 +159,21 @@ class ActionDefaultFallback(Action):
             latest_bot_message = get_latest_bot_message(tracker.events)
             logger.info(f'Latest bot message: {latest_bot_message}')
 
-            # check if the user asks a question, respond and repeat previous bot utterance
-            if is_question_from_pattern(previous_user_msg) == True:
-                logger.info('Predicted user message is a question')
-                bot_response = answer_user_query(previous_user_msg, latest_bot_message,
-                                                 get_conv_context_raw(tracker.events, 20))
-                dispatcher.utter_message(bot_response)
-                dispatcher.utter_message(text=f'Let\'s gently circle back to our conversation: {latest_bot_message}')
-                return [UserUtteranceReverted()]
-
-            logger.info('Predicted user message is not a question')
-
             if previous_user_msg[-1] == '.':
                 previous_user_msg = previous_user_msg[:-1]
 
             if active_loop != 'closingloop':
-                dispatcher.utter_message(f'Recorded your response: {previous_user_msg}.')
+                dispatcher.utter_message(response='utter_acknowledge')
+
+            if active_loop == 'questionloop':
+                logger.info('Question loop in fallback')
+                prevactiveloop = tracker.get_slot("activeloop")
+                dispatcher.utter_message(text='Let\'s go back to our conversation.')
+                return [SlotSet(next_slot, previous_user_msg), FollowupAction(prevactiveloop)]
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
-        logger.info('No active loop in fallback, giving generic ack')
+        logger.info('No active loop in fallback, asking user to start')
         previous_user_msg = tracker.latest_message["text"]
         bot_response = get_generic_ack(previous_user_msg, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
@@ -266,13 +258,7 @@ class ActionSetSlot(Action):
     def name(self) -> Text:
         return "action_set_slot"
 
-    def get_next_slot(self, tracker: Tracker):
-        active_loop = tracker.active_loop_name
-        for x in symptom2Slots[active_loop]:
-            if tracker.get_slot(x) is None:
-                return x
 
-        return None
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
@@ -290,3 +276,42 @@ class ActionSetSlot(Action):
             return []
         except Exception as e:
             return []
+
+
+class ActionSetActiveloop(Action):
+
+    def name(self) -> Text:
+        return "action_set_activeloop"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        active_loop = tracker.active_loop.get("name")
+        latest_bot_message = get_latest_bot_message(tracker.events)
+
+        if active_loop is not None:
+            return [SlotSet('qna_prev_utterance', latest_bot_message), SlotSet('activeloop', active_loop)]
+
+        return [SlotSet('qna_prev_utterance', latest_bot_message)]
+
+class ActionReactivateForm(Action):
+
+    def name(self) -> Text:
+        return "action_reactivate_form"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        activeloop = tracker.get_slot("activeloop")
+
+        prev_utterance = tracker.get_slot("qna_prev_utterance")
+        dispatcher.utter_message(text=f'Let\'s go back to our conversation.')
+
+        if activeloop != 'none':
+            return [FollowupAction(activeloop)]
+
+
+
+        return [UserUtteranceReverted()]

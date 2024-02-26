@@ -40,28 +40,6 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
         import backoff as backoff
         import nltk
 
-        def _is_question_from_pattern(question):
-            question = question.lower().strip()
-            question_pattern = ["do i", "do you", "what", "who", "is it", "why", "would you", "how", "is there",
-                                "are there", "is it so", "is this true", "to know", "is that true", "are we", "am i",
-                                "question is", "tell me more", "can i", "can we", "tell me", "can you explain",
-                                "question", "answer", "questions", "answers", "ask"]
-
-            helping_verbs = ["is", "am", "can", "are", "do", "does"]
-            is_ques = False
-            for pattern in question_pattern:
-                is_ques = pattern in question
-                if is_ques:
-                    break
-            sentence_arr = question.split(".")
-            for sentence in sentence_arr:
-                if len(sentence.strip()):
-                    first_word = nltk.word_tokenize(sentence)[0]
-                    if sentence.endswith("?") or first_word in helping_verbs:
-                        is_ques = True
-                        break
-            return is_ques
-
         @backoff.on_exception(backoff.expo, RateLimitError)
         def _completions_with_backoff(**kwargs):
             return openai.ChatCompletion.create(**kwargs)
@@ -73,7 +51,7 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
                 try:
                     openai.api_key = API_KEY_1
                     completion = _completions_with_backoff(
-                        model="gpt-4",
+                        model="gpt-4-turbo-preview",
                         messages=msg,
                         temperature=temperature
                     )
@@ -94,16 +72,50 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
                 return True
             return False
 
-        def _predict_intent(msg):
-            greetings = ['hi', 'hello', 'hey', 'hii', 'Hi!', 'Hi']
+        def _is_question_from_gpt(question):
+            behavior = 'Answer in a single word. Don\'t say anything else'
+            prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question}. Now, determine whether the latest user utterance is a question for you. Answer with only yes or no. Don\'t say anything else.'
 
-            if msg.lower() in greetings:
+            context = [{'role': 'system', 'content': behavior},
+                       {'role': 'user', 'content': prompt}]
+
+            out = _get_response_gpt(context, temperature=0).lower()
+
+            if 'yes' in out:
+                return True
+            return False
+
+        def _check_greeting(msg):
+            greetings = ['hi', 'hello', 'hey', 'hiiiiii', 'hi!', 'hii', 'hiii', 'high']
+            if msg in greetings:
+                return True
+            return False
+
+        def _is_affirm_deny(msg):
+            msg = msg.replace(',', '').replace('!', '').replace(',', '').replace('\'', '').strip()
+            affirm = ['yes', 'yeah', 'yup', 'yush', 'ya', 'yea']
+            deny = ['no', 'nope', 'nah', 'na', 'nop']
+
+            for x in affirm:
+                if x == msg:
+                    return 'affirm'
+            for x in deny:
+                if x == msg:
+                    return 'deny'
+            return 'none'
+
+        def _predict_intent(msg):
+            if _check_greeting(msg.lower()):
                 return 'greet'
 
             if _check_early_quit(msg):
                 return 'early_quit'
 
-            if _is_question_from_pattern(msg) == True:
+            xx = _is_affirm_deny(msg.lower())
+            if xx != 'none':
+                return xx
+
+            if _is_question_from_gpt(msg) == True:
                 return 'question'
 
             temperature = 0

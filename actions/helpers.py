@@ -113,13 +113,26 @@ def is_question_from_pattern(question):
                 break
     return is_ques
 
+def is_question_from_gpt(question):
+    behavior = 'Answer in a single word. Don\'t say anything else'
+    prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question}. Now, determine whether the latest user utterance is a question for you. Answer with only yes or no. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, temperature=0).lower()
+
+    if 'yes' in out:
+        return True
+    return False
+
 def get_latest_bot_message(events):
     latest_bot_message = ''
     for event in events:
         if (event.get("event") == "bot") and (event.get("event") is not None):
             latest_bot_message = event.get("text")
-    if 'Let\'s gently circle back to our conversation:' in latest_bot_message:
-        latest_bot_message = latest_bot_message.replace('Let\'s gently circle back to our conversation:', '')
+    if 'Let\'s go back to our conversation:' in latest_bot_message:
+        latest_bot_message = latest_bot_message.replace('Let\'s go back to our conversation:', '')
     return latest_bot_message.strip()
 
 def get_generic_ack(previous_user_msg, history):
@@ -229,7 +242,7 @@ def get_response(msg, temperature=0.4):
         try:
             openai.api_key = API_KEY_1
             completion = completions_with_backoff(
-                model="gpt-4",
+                model="gpt-4-turbo-preview",
                 messages=msg,
                 temperature=temperature
             )
@@ -238,7 +251,7 @@ def get_response(msg, temperature=0.4):
             return response.strip()
         except Exception as e:
             print("ERR: ", str(e))
-    return 'none'
+    return 'I\'m sorry, but I did not get that. Can you please repeat?'
 
 
 def get_timestamp():

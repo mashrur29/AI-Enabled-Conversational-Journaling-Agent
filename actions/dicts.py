@@ -47,7 +47,7 @@ intent2Symptom = {
     "trigger_mood_3": "mood"
 }
 
-symptom2Slots = {
+symptom2form = {
     "tremorjournaling": [
         "medicinetype",
         "medicinetime",

@@ -5,6 +5,8 @@ intents:
   - goodbye
   - early_quit
   - question
+  - affirm
+  - deny
   - tremor
   - bradykinesia
   - stiffness
@@ -105,6 +107,8 @@ actions:
   - action_answer_question
   - action_generic_acknowledge
   - validate_closingloop
+  - action_reactivate_form
+  - action_set_activeloop
 
 entities:
   - symptom
@@ -180,6 +184,20 @@ slots:
     mappings:
       - type: custom
         entity: action_set_symptom
+
+  qna_prev_utterance:
+    type: text
+    initial_value: "none"
+    mappings:
+      - type: custom
+        entity: action_set_activeloop
+
+  activeloop:
+    type: text
+    initial_value: "none"
+    mappings:
+      - type: custom
+        entity: action_set_activeloop
 
   medicinetype:
     type: text
@@ -259,6 +277,12 @@ slots:
         entity: action_set_slot
 
   additional_symptom:
+    type: text
+    mappings:
+      - type: custom
+        entity: action_set_slot
+
+  did_that_help:
     type: text
     mappings:
       - type: custom
@@ -378,6 +402,10 @@ forms:
     required_slots:
       - additional_symptom
 
+  questionloop:
+    required_slots:
+      - did_that_help
+
 responses:
   utter_greet_large:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
@@ -389,7 +417,7 @@ responses:
     - text: "Your journal is ready."
 
   utter_greet_new_user:
-    - text: "This is Patrika, your journaling assistant. Before we start, I'll ask you a few questions that will help me learn more about you."
+    - text: "Your journal is ready. I see that this is your first time journaling, so I'll ask you a few questions to learn more about you."
 
   utter_collected_slots:
     - text: Not for user. Collected slots, Medicine intake "{medicinetype}", Intake time "{medicinetime}", Dailyactivity "{dailyactivity}", and Cooccurrence "{cooccurrence}".
@@ -787,26 +815,11 @@ responses:
     - text: Thank you for journaling with me. Is there anything else that you would like to record in your journal now?
 
   utter_acknowledge:
-    - text: "Thank you for your response."
-    - text: "I appreciate your input."
-    - text: "Great! Noted your response."
-    - text: "Thanks for your answer."
-    - text: "Your response has been recorded."
+    - text: "Got it."
+    - text: "Noted your response."
+    - text: "Recorded."
     - text: "Noted."
-    - text: "I see, thank you for your answer."
-    - text: "Thanks for the information."
-    - text: "Thank you for your response, it's very helpful."
-    - text: "Thanks for sharing that."
-    - text: "I value your input."
-    - text: "Good to know."
-    - text: "Your input has been registered."
     - text: "Acknowledged."
-    - text: "Great input!"
-    - text: "I'm taking note of your response."
-    - text: "Excellent, thanks for your response."
-    - text: "Understood, thank you."
-    - text: "Your answer helps me understand better."
-    - text: "I've noted your response."
 
   utter_ask_stiffnessjournaling_medicinetype:
     - text: Did you take your medication?
@@ -915,6 +928,9 @@ responses:
     - text: I am sorry to hear that you are also feeling mentally unwell.
   utter_topicswitch_tremor:
     - text: I am sorry to hear that you are also experiencing tremors.
+
+  utter_ask_questionloop_did_that_help:
+    - text: Did that help?
 
 session_config:
   session_expiration_time: 60

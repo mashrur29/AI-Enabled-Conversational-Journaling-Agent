@@ -815,3 +815,17 @@ class ValidateClosingLoop(FormValidationAction):
     ) -> Dict[Text, Any]:
         text = tracker.latest_message.get("text")
         return {"additional_symptom": text}
+
+# class ValidateQuestionLoop(FormValidationAction):
+#     def name(self) -> Text:
+#         return "validate_questionloop"
+#
+#     def validate_did_that_help(
+#             self,
+#             slot_value: Any,
+#             dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: DomainDict,
+#     ) -> Dict[Text, Any]:
+#         text = tracker.latest_message.get("text")
+#         return {"did_that_help": text}
