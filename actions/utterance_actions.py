@@ -912,3 +912,59 @@ class AskForWeaknessCooccurence(Action):
         question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
+class AskForMultipleMedicinetype(Action):
+    def name(self) -> Text:
+        return "action_ask_multiplejournaling_medicinetype"
+
+    def run(
+            self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        text = domain['responses']['utter_ask_multiplejournaling_medicinetype'][-1]['text']
+        sender_id = tracker.sender_id
+        symptom = tracker.get_slot('symptom')
+        question = paraphrase_question(sender_id, text, tracker.events)
+        dispatcher.utter_message(text=question)
+        return []
+
+class AskForMultipleMedicinetime(Action):
+    def name(self) -> Text:
+        return "action_ask_multiplejournaling_medicinetime"
+
+    def run(
+            self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        text = domain['responses']['utter_ask_multiplejournaling_medicinetime'][-1]['text']
+        sender_id = tracker.sender_id
+        symptom = tracker.get_slot('symptom')
+        question = paraphrase_question(sender_id, text, tracker.events)
+        dispatcher.utter_message(text=question)
+        return []
+
+class AskForMultipleDescription(Action):
+    def name(self) -> Text:
+        return "action_ask_multiplejournaling_description"
+
+    def run(
+            self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        text = domain['responses']['utter_ask_multiplejournaling_description'][-1]['text']
+        sender_id = tracker.sender_id
+        symptom = tracker.get_slot('symptom')
+        question = paraphrase_question(sender_id, text, tracker.events)
+        dispatcher.utter_message(text=question)
+        return []
+
+class AskForMultipleDailyactivity(Action):
+    def name(self) -> Text:
+        return "action_ask_multiplejournaling_dailyactivity"
+
+    def run(
+            self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        text = domain['responses']['utter_ask_multiplejournaling_dailyactivity'][-1]['text']
+        sender_id = tracker.sender_id
+        symptom = tracker.get_slot('symptom')
+        question = paraphrase_question(sender_id, text, tracker.events)
+        dispatcher.utter_message(text=question)
+        return []

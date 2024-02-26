@@ -105,11 +105,16 @@ actions:
   - action_ask_weaknessjournaling_description
   - action_ask_weaknessjournaling_dailyactivity
   - action_ask_weaknessjournaling_cooccurrence
+  - action_ask_multiplejournaling_medicinetype
+  - action_ask_multiplejournaling_medicinetime
+  - action_ask_multiplejournaling_description
+  - action_ask_multiplejournaling_dailyactivity
   - action_answer_question
   - action_generic_acknowledge
   - validate_closingloop
   - action_reactivate_form
   - action_set_activeloop
+  - validate_multiplejournaling
 
 entities:
   - symptom
@@ -404,6 +409,13 @@ forms:
       - description
       - dailyactivity
       - cooccurrence
+
+  multiplejournaling:
+    required_slots:
+      - medicinetype
+      - medicinetime
+      - description
+      - dailyactivity
 
   closingloop:
     required_slots:
@@ -917,6 +929,18 @@ responses:
 
   utter_ask_weaknessjournaling_cooccurrence:
     - text: Have there been any other changes to your overall health recently that might be contributing to the weakness?
+
+  utter_ask_multiplejournaling_medicinetype:
+    - text: Did you take your medication?
+
+  utter_ask_multiplejournaling_medicinetime:
+    - text: When did you last take it?
+
+  utter_ask_multiplejournaling_description:
+    - text: Can you describe your condition?
+
+  utter_ask_multiplejournaling_dailyactivity:
+    - text: Did your condition get in the way of your daily activity or chores?
 
   utter_topicswitch_generic:
     - condition:

@@ -294,6 +294,25 @@ rules:
     - action: closingloop
     - active_loop: closingloop
 
+- rule: start multiple journal
+  condition:
+    - active_loop: null
+  steps:
+    - intent: multiple
+    - action: action_set_symptom
+    - action: utter_topicswitch_generic
+    - action: multiplejournaling
+    - active_loop: multiplejournaling
+
+- rule: Submit multiple journal form
+  condition:
+    - active_loop: multiplejournaling
+  steps:
+    - action: multiplejournaling
+    - active_loop: null
+    - action: closingloop
+    - active_loop: closingloop
+
 
 - rule: Conclude journal
   condition:
@@ -319,14 +338,7 @@ rules:
     - action: utter_bye
 
 
-- rule: Conclude journal
-  condition:
-    - active_loop: null
-  steps:
-    - intent: multiple
-    - action: action_generic_acknowledge
-    - action: closingloop
-    - active_loop: closingloop
+
 
 - rule: Submit closing loop form
   condition:

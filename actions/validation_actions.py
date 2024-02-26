@@ -826,6 +826,51 @@ class ValidateClosingLoop(FormValidationAction):
         text = tracker.latest_message.get("text")
         return {"additional_symptom": text}
 
+
+class ValidateMultipleLoop(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_multiplejournaling"
+
+    def validate_medicinetype(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetype": text}
+
+    def validate_medicinetime(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"medicinetime": text}
+
+    def validate_description(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"description": text}
+
+    def validate_dailyactivity(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"dailyactivity": text}
+
 # class ValidateQuestionLoop(FormValidationAction):
 #     def name(self) -> Text:
 #         return "validate_questionloop"
