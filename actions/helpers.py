@@ -248,7 +248,7 @@ def get_response(msg, temperature=0.4):
         try:
             openai.api_key = API_KEY_1
             completion = completions_with_backoff(
-                model="gpt-4-turbo-preview",
+                model="gpt-4",
                 messages=msg,
                 temperature=temperature
             )
