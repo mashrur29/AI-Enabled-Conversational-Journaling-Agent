@@ -24,6 +24,7 @@ intents:
   - asr
   - none
   - continue_journal
+  - quit
 
 actions:
   - action_set_symptom
@@ -145,6 +146,11 @@ slots:
       - type: custom
 
   prescribed_meds:
+    type: text
+    mappings:
+      - type: custom
+
+  prescribed_meds_purpose:
     type: text
     mappings:
       - type: custom
@@ -298,6 +304,7 @@ forms:
       - existing_symp
       - daily_challenges
       - prescribed_meds
+      - prescribed_meds_purpose
 
   tremorjournaling:
     required_slots:
@@ -530,7 +537,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "I have successfully saved all of your responses. If you need to chat in the future, say \"Alexa, open patrick journal\" and I will assist you in recording your symptoms. Bye!"
+    - text: "I have successfully saved all of your responses. Please say 'exit' to close the conversation."
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
@@ -806,7 +813,10 @@ responses:
     - text: What challenges do you face on a regular basis?
 
   utter_ask_profilejournal_prescribed_meds:
-    - text: What are your prescribed medications?
+    - text: Can you list all of your prescribed medications one after another?
+
+  utter_ask_profilejournal_prescribed_meds_purpose:
+    - text: Can you tell me for what purpose do you take each medication?
 
   utter_end_profile_journal:
     - text: Thank you. I've created your profile, so you can begin recording your symptoms now.
@@ -931,6 +941,9 @@ responses:
 
   utter_ask_questionloop_did_that_help:
     - text: Did that help?
+
+  utter_bye:
+    - text: Bye!
 
 session_config:
   session_expiration_time: 60

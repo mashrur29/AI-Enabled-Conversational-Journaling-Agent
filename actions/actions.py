@@ -35,9 +35,11 @@ class ActionCreateUserProfile(Action):
             existing_symp = tracker.get_slot('existing_symp')
             daily_challenges = tracker.get_slot('daily_challenges')
             prescribed_meds = tracker.get_slot('prescribed_meds')
+            prescribed_meds_purpose = tracker.get_slot('prescribed_meds_purpose')
 
             if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
-                    len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
+                    len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0) or (
+                    len(prescribed_meds_purpose) == 0):
                 logger.error('Incomplete profile')
                 return []
 
@@ -45,7 +47,7 @@ class ActionCreateUserProfile(Action):
                 init_profile(sender_id)
 
             update_profile(sender_id, name, age, daily_activity, years_of_pd, existing_symp, daily_challenges,
-                           prescribed_meds)
+                           prescribed_meds, prescribed_meds_purpose)
             logger.info(f'Profile updated for {sender_id}')
         except Exception as e:
             logger.error("Profile update failed for {}".format(tracker.sender_id))
@@ -124,7 +126,8 @@ class ActionAnswerQuestion(Action):
         logger.info('Predicted user message is a question outside fallback')
         previous_user_msg = tracker.latest_message["text"]
         latest_bot_message = get_latest_bot_message(tracker.events)
-        bot_response = answer_user_query(previous_user_msg, latest_bot_message, get_conv_context_raw(tracker.events, 20))
+        bot_response = answer_user_query(previous_user_msg, latest_bot_message,
+                                         get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
         return []
@@ -168,17 +171,22 @@ class ActionDefaultFallback(Action):
             if active_loop == 'questionloop':
                 logger.info('Question loop in fallback')
                 prevactiveloop = tracker.get_slot("activeloop")
+
+                if prevactiveloop == 'none':
+                    return [SlotSet(next_slot, previous_user_msg), UserUtteranceReverted()]
+
                 dispatcher.utter_message(text='Let\'s go back to our conversation.')
-                return [SlotSet(next_slot, previous_user_msg), FollowupAction(prevactiveloop)]
+                return [SlotSet(next_slot, previous_user_msg), SlotSet('did_that_help', None), FollowupAction(prevactiveloop)]
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
         logger.info('No active loop in fallback, asking user to start')
+
         previous_user_msg = tracker.latest_message["text"]
         bot_response = get_generic_ack(previous_user_msg, get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
-        return []
+        return [UserUtteranceReverted()]
 
 
 class ActionRepeatQuestion(Action):
@@ -258,8 +266,6 @@ class ActionSetSlot(Action):
     def name(self) -> Text:
         return "action_set_slot"
 
-
-
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
@@ -269,8 +275,11 @@ class ActionSetSlot(Action):
             if active_loop is not None:
                 next_slot = tracker.get_slot("requested_slot")
                 user_inp = 'None'
+
                 if next_slot != None:
                     user_inp = tracker.latest_message['text']
+
+                logger.info(f'Setting slot {next_slot} for {active_loop}')
 
                 return [SlotSet(next_slot, user_inp)]
             return []
@@ -286,14 +295,16 @@ class ActionSetActiveloop(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         active_loop = tracker.active_loop.get("name")
         latest_bot_message = get_latest_bot_message(tracker.events)
+
+        logger.info('Setting activeloop & prev_utter')
 
         if active_loop is not None:
             return [SlotSet('qna_prev_utterance', latest_bot_message), SlotSet('activeloop', active_loop)]
 
         return [SlotSet('qna_prev_utterance', latest_bot_message)]
+
 
 class ActionReactivateForm(Action):
 
@@ -303,15 +314,19 @@ class ActionReactivateForm(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         activeloop = tracker.get_slot("activeloop")
 
         prev_utterance = tracker.get_slot("qna_prev_utterance")
         dispatcher.utter_message(text=f'Let\'s go back to our conversation.')
 
         if activeloop != 'none':
-            return [FollowupAction(activeloop)]
+            logger.info(f'Reactivating {activeloop}')
+            return [SlotSet('did_that_help', None), SlotSet('activeloop', 'none'), FollowupAction(activeloop)]
 
+        logger.info('No active forms to reactivate')
 
-
-        return [UserUtteranceReverted()]
+        if len(prev_utterance) != 0:
+            dispatcher.utter_message(prev_utterance)
+        else:
+            dispatcher.utter_message(text='You can start by saying \'hi\'.')
+        return [SlotSet('did_that_help', None), SlotSet('activeloop', 'none')]

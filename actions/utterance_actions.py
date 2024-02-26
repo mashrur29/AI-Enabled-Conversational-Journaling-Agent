@@ -20,6 +20,7 @@ def get_user_profile(sender_id):
     existing_symp = ''
     daily_challenges = ''
     prescribed_meds = ''
+    prescribed_meds_purpose = ''
     profile = []
 
     try:
@@ -31,6 +32,7 @@ def get_user_profile(sender_id):
         existing_symp = val['data'][0]['existing_symptoms']
         daily_challenges = val['data'][0]['daily_challenges']
         prescribed_meds = val['data'][0]['prescribed_medications']
+        prescribed_meds_purpose = val['data'][0]['prescribed_medications_purpose']
     except Exception as e:
         logger.error(str(e))
 
@@ -40,7 +42,8 @@ def get_user_profile(sender_id):
     profile.append(f'How many years did you have Parkinson\'s? -> {years_of_pd}')
     profile.append(f'What are your existing Parkinson\'s symptoms? -> {existing_symp}')
     profile.append(f'What challenges do you face on a regular basis? -> {daily_challenges}')
-    profile.append(f'What are your prescribed medications? -> {daily_challenges}')
+    profile.append(f'What are your prescribed medications? -> {prescribed_meds}')
+    profile.append(f'For what purpose do you take each medication? -> {prescribed_meds_purpose}')
 
     return profile
 

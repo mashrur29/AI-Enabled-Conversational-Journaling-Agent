@@ -30,6 +30,7 @@ symptoms = [
     "mood"
 ]
 
+
 def similarity_bm25(sent1, sent2):
     corpus = [sent2]
     tokenized_corpus = [doc.split(" ") for doc in corpus]
@@ -38,6 +39,7 @@ def similarity_bm25(sent1, sent2):
     doc_scores = bm25.get_scores(tokenized_query)
 
     return abs(doc_scores[0])
+
 
 def create_dict(role, content):
     dict = {
@@ -92,6 +94,7 @@ def is_question(question):
     else:
         return True
 
+
 def is_question_from_pattern(question):
     question = question.lower().strip()
     question_pattern = ["do i", "do you", "what", "who", "is it", "why", "would you", "how", "is there",
@@ -113,6 +116,7 @@ def is_question_from_pattern(question):
                 break
     return is_ques
 
+
 def is_question_from_gpt(question):
     behavior = 'Answer in a single word. Don\'t say anything else'
     prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question}. Now, determine whether the latest user utterance is a question for you. Answer with only yes or no. Don\'t say anything else.'
@@ -126,6 +130,7 @@ def is_question_from_gpt(question):
         return True
     return False
 
+
 def get_latest_bot_message(events):
     latest_bot_message = ''
     for event in events:
@@ -134,6 +139,7 @@ def get_latest_bot_message(events):
     if 'Let\'s go back to our conversation:' in latest_bot_message:
         latest_bot_message = latest_bot_message.replace('Let\'s go back to our conversation:', '')
     return latest_bot_message.strip()
+
 
 def get_generic_ack(previous_user_msg, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
@@ -322,11 +328,13 @@ def update_profile(senderid,
                    years_of_pd='10 years',
                    existing_symp='tremors',
                    daily_challenges='difficulty moving arms',
-                   prescribed_meds='paracetamols'):
+                   prescribed_meds='paracetamols',
+                   prescribed_meds_purpose='head ache'):
     timestamp = "{}".format(get_timestamp())
 
     if (len(name) == 0) or (len(age) == 0) or (len(daily_activity) == 0) or (len(years_of_pd) == 0) or (
-            len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0):
+            len(existing_symp) == 0) or (len(daily_challenges) == 0) or (len(prescribed_meds) == 0) or (
+            len(prescribed_meds_purpose) == 0):
         logger.error('Incomplete profile!')
         return
 
@@ -339,6 +347,7 @@ def update_profile(senderid,
         "existing_symptoms": existing_symp,
         "daily_challenges": daily_challenges,
         "prescribed_medications": prescribed_meds,
+        "prescribed_medications_purpose": prescribed_meds_purpose,
         "timestamp": timestamp
     }
 

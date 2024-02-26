@@ -311,6 +311,14 @@ rules:
     - action: action_generic_acknowledge
     - action: utter_goodbye
 
+- rule: quit
+  steps:
+    - intent: quit
+    - action: action_deactivate_loop
+    - active_loop: null
+    - action: utter_bye
+
+
 - rule: Conclude journal
   condition:
     - active_loop: null
@@ -330,6 +338,7 @@ rules:
     - action: utter_goodbye
 
 
+
 - rule: user asks question, start question loop
   steps:
     - intent: question
@@ -340,13 +349,13 @@ rules:
     - action: questionloop
     - active_loop: questionloop
 
-- rule: Submit question loop
-  condition:
-    - active_loop: questionloop
-  steps:
-    - action: questionloop
-    - active_loop: null
-    - action: action_reactivate_form
+#- rule: Submit question loop
+#  condition:
+#    - active_loop: questionloop
+#  steps:
+#    - action: questionloop
+#    - active_loop: null
+#    - action: action_reactivate_form
 
 - rule: reactivate loop after question & affirm
   condition:
@@ -354,7 +363,10 @@ rules:
   steps:
     - intent: affirm
     - action: action_set_slot
+    - action: questionloop
     - active_loop: null
+    - slot_was_set:
+        - requested_slot: null
     - action: action_reactivate_form
 
 - rule: reanswer after question & deny

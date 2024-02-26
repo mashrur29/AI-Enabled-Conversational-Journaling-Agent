@@ -143,6 +143,16 @@ class ValidateProfileForm(FormValidationAction):
         text = tracker.latest_message.get("text")
         return {"prescribed_meds": text}
 
+    def validate_prescribed_meds_purpose(
+            self,
+            slot_value: Any,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        text = tracker.latest_message.get("text")
+        return {"prescribed_meds_purpose": text}
+
 
 
 class ValidateMoodForm(FormValidationAction):
