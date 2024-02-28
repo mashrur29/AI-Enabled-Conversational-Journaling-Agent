@@ -92,7 +92,7 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
         def _check_greeting(msg):
             msg = msg.replace(',', '').replace('!', '').replace(',', '').replace('\'', '').strip()
             greetings = ['hi', 'hello', 'hey', 'hiiiiii', 'hi!', 'hii', 'hiii', 'high', 'hi patrika', 'hello patrika',
-                         'patrika', 'high patrika', 'hey patrika']
+                         'patrika', 'high patrika', 'hey patrika', 'restart']
             if msg in greetings:
                 return True
             return False
