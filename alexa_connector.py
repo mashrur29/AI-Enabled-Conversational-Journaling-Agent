@@ -110,7 +110,7 @@ class AlexaConnector(InputChannel):
 
                         if not (text == 'hi') or (text == 'exit'):
                             await send_progressive_response(request_id,
-                                                            "https://gridstudy.s3.us-east-2.amazonaws.com/pencil-or-marker-converted-2.mp3",
+                                                            "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-2.mp3",
                                                             api_endpoint,
                                                             api_access_token)
 
