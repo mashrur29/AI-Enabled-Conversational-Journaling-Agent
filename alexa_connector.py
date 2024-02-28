@@ -86,7 +86,7 @@ class AlexaConnector(InputChannel):
                 text = payload["request"]["intent"]["slots"]["text"]["value"]
                 if not (text == 'hi') or (text == 'exit'):
                     await self.send_progressive_response(request_id,
-                                                    "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-2.mp3",
+                                                    "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-3.mp3",
                                                     api_endpoint,
                                                     api_access_token)
             except Exception as e:
