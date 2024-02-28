@@ -9,6 +9,7 @@ First install the dependencies using pip: `pip install -r requirements.txt`
 # Alexa webhook format after starting ngrok
 
 - `https://4bfa-54-224-59-177.ngrok-free.app/webhooks/slack/webhook`
+- `https://4bfa-54-224-59-177.ngrok-free.app/webhooks/alexa_assistant/webhook`
 
 # Connect AWS with local storage
 

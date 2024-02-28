@@ -1,10 +1,12 @@
 import logging
 import asyncio
+import aiohttp
 import inspect
 from sanic import Sanic, Blueprint, response
 from sanic.request import Request
 from sanic.response import HTTPResponse
 from typing import Text, Dict, Any, Optional, Callable, Awaitable, NoReturn
+import asyncio
 from rasa.shared.core.trackers import DialogueStateTracker
 import rasa.utils.endpoints
 from rasa.core.channels.channel import (
@@ -41,13 +43,43 @@ class AlexaConnector(InputChannel):
         async def health(request):
             return response.json({"status": "ok"})
 
+        async def send_progressive_response(request_id: str, message: str, api_endpoint: str,
+                                            api_access_token: str):
+
+            logger.info('Sending a progressive response to Alexa')
+
+            url = f"{api_endpoint}/v1/directives"
+            headers = {
+                "Authorization": f"Bearer {api_access_token}",
+                "Content-Type": "application/json",
+            }
+            payload = {
+                "header": {
+                    "requestId": request_id
+                },
+                "directive": {
+                    "type": "VoicePlayer.Speak",
+                    "speech": f"<speak> <audio src=\'{message}\'/> </speak>"
+                }
+            }
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=payload, headers=headers) as response:
+                    if response.status == 204:
+                        logger.info("Progressive response sent successfully.")
+                    else:
+                        logger.error("Failed to send progressive response.")
+
         # required route: defines
         @alexa_webhook.route("/webhook", methods=["POST"])
         async def receive(request):
-            # get the json request sent by Alexa
             payload = request.json
-            # check to see if the user is trying to launch the skill
             intenttype = payload["request"]["type"]
+
+            request_id = payload["request"]["requestId"]
+            api_endpoint = payload['context']['System']["apiEndpoint"]
+            api_access_token = payload['context']['System']["apiAccessToken"]
+
+
 
             # if the user is starting the skill, let them know it worked & what to do next
             if intenttype == "LaunchRequest":
@@ -62,7 +94,6 @@ class AlexaConnector(InputChannel):
                     metadata = self.get_metadata(request)
                     intent = payload["request"]["intent"]["name"]
 
-
                     # makes sure the user isn't trying to end the skill
                     if intent == "AMAZON.StopIntent":
                         session = "true"
@@ -76,6 +107,12 @@ class AlexaConnector(InputChannel):
 
                         # initialize output channel
                         out = CollectingOutputChannel()
+
+                        if not (text == 'hi') or (text == 'exit'):
+                            await send_progressive_response(request_id,
+                                                            "https://gridstudy.s3.us-east-2.amazonaws.com/pencil-or-marker-converted-2.mp3",
+                                                            api_endpoint,
+                                                            api_access_token)
 
                         # send the user message to Rasa & wait for the
                         # response to be sent back
