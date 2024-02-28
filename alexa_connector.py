@@ -32,6 +32,33 @@ class AlexaConnector(InputChannel):
     # Sanic blueprint for handling input. The on_new_message
     # function pass the received message to Rasa Core
     # after you have parsed it
+
+    async def send_progressive_response(self, request_id: str, message: str, api_endpoint: str,
+                                        api_access_token: str):
+
+        logger.info('Sending a progressive response to Alexa')
+
+        url = f"{api_endpoint}/v1/directives"
+        headers = {
+            "Authorization": f"Bearer {api_access_token}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "header": {
+                "requestId": request_id
+            },
+            "directive": {
+                "type": "VoicePlayer.Speak",
+                "speech": f"<speak> <audio src=\'{message}\'/> </speak>"
+            }
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=payload, headers=headers) as response:
+                if response.status == 204:
+                    logger.info("Progressive response sent successfully.")
+                else:
+                    logger.error("Failed to send progressive response.")
+
     def blueprint(
             self, on_new_message: Callable[[UserMessage], Awaitable[None]]
     ) -> Blueprint:
@@ -43,31 +70,7 @@ class AlexaConnector(InputChannel):
         async def health(request):
             return response.json({"status": "ok"})
 
-        async def send_progressive_response(request_id: str, message: str, api_endpoint: str,
-                                            api_access_token: str):
 
-            logger.info('Sending a progressive response to Alexa')
-
-            url = f"{api_endpoint}/v1/directives"
-            headers = {
-                "Authorization": f"Bearer {api_access_token}",
-                "Content-Type": "application/json",
-            }
-            payload = {
-                "header": {
-                    "requestId": request_id
-                },
-                "directive": {
-                    "type": "VoicePlayer.Speak",
-                    "speech": f"<speak> <audio src=\'{message}\'/> </speak>"
-                }
-            }
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=payload, headers=headers) as response:
-                    if response.status == 204:
-                        logger.info("Progressive response sent successfully.")
-                    else:
-                        logger.error("Failed to send progressive response.")
 
         # required route: defines
         @alexa_webhook.route("/webhook", methods=["POST"])
@@ -79,6 +82,15 @@ class AlexaConnector(InputChannel):
             api_endpoint = payload['context']['System']["apiEndpoint"]
             api_access_token = payload['context']['System']["apiAccessToken"]
 
+            try:
+                text = payload["request"]["intent"]["slots"]["text"]["value"]
+                if not (text == 'hi') or (text == 'exit'):
+                    await self.send_progressive_response(request_id,
+                                                    "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-2.mp3",
+                                                    api_endpoint,
+                                                    api_access_token)
+            except Exception as e:
+                logger.error('Text is not ready yet, not sending a progressive message')
 
 
             # if the user is starting the skill, let them know it worked & what to do next
@@ -108,11 +120,6 @@ class AlexaConnector(InputChannel):
                         # initialize output channel
                         out = CollectingOutputChannel()
 
-                        if not (text == 'hi') or (text == 'exit'):
-                            await send_progressive_response(request_id,
-                                                            "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-2.mp3",
-                                                            api_endpoint,
-                                                            api_access_token)
 
                         # send the user message to Rasa & wait for the
                         # response to be sent back
