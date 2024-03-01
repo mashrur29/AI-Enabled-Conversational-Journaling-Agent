@@ -1,5 +1,4 @@
 import logging
-import asyncio
 import aiohttp
 import inspect
 from sanic import Sanic, Blueprint, response
@@ -14,6 +13,7 @@ from rasa.core.channels.channel import (
     CollectingOutputChannel,
     UserMessage,
 )
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -29,11 +29,7 @@ class AlexaConnector(InputChannel):
     def name(cls):
         return "alexa_assistant"
 
-    # Sanic blueprint for handling input. The on_new_message
-    # function pass the received message to Rasa Core
-    # after you have parsed it
-
-    async def send_progressive_response(self, request_id: str, message: str, api_endpoint: str,
+    async def send_progressive_response(self, request_id: str, api_endpoint: str,
                                         api_access_token: str):
 
         logger.info('Sending a progressive response to Alexa')
@@ -43,13 +39,17 @@ class AlexaConnector(InputChannel):
             "Authorization": f"Bearer {api_access_token}",
             "Content-Type": "application/json",
         }
+
+        audio_url = 'https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-2.mp3'
+        ssml = f'<audio src=\'{audio_url}\'/>'
+
         payload = {
             "header": {
                 "requestId": request_id
             },
             "directive": {
                 "type": "VoicePlayer.Speak",
-                "speech": f"<speak> <audio src=\'{message}\'/> </speak>"
+                "speech": f"<speak> {ssml} </speak>"
             }
         }
         async with aiohttp.ClientSession() as session:
@@ -65,16 +65,13 @@ class AlexaConnector(InputChannel):
 
         alexa_webhook = Blueprint("alexa_webhook", __name__)
 
-        # required route: use to check if connector is live
         @alexa_webhook.route("/", methods=["GET"])
         async def health(request):
             return response.json({"status": "ok"})
 
-
-
-        # required route: defines
         @alexa_webhook.route("/webhook", methods=["POST"])
         async def receive(request):
+
             payload = request.json
             intenttype = payload["request"]["type"]
 
@@ -82,23 +79,10 @@ class AlexaConnector(InputChannel):
             api_endpoint = payload['context']['System']["apiEndpoint"]
             api_access_token = payload['context']['System']["apiAccessToken"]
 
-            try:
-                text = payload["request"]["intent"]["slots"]["text"]["value"]
-                if not (text == 'hi') or (text == 'exit'):
-                    await self.send_progressive_response(request_id,
-                                                    "https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted-3.mp3",
-                                                    api_endpoint,
-                                                    api_access_token)
-            except Exception as e:
-                logger.error('Text is not ready yet, not sending a progressive message')
-
-
-            # if the user is starting the skill, let them know it worked & what to do next
             if intenttype == "LaunchRequest":
                 message = "Hello! I am Patrika. You can start by saying 'hi'."
                 session = "false"
             else:
-                # get the Alexa-detected intent
 
                 try:
                     sender_id = payload['session']['user']['userId']
@@ -106,7 +90,6 @@ class AlexaConnector(InputChannel):
                     metadata = self.get_metadata(request)
                     intent = payload["request"]["intent"]["name"]
 
-                    # makes sure the user isn't trying to end the skill
                     if intent == "AMAZON.StopIntent":
                         session = "true"
                         message = "Talk to you later"
@@ -114,15 +97,19 @@ class AlexaConnector(InputChannel):
                         session = "false"
                         message = "I'm sorry I did not understand what you said"
                     else:
-                        # get the user-provided text from the slot named "text"
+                        try:
+                            logger.info(f'Intent type: {intenttype}')
+                            if (intenttype != "LaunchRequest") and (intenttype != "SessionEndedRequest"):
+                                await self.send_progressive_response(request_id, api_endpoint, api_access_token)
+                        except Exception as e:
+                            logger.error(f'Text is not ready yet, not sending a progressive message: {str(e)}')
+
+                        payload = request.json
+
                         text = payload["request"]["intent"]["slots"]["text"]["value"]
 
-                        # initialize output channel
                         out = CollectingOutputChannel()
 
-
-                        # send the user message to Rasa & wait for the
-                        # response to be sent back
                         await on_new_message(UserMessage(
                             text,
                             out,
@@ -130,24 +117,21 @@ class AlexaConnector(InputChannel):
                             input_channel=input_channel,
                             metadata=metadata
                         ))
-                        # extract the text from Rasa's response
+
                         responses = [m["text"] for m in out.messages]
-                        message = ''
-                        for x in responses:
-                            message = message + ' ' + x
-                        # message = responses[0]
-                        message = message.strip()
+                        message = ' '.join(responses)
                         session = "false"
                 except Exception as e:
-                    message = ''
+                    message = 'I didn\'t catch that. Can you please repeat?'
                     session = "false"
-            # Send the response generated by Rasa back to Alexa to
-            # pass on to the user. For more information, refer to the
-            # Alexa Skills Kit Request and Response JSON Reference:
-            # https://developer.amazon.com/en-US/docs/alexa/custom-skills/request-and-response-json-reference.html
+                    logger.error(f'Error sending message to Alexa: {str(e)}, {payload["request"]}')
+
+            # Resource: https://developer.amazon.com/en-US/docs/alexa/custom-skills/request-and-response-json-reference.html
             r = {
                 "version": "1.0",
-                "sessionAttributes": {"status": "test"},
+                "sessionAttributes": {
+                    "status": "test"
+                },
                 "response": {
                     "outputSpeech": {
                         "type": "PlainText",
