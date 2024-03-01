@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "my parkinsons journal",
+            "invocationName": "my parkinson journal",
             "intents": [
                 {
                     "name": "ReturnUserInput",
