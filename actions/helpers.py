@@ -236,6 +236,28 @@ def check_bulk_report(previous_user_msg):
     pass
 
 
+def get_personalized_greeting(sender_id):
+    name = ''
+
+    try:
+        val = db.voicebot.profiles.find_one({"sender_id": sender_id})
+        name = val['data'][0]['name']
+    except Exception as e:
+        logger.error(str(e))
+
+    if len(name) == 0:
+        return 'none'
+
+    prompt = f'Imagine you are a Parkinson\'s journal that is talking to a user. The user\'s name is stored in a database as: \'{name}\'. For instance, if the user\'s name is stored as: \'I am mashrur\', your greeting should be something like: \'Hello Mashrur!\'. Greet the user in a few words. Don\'t say anything else.'
+    behavior = 'Answer in a single sentence. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, temperature=0.4)
+
+    return out
+
 @backoff.on_exception(backoff.expo, RateLimitError)
 def completions_with_backoff(**kwargs):
     return openai.ChatCompletion.create(**kwargs)

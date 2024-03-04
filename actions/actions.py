@@ -12,9 +12,33 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
-    get_generic_ack, get_latest_bot_message, is_question_from_gpt
+    get_generic_ack, get_latest_bot_message, is_question_from_gpt, get_personalized_greeting
 from utils import logger
 
+
+class ActionPersonalizedGreeting(Action):
+
+    def name(self) -> Text:
+        return "action_personalized_greeting"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        try:
+            sender_id = tracker.sender_id
+            logger.info(f'Generating greeting for: {sender_id}')
+            greet = get_personalized_greeting(sender_id)
+
+            if greet == 'none':
+                return []
+
+            dispatcher.utter_message(greet)
+
+        except Exception as e:
+            logger.error(f"User name doesn\'t exist: {str(e)}")
+
+        return []
 
 class ActionCreateUserProfile(Action):
 

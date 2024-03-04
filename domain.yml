@@ -115,6 +115,7 @@ actions:
   - action_reactivate_form
   - action_set_activeloop
   - validate_multiplejournaling
+  - action_personalized_greeting
 
 entities:
   - symptom

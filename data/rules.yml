@@ -12,6 +12,7 @@ rules:
 - rule: greet old user
   steps:
     - intent: greet
+    - action: action_personalized_greeting
     - action: action_reset_slots
     - action: action_deactivate_loop
     - active_loop: null
@@ -24,6 +25,7 @@ rules:
 - rule: greet new user
   steps:
     - intent: greet
+    - action: action_personalized_greeting
     - action: action_reset_slots
     - action: action_deactivate_loop
     - active_loop: null
