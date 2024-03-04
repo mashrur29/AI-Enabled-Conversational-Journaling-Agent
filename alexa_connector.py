@@ -80,7 +80,7 @@ class AlexaConnector(InputChannel):
             api_access_token = payload['context']['System']["apiAccessToken"]
 
             if intenttype == "LaunchRequest":
-                message = "Hello! I am Patrika. You can start by saying 'hi'."
+                message = "I am your Parkinson\'s journal. You can start by saying 'hi'."
                 session = "false"
             else:
 

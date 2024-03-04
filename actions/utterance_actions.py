@@ -36,8 +36,8 @@ def get_user_profile(sender_id):
     except Exception as e:
         logger.error(str(e))
 
-    profile.append(f'What is your preferred name? -> {name}')
-    profile.append(f'What is your age? -> {age}')
+    # profile.append(f'What is your preferred name? -> {name}')
+    # profile.append(f'What is your age? -> {age}')
     profile.append(f'What are your typical daily activities? -> {daily_activity}')
     profile.append(f'How many years did you have Parkinson\'s? -> {years_of_pd}')
     profile.append(f'What are your existing Parkinson\'s symptoms? -> {existing_symp}')
