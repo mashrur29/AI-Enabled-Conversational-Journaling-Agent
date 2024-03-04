@@ -667,7 +667,7 @@ responses:
           value: true
       text: "Can you tell me for how long your symptom lasted?"
 
-    - text: "How long did it last?"
+    - text: "How long did your condition last?"
 
   utter_ask_time:
     - condition:
@@ -777,7 +777,7 @@ responses:
           value: true
       text: "When did you take it?"
 
-    - text: "When did you take it?"
+    - text: "When did you take your medication?"
 
   utter_ask_insomniajournaling_dailyactivity:
     - condition:
@@ -847,7 +847,7 @@ responses:
     - text: Did you take your medication?
 
   utter_ask_stiffnessjournaling_medicinetime:
-    - text: When did you last take it?
+    - text: When did you last take your medication?
 
   utter_ask_stiffnessjournaling_description:
     - text: Can you describe where in your body you are feeling stiffness?
@@ -871,7 +871,7 @@ responses:
     - text: Did you take your medication?
 
   utter_ask_dyskinesiajournaling_medicinetime:
-    - text: When did you last take it?
+    - text: When did you last take your medication?
 
   utter_ask_dyskinesiajournaling_description:
     - text: Can you describe the dyskinesia you are experiencing? For example, are you having involuntary movements, and if so, what type (e.g., twitching, flailing, writhing)?
@@ -886,7 +886,7 @@ responses:
     - text: Did you take your medication?
 
   utter_ask_dystoniajournaling_medicinetime:
-    - text: When did you last take it?
+    - text: When did you last take your medication?
 
   utter_ask_dystoniajournaling_cooccurrence:
     - text: Have you identified any triggers or activities that seem to exacerbate your dystonia?
@@ -910,7 +910,7 @@ responses:
     - text: Did you take your medication?
 
   utter_ask_painjournaling_medicinetime:
-    - text: When did you last take it?
+    - text: When did you last take your medication?
 
   utter_ask_painjournaling_description:
     - text: Can you describe the type of pain you are experiencing?
@@ -934,7 +934,7 @@ responses:
     - text: Did you take your medication?
 
   utter_ask_multiplejournaling_medicinetime:
-    - text: When did you last take it?
+    - text: When did you last take your medication?
 
   utter_ask_multiplejournaling_description:
     - text: Can you describe your condition?
