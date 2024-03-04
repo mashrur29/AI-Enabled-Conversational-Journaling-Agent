@@ -130,6 +130,14 @@ class ActionAnswerQuestion(Action):
                                          get_conv_context_raw(tracker.events, 20))
         dispatcher.utter_message(bot_response)
 
+        dispatcher.utter_message(f'Let\'s go back to our conversation: {latest_bot_message}')
+
+        active_loop = tracker.active_loop.get("name")
+
+        if active_loop is not None:
+
+            return [UserUtteranceReverted()]
+
         return []
 
 
@@ -150,6 +158,7 @@ class ActionDefaultFallback(Action):
         logger.info('Inside fallback')
 
         active_loop = tracker.active_loop.get("name")
+
         if active_loop is not None:
             logger.info(f'Active Loop: {active_loop}')
 
@@ -165,18 +174,8 @@ class ActionDefaultFallback(Action):
             if previous_user_msg[-1] == '.':
                 previous_user_msg = previous_user_msg[:-1]
 
-            if active_loop != 'closingloop':
+            if (active_loop != 'closingloop'):
                 dispatcher.utter_message(response='utter_acknowledge')
-
-            if active_loop == 'questionloop':
-                logger.info('Question loop in fallback')
-                prevactiveloop = tracker.get_slot("activeloop")
-
-                if prevactiveloop == 'none':
-                    return [SlotSet(next_slot, previous_user_msg), UserUtteranceReverted()]
-
-                dispatcher.utter_message(text='Let\'s go back to our conversation.')
-                return [SlotSet(next_slot, previous_user_msg), SlotSet('did_that_help', None), FollowupAction(prevactiveloop)]
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 

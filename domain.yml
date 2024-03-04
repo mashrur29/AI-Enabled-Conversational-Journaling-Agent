@@ -831,7 +831,7 @@ responses:
     - text: Can you tell me for what purpose do you take each medication?
 
   utter_end_profile_journal:
-    - text: Thank you. I've created your profile, so you can begin recording your symptoms now.
+    - text: Thank you. I've created your profile, so you can begin journaling.
 
   utter_ask_closingloop_additional_symptom:
     - text: Thank you for journaling with me. Is there anything else that you would like to record in your journal now?
