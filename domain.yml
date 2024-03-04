@@ -826,7 +826,7 @@ responses:
     - text: What challenges do you face on a regular basis?
 
   utter_ask_profilejournal_prescribed_meds:
-    - text: Can you list all of your prescribed medications one after another?
+    - text: Can you list all of your prescribed medications one by one?
 
   utter_ask_profilejournal_prescribed_meds_purpose:
     - text: Can you tell me for what purpose do you take each medication?
