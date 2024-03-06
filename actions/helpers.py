@@ -131,9 +131,9 @@ def is_question_from_gpt(question):
     return False
 
 
-def check_medication_time(question):
+def check_medication_time(question, answer):
     behavior = 'Answer in a single word. Don\'t say anything else'
-    prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question} when asked, \'Did you take your medication?\'. Now, determine whether the latest user utterance contains information regarding medication time. For instance, if the user responds with \'yeah at noon\', then you should say yes. On the other hand, if the user responds with \'yes i took my meds\', then you should say no. Answer with only yes or no. Don\'t say anything else.'
+    prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient about their medication intake. In the latest utterance, the user responded with {answer} when asked, \'{question}\'. Now, determine whether this is sufficient to determine the medication intake time. For instance, if the user responds with \'yeah at noon\' when asked \'did you take your medication?\', then you should say yes. On the other hand, if the user responds with \'yes i took my meds\' when asked \'Did you take your levodopa medication?\', then you should say no. Again, if the user responds with \'yes\' when asked \'Did you take your meds at 8\', then you should say yes. Don\'t say anything else.'
 
     context = [{'role': 'system', 'content': behavior},
                {'role': 'user', 'content': prompt}]

@@ -204,10 +204,13 @@ class ActionDefaultFallback(Action):
             if (active_loop != 'closingloop'):
                 dispatcher.utter_message(response='utter_acknowledge')
 
-            if next_slot == 'medicinetype':
-                if check_medication_time(previous_user_msg):
-                    return [SlotSet(next_slot, previous_user_msg), SlotSet('medicinetime', previous_user_msg),
-                            FollowupAction(active_loop)]
+            try:
+                if next_slot == 'medicinetype':
+                    if check_medication_time(latest_bot_message, previous_user_msg):
+                        return [SlotSet(next_slot, previous_user_msg), SlotSet('medicinetime', previous_user_msg),
+                                FollowupAction(active_loop)]
+            except Exception as e:
+                logger.error(str(e))
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 
