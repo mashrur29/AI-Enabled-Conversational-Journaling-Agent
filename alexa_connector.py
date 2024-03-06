@@ -40,7 +40,7 @@ class AlexaConnector(InputChannel):
             "Content-Type": "application/json",
         }
 
-        audio_url = 'https://gridstudies.s3.amazonaws.com/pencil-or-marker-converted--cleaned-2.mp3'
+        audio_url = 'https://gridstudies.s3.amazonaws.com/pencil-or-marker-cleaned-converted-2.mp3'
         ssml = f'<audio src=\'{audio_url}\'/>'
 
         payload = {
