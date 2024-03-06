@@ -12,7 +12,7 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
-    get_generic_ack, get_latest_bot_message, is_question_from_gpt, get_personalized_greeting
+    get_generic_ack, get_latest_bot_message, is_question_from_gpt, get_personalized_greeting, check_medication_time
 from utils import logger
 
 
@@ -39,6 +39,7 @@ class ActionPersonalizedGreeting(Action):
             logger.error(f"User name doesn\'t exist: {str(e)}")
 
         return []
+
 
 class ActionCreateUserProfile(Action):
 
@@ -159,7 +160,6 @@ class ActionAnswerQuestion(Action):
         active_loop = tracker.active_loop.get("name")
 
         if active_loop is not None:
-
             return [UserUtteranceReverted()]
 
         return []
@@ -195,11 +195,19 @@ class ActionDefaultFallback(Action):
             latest_bot_message = get_latest_bot_message(tracker.events)
             logger.info(f'Latest bot message: {latest_bot_message}')
 
-            if previous_user_msg[-1] == '.':
-                previous_user_msg = previous_user_msg[:-1]
+            try:
+                if previous_user_msg[-1] == '.':
+                    previous_user_msg = previous_user_msg[:-1]
+            except Exception as e:
+                logger.error(str(e))
 
             if (active_loop != 'closingloop'):
                 dispatcher.utter_message(response='utter_acknowledge')
+
+            if next_slot == 'medicinetype':
+                if check_medication_time(previous_user_msg):
+                    return [SlotSet(next_slot, previous_user_msg), SlotSet('medicinetime', previous_user_msg),
+                            FollowupAction(active_loop)]
 
             return [SlotSet(next_slot, previous_user_msg), FollowupAction(active_loop)]
 

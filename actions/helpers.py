@@ -131,6 +131,20 @@ def is_question_from_gpt(question):
     return False
 
 
+def check_medication_time(question):
+    behavior = 'Answer in a single word. Don\'t say anything else'
+    prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question} when asked, \'Did you take your medication?\'. Now, determine whether the latest user utterance contains information regarding medication time. For instance, if the user responds with \'yeah at noon\', then you should say yes. On the other hand, if the user responds with \'yes i took my meds\', then you should say no. Answer with only yes or no. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, temperature=0).lower()
+
+    if 'yes' in out:
+        return True
+    return False
+
+
 def get_latest_bot_message(events):
     latest_bot_message = ''
     for event in events:
@@ -257,6 +271,7 @@ def get_personalized_greeting(sender_id):
     out = get_response(context, temperature=0.4)
 
     return out
+
 
 @backoff.on_exception(backoff.expo, RateLimitError)
 def completions_with_backoff(**kwargs):

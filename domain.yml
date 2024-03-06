@@ -950,7 +950,7 @@ responses:
           value: true
       text: I am sorry to hear this and thank you for sharing this information. I'll ask you a few more questions to better understand your condition.
 
-    - text: I am sorry to hear this. I'll ask you a few questions to better understand your condition.
+    - text: I am sorry to hear this. I'll ask you a few questions to better understand what you experienced.
   utter_topicswitch_bradykinesia:
     - text: I am sorry to hear that you are also experiencing bradykinesia.
   utter_topicswitch_dizziness:

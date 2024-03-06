@@ -98,9 +98,9 @@ def generate_personalized_message(msg, history, profile, conv_context):
     context = [{'role': 'system', 'content': behavior},
                {'role': 'user', 'content': prompt}]
 
-    out = get_response(context, 0.3)
+    out = get_response(context, 0.5)
 
-    prompt2 = f'In your previous output, you provided the following response when asked to paraphrase and personalize: {out}. Now shorten the response to remove repetitions, redundant jargon, and the user\'s name. Respond with a single short question. Don\'t say anything else.'
+    prompt2 = 'Now shorten the response to remove repetitions, redundant jargon, and the user\'s name. Respond with a single question without removing important contents. Don\'t say anything else.'
 
     context.append({'role': 'assistant', 'content': out})
     context.append({'role': 'user', 'content': prompt2})
