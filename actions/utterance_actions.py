@@ -87,18 +87,26 @@ def generate_personalized_message(msg, history, profile, conv_context):
                      conv_context) + '\n Also you are given the following profile of the user who is a Parkinson\'s patient: ' + ', '.join(
             profile) + '. And the following conversation history between the user and the conversational agent: ' + ', '.join(
             history) + f' The latest utterance in the conversation by you is: {msg}.' + \
-                 ' Now use relevant and appropriate content from the conversation, history, and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t say anything else.'
+                 ' Now use relevant and appropriate content from the conversation, history, and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t use the user\'s name. Don\'t use the term \'Parkinson\'s management\'. Don\'t say anything else.'
     else:
         prompt = 'Imagine you are a bot or a conversational agent and the following is the conversation between you and a user:\n' + \
                  f', '.join(
                      conv_context) + '\n Also you are given the following profile of the user who is a Parkinson\'s patient: ' + ', '.join(
             profile) + f' The latest utterance in the conversation by you is: {msg}.' + \
-                 ' Now use relevant and appropriate content from the conversation and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t say anything else.'
+                 ' Now use relevant and appropriate content from the conversation and the profile of the user, including their medication intake and time, daily activities, prior reported symptoms, and so on, to paraphrase and personalize the latest message. Also make the personalized utterance sound natural and coherent to the conversation. Don\'t use the user\'s name. Don\'t use the term \'Parkinson\'s management\'. Don\'t say anything else.'
 
     context = [{'role': 'system', 'content': behavior},
                {'role': 'user', 'content': prompt}]
 
-    out = get_response(context, 0.5)
+    out = get_response(context, 0.3)
+
+    prompt2 = f'In your previous output, you provided the following response when asked to paraphrase and personalize: {out}. Now shorten the response to remove repetitions, redundant jargon, and the user\'s name. Respond with a single short question. Don\'t say anything else.'
+
+    context.append({'role': 'assistant', 'content': out})
+    context.append({'role': 'user', 'content': prompt2})
+
+    out = get_response(context, 0.3)
+
     if similarity_bm25(out, msg) >= 0.5:
         return out
     return msg
@@ -913,6 +921,7 @@ class AskForWeaknessCooccurence(Action):
         dispatcher.utter_message(text=question)
         return []
 
+
 class AskForMultipleMedicinetype(Action):
     def name(self) -> Text:
         return "action_ask_multiplejournaling_medicinetype"
@@ -926,6 +935,7 @@ class AskForMultipleMedicinetype(Action):
         question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForMultipleMedicinetime(Action):
     def name(self) -> Text:
@@ -941,6 +951,7 @@ class AskForMultipleMedicinetime(Action):
         dispatcher.utter_message(text=question)
         return []
 
+
 class AskForMultipleDescription(Action):
     def name(self) -> Text:
         return "action_ask_multiplejournaling_description"
@@ -954,6 +965,7 @@ class AskForMultipleDescription(Action):
         question = paraphrase_question(sender_id, text, tracker.events)
         dispatcher.utter_message(text=question)
         return []
+
 
 class AskForMultipleDailyactivity(Action):
     def name(self) -> Text:
