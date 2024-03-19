@@ -550,7 +550,7 @@ responses:
     - text: "Great, carry on!"
 
   utter_goodbye:
-    - text: "I have successfully saved all of your responses. Please say 'exit' to close the conversation."
+    - text: "Please say 'exit' to close the conversation or say 'restart' to start a new conversation."
 
   utter_iamabot:
     - text: "I'm your Parkinson's journaling chatbot. I can help you log your symptoms related to Parkinson's disease. Please note that I'm responsible for data collection only and won't provide any insights or advice."
