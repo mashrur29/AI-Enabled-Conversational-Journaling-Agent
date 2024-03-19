@@ -8,7 +8,7 @@ class Database:
     lock = Lock()
 
     def __init__(self):
-        client = MongoClient('localhost', 9000)
+        client = MongoClient('localhost', 8000)
         self.db = client.voicebot
 
     @staticmethod

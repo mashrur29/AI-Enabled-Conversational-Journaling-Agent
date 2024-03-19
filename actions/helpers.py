@@ -172,7 +172,7 @@ def answer_user_query(previous_user_msg, latest_bot_message, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
     prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
              f', '.join(
-                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is \'{previous_user_msg}\', when asked \'{latest_bot_message}\'. The latest user message was predicted as a question for the bot. Now, respond to the user in a single sentence. Don\'t respond with a question for the user. Don\'t say anything else.'
+                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is \'{previous_user_msg}\', when asked \'{latest_bot_message}\'. The latest user message was predicted as a question for the bot. Now, respond to the user in a single sentence. Don\'t respond with a question. Don\'t say anything else.'
 
     context = [{'role': 'system', 'content': behavior},
                {'role': 'user', 'content': prompt}]
