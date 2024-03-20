@@ -53,6 +53,7 @@ rules:
   steps:
     - intent: mood
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: moodjournaling
     - active_loop: moodjournaling
@@ -72,6 +73,7 @@ rules:
   steps:
     - intent: tremor
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: tremorjournaling
     - active_loop: tremorjournaling
@@ -92,6 +94,7 @@ rules:
   steps:
     - intent: bradykinesia
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: bradykinesiajournaling
     - active_loop: bradykinesiajournaling
@@ -111,6 +114,7 @@ rules:
   steps:
     - intent: dizziness
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: dizzinessjournaling
     - active_loop: dizzinessjournaling
@@ -130,6 +134,7 @@ rules:
   steps:
     - intent: falling
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: fallingjournaling
     - active_loop: fallingjournaling
@@ -149,6 +154,7 @@ rules:
   steps:
     - intent: insomnia
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: insomniajournaling
     - active_loop: insomniajournaling
@@ -169,6 +175,7 @@ rules:
   steps:
     - intent: stiffness
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: stiffnessjournaling
     - active_loop: stiffnessjournaling
@@ -188,6 +195,7 @@ rules:
   steps:
     - intent: fatigue
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: fatiguejournaling
     - active_loop: fatiguejournaling
@@ -207,6 +215,7 @@ rules:
   steps:
     - intent: dyskinesia
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: dyskinesiajournaling
     - active_loop: dyskinesiajournaling
@@ -226,6 +235,7 @@ rules:
   steps:
     - intent: dystonia
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: dystoniajournaling
     - active_loop: dystoniajournaling
@@ -245,6 +255,7 @@ rules:
   steps:
     - intent: balance
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: balancejournaling
     - active_loop: balancejournaling
@@ -264,6 +275,7 @@ rules:
   steps:
     - intent: pain
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: painjournaling
     - active_loop: painjournaling
@@ -283,6 +295,7 @@ rules:
   steps:
     - intent: weakness
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: weaknessjournaling
     - active_loop: weaknessjournaling
@@ -302,6 +315,7 @@ rules:
   steps:
     - intent: multiple
     - action: action_set_symptom
+    - action: action_ack_init
     - action: utter_topicswitch_generic
     - action: multiplejournaling
     - active_loop: multiplejournaling

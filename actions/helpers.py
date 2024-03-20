@@ -167,6 +167,15 @@ def get_generic_ack(previous_user_msg, history):
     out = get_response(context, 0.5)
     return out
 
+def get_ack_init(previous_user_msg):
+    behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
+    prompt = f'Imagine you are a journaling agent for Parkinson\'s users. In the latest message the user responded with \'{previous_user_msg}\' when asked, \'What do you want to record?\'. Now, acknowledge the user empathetically. For instance, if the user says, \'I am not feeling well\' you should respond with, \'I am sorry to hear that you are feeling unwell\'. Again if the user says, \'i have a bad headache\', you should respond with, \'I am sorry to hear that you have a bad headache\'. If the user says, \'my tremor\', you should respond with, \'I am sorry to hear about your tremors\'. Again, if the user says, \'my leg stiffness is getting better\', you should respond with, \'I am glad to hear that your leg stiffness is getting better\'. And if the user says, \'the headache i previously mentioned is gone\', you should respond with, \'I am glad to hear that you no longer have headaches\'. Don\'t respond with a question for the user. Answer in a single line. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, 0.5)
+    return out
 
 def answer_user_query(previous_user_msg, latest_bot_message, history):
     behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
