@@ -89,6 +89,20 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
                 return True
             return False
 
+        def _is_confusion_from_gpt(question):
+            behavior = 'Answer in a single word. Don\'t say anything else'
+            prompt = f'Imagine you are a journaling chatbot for assisting Parkinson\'s patients in recording their conditions. You are now talking to a Parkinson\'s patient. In the latest utterance, the user responded with {question}. Now, determine whether the latest user utterance expresses a confusion. The user\'s latest utterance expresses confusion, only if the user responds with \'i don\'t understand\' or \'confused\' or \'huh!\', or similar. Answer with only yes or no. Only say yes if you can confidently say that the user is confused. In all other cases, say no. Don\'t say anything else.'
+
+
+            context = [{'role': 'system', 'content': behavior},
+                       {'role': 'user', 'content': prompt}]
+
+            out = _get_response_gpt(context, temperature=0).lower()
+
+            if 'yes' in out:
+                return True
+            return False
+
         def _check_greeting(msg):
             msg = msg.replace(',', '').replace('!', '').replace(',', '').replace('\'', '').strip()
             greetings = ['hi', 'hello', 'hey', 'hiiiiii', 'hi!', 'hii', 'hiii', 'high', 'hi patrika', 'hello patrika',
@@ -126,6 +140,9 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
 
             if _is_question_from_gpt(msg) == True:
                 return 'question'
+
+            if _is_confusion_from_gpt(msg) == True:
+                return 'confusion'
 
             temperature = 0
 

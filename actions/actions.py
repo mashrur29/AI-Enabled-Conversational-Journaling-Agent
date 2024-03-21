@@ -12,7 +12,8 @@ from actions.helpers import create_dict, get_response, get_symptom, get_symptom_
     get_chitchat_in_form, determine_chitchat, get_chitchat_ack, check_profile, update_profile, init_profile, \
     symptom2form, \
     symptoms, get_conv_context, get_response_generic, is_question, get_conv_context_raw, answer_user_query, \
-    get_generic_ack, get_latest_bot_message, is_question_from_gpt, get_personalized_greeting, check_medication_time, get_ack_init
+    get_generic_ack, get_latest_bot_message, is_question_from_gpt, get_personalized_greeting, check_medication_time, \
+    get_ack_init, answer_user_confusion
 from utils import logger
 
 
@@ -164,6 +165,32 @@ class ActionAnswerQuestion(Action):
 
         return []
 
+
+class ActionAnswerConfusion(Action):
+
+    def name(self) -> Text:
+        return "action_answer_confusion"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        logger.info('Predicted user message is a confusion outside fallback')
+        previous_user_msg = tracker.latest_message["text"]
+        latest_bot_message = get_latest_bot_message(tracker.events)
+        bot_response = answer_user_confusion(previous_user_msg, latest_bot_message,
+                                         get_conv_context_raw(tracker.events, 20))
+        dispatcher.utter_message(bot_response)
+
+        dispatcher.utter_message(f'Let\'s go back to our conversation: {latest_bot_message}')
+
+        active_loop = tracker.active_loop.get("name")
+
+        if active_loop is not None:
+            return [UserUtteranceReverted()]
+
+        return []
+
+
 class ActionAckInit(Action):
 
     def name(self) -> Text:
@@ -172,7 +199,6 @@ class ActionAckInit(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         logger.info('Acknowledging initial user input')
         previous_user_msg = tracker.latest_message["text"]
         acknowledgement = get_ack_init(previous_user_msg)
@@ -180,6 +206,7 @@ class ActionAckInit(Action):
         dispatcher.utter_message(acknowledgement)
 
         return []
+
 
 class ActionDefaultFallback(Action):
     """Executes the fallback action and goes back to the previous state

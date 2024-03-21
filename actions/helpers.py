@@ -190,6 +190,18 @@ def answer_user_query(previous_user_msg, latest_bot_message, history):
     return out
 
 
+def answer_user_confusion(previous_user_msg, latest_bot_message, history):
+    behavior = 'Answer in a single line. Don\'t say anything else. And don\'t respond with a question.'
+    prompt = 'Imagine you are a bot or a conversational agent who can help users journal their Parkinson\'s symptoms. The following is the conversation between you and a user:\n' + \
+             f', '.join(
+                 history) + f'The user is a Parkinson\'s patient and the latest utterance of the user is \'{previous_user_msg}\', when asked \'{latest_bot_message}\'. In the latest message the user expressed confusion. Now, clarify the user\'s confusion in a single sentence. For instance, if the user expresses confusion when asked, \'Did you take your medication?\', you should respond with something similar to \'I meant to ask whether you took your prescribed medications\'. Don\'t respond with a question. Don\'t say anything else.'
+
+    context = [{'role': 'system', 'content': behavior},
+               {'role': 'user', 'content': prompt}]
+
+    out = get_response(context, 0.5)
+    return out
+
 def get_symptom(conv_context):
     prompt_determine_symptom.extend(conv_context)
     prompt_determine_symptom.append(

@@ -25,6 +25,7 @@ intents:
   - none
   - continue_journal
   - quit
+  - confusion
 
 actions:
   - action_set_symptom
@@ -117,6 +118,7 @@ actions:
   - validate_multiplejournaling
   - action_personalized_greeting
   - action_ack_init
+  - action_answer_confusion
 
 entities:
   - symptom

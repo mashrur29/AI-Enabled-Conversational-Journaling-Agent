@@ -372,3 +372,7 @@ rules:
     - intent: question
     - action: action_answer_question
 
+- rule: user is confused
+  steps:
+    - intent: confusion
+    - action: action_answer_confusion
