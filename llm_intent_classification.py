@@ -45,7 +45,7 @@ class llmIntentClassifier(IntentClassifier, GraphComponent):
             return openai.ChatCompletion.create(**kwargs)
 
         def _get_response_gpt(msg, temperature=0.4):
-            API_KEY_1 = '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'
+            API_KEY_1 = 'YOUR API KEY GOES HERE'
             numTries = 20
             for it in range(numTries):
                 try:

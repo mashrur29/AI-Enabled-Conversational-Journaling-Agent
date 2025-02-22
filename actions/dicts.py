@@ -26,7 +26,7 @@ prompt_generic = [
 ]
 
 profile_prompt = "The following is a user\'s personal information. " \
-                 "Name: {}, Age: {}, Daily activities: {}, " \
+                 "Age: {}, Daily activities: {}, " \
                  "Length the user had Parkinsons: {}, Existing parkinsons symptoms: {}, Daily challenges: {}, " \
                  "Prescribed medications: {}."
 

@@ -283,7 +283,7 @@ def get_personalized_greeting(sender_id):
     if len(name) == 0:
         return 'none'
 
-    prompt = f'Imagine you are a Parkinson\'s journal that is talking to a user. The user\'s name is stored in a database as: \'{name}\'. For instance, if the user\'s name is stored as: \'I am mashrur\', your greeting should be something like: \'Hello Mashrur!\'. Greet the user in a few words. Don\'t say anything else.'
+    prompt = f'Imagine you are a Parkinson\'s journal that is talking to a user. Greet the user in a few words. Don\'t say anything else.'
     behavior = 'Answer in a single sentence. Don\'t say anything else.'
 
     context = [{'role': 'system', 'content': behavior},
@@ -291,7 +291,7 @@ def get_personalized_greeting(sender_id):
 
     out = get_response(context, temperature=0.4)
 
-    return out
+    return out + f" {name}"
 
 
 @backoff.on_exception(backoff.expo, RateLimitError)
@@ -300,7 +300,7 @@ def completions_with_backoff(**kwargs):
 
 
 def get_response(msg, temperature=0.4):
-    API_KEY_1 = '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'
+    API_KEY_1 = 'YOUR API KEY GOES HERE'
     numTries = 20
     for it in range(numTries):
         try:
